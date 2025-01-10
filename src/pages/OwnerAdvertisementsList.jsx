@@ -94,7 +94,6 @@ function OwnerAdvertisementsList() {
 
     return (
         <div>
-            <h1>My houses list</h1>
             {data.map((item) => (
                 <div key={item._id} className="card-container">
                     <div className="card-actions">
