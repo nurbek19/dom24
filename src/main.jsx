@@ -13,15 +13,15 @@ WebApp.ready();
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/dom24/",
     element: <App />,
     children: [
       {
-        path: "/",
+        path: "/dom24/",
         element: <CreateAdvertisement />,
       },
       {
-        path: "/my-houses",
+        path: "/dom24/my-houses",
         element: <OwnerAdvertisementsList />,
       }
     ],
