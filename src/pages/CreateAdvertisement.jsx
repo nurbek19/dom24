@@ -49,7 +49,9 @@ function CreateAdvertisement() {
       phone,
       room_count: parseInt(room),
       price: pricesObj
-    }
+    };
+
+    console.log(payload);
 
     WebApp.sendData(JSON.stringify(payload));
   }, [price, city, address, phone, room]);

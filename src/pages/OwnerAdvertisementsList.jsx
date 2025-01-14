@@ -60,33 +60,29 @@ function OwnerAdvertisementsList() {
         setDocStatus(copy);
     }
 
-    const onSendData = useCallback(() => {
-        if (payload) {
-            WebApp.sendData(JSON.stringify(payload));
-        }
-    }, [payload]);
+    const onSendData = () => {
+        const changedDocs = [];
+
+        data.forEach((item) => {
+            if ((item.active !== docStatuses[item._id])) {
+                changedDocs.push({ _id: item._id, active: docStatuses[item._id] })
+            }
+        });
+
+        console.log(changedDocs);
+
+        WebApp.sendData(JSON.stringify(changedDocs));
+    }
 
     useEffect(() => {
         const hasChanged = data.some((item) => item.active !== docStatuses[item._id]);
+        WebApp.MainButton.text = 'Обновить статусы';
+        WebApp.onEvent('mainButtonClicked', onSendData);
 
         if (hasChanged) {
-            const changedDocs = [];
-
-            data.forEach((item) => {
-                if ((item.active !== docStatuses[item._id])) {
-                    changedDocs.push({ _id: item._id, active: docStatuses[item._id] })
-                }
-            });
-
-            console.log(changedDocs, 'Docs changed');
-
-            setPayload(changedDocs);
-
             WebApp.MainButton.show();
-            WebApp.MainButton.text = 'Обновить статусы';
-            WebApp.onEvent('mainButtonClicked', onSendData);
+
         } else {
-            setPayload(null);
             WebApp.MainButton.hide();
         }
 
