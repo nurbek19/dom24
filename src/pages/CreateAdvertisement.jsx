@@ -112,7 +112,7 @@ function CreateAdvertisement() {
       <div className="field-wrapper">
         <label htmlFor="phone" className="field-label">Номер телефона</label>
 
-        <input type="text" id="phone" className="text-field" ref={ref} />
+        <input type="tel" pattern="[0-9]*" novalidate id="phone" className="text-field" ref={ref} />
       </div>
 
       <div className="field-wrapper">
