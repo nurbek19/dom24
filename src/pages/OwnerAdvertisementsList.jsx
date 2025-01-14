@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import axios from "axios";
 import WebApp from '@twa-dev/sdk';
 import { useSearchParams, useParams } from "react-router-dom";
@@ -6,6 +6,7 @@ import { useSearchParams, useParams } from "react-router-dom";
 import ImageSlider from "../components/ImageSlider";
 
 import '../App.css';
+import EditAdvertisement from "./EditAdvertisement";
 
 const emojiObj = {
     hour: '🕘',
@@ -19,7 +20,7 @@ function OwnerAdvertisementsList() {
 
     const [data, setData] = useState([]);
     const [docStatuses, setDocStatus] = useState({});
-    const [payload, setPayload] = useState(null);
+    const [editDoc, setEditDoc] = useState(null);
 
     const [searchParams] = useSearchParams();
 
@@ -74,8 +75,11 @@ function OwnerAdvertisementsList() {
         WebApp.sendData(JSON.stringify(changedDocs));
     }
 
+    const hasChanged = useMemo(() => {
+        return data.some((item) => item.active !== docStatuses[item._id]);
+    }, [docStatuses, data])
+
     useEffect(() => {
-        const hasChanged = data.some((item) => item.active !== docStatuses[item._id]);
         WebApp.MainButton.text = 'Обновить статусы';
         WebApp.onEvent('mainButtonClicked', onSendData);
 
@@ -90,7 +94,7 @@ function OwnerAdvertisementsList() {
             WebApp.MainButton.hide();
             WebApp.offEvent('mainButtonClicked', onSendData);
         };
-    }, [docStatuses, data]);
+    }, [hasChanged]);
 
     return (
         <div>
@@ -101,6 +105,10 @@ function OwnerAdvertisementsList() {
                             <input type="checkbox" checked={docStatuses[item._id]} onChange={(e) => statusChangeHandler(e, item._id)} />
                             <span className="slider round"></span>
                         </label>
+
+                        <div className="edit-button" onClick={() => setEditDoc(item)}>
+                            edit
+                        </div>
                     </div>
 
                     <div className="card">
@@ -122,6 +130,12 @@ function OwnerAdvertisementsList() {
                     </div>
                 </div>
             ))}
+
+            {editDoc && (
+                <div className="edit-modal">
+                    <EditAdvertisement doc={editDoc} />
+                </div>
+            )}
         </div>
     )
 }

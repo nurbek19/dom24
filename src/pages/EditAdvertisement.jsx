@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import WebApp from '@twa-dev/sdk';
 import { useIMask } from 'react-imask';
-import deepEqual from 'deep-equal';
 
 import PriceField from '../components/PriceField';
 import '../App.css';
@@ -9,21 +8,17 @@ import '../App.css';
 
 const CITIES = ['Бишкек', 'Нарын', 'Каракол', 'Ош'];
 
-function CreateAdvertisement() {
-  const [city, setCity] = useState(CITIES[0]);
-  const [address, setAddress] = useState('');
-  const [room, setRoom] = useState(null);
-  const [price, setPrice] = useState({
-    hour: '',
-    day: '',
-    night: '',
-    day_night: ''
-  });
+function EditAdvertisement({ doc }) {
+  const [city, setCity] = useState(doc.city);
+  const [address, setAddress] = useState(doc.address);
+  const [room, setRoom] = useState(doc.room_count);
+  const [price, setPrice] = useState(doc.price);
   const [data, setData] = useState(null);
 
   const {
     ref,
     value: phone,
+    setValue,
   } = useIMask({ mask: '+{996}(000)000-000' });
 
 
@@ -59,40 +54,17 @@ function CreateAdvertisement() {
 
   useEffect(() => {
     WebApp.expand();
+    setValue(doc.phone);
   }, []);
 
   const isFormValid = useMemo(() => {
     const isSomeprice = Object.values(price).some((value) => value);
 
-    for (let key in price) {
-      if (price[key]) {
-        pricesObj[key] = parseInt(price[key]);
-      }
-    }
-
-    const payload = {
-      city,
-      address,
-      phone,
-      room_count: parseInt(room),
-      price: pricesObj
-    };
-
-    const docObj = {
-      city: doc.city,
-      address: doc.address,
-      phone: doc.phone,
-      room_count: parseInt(doc.room_count),
-      price: doc.price
-    }
-
-    const isObjectChanged = deepEqual(payload, docObj)
-
-    return city && address && room && phone && isSomeprice && isObjectChanged;
-  }, [city, address, room, phone, price, doc]);
+    return city && address && room && phone && isSomeprice;
+  }, [city, address, room, phone, price]);
 
   useEffect(() => {
-    WebApp.MainButton.text = 'Применить изменения';
+    WebApp.MainButton.text = 'Создать объявление';
     WebApp.onEvent('mainButtonClicked', onSendData);
 
     if (isFormValid) {
@@ -174,4 +146,4 @@ function CreateAdvertisement() {
   )
 }
 
-export default CreateAdvertisement;
+export default EditAdvertisement;

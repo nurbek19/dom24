@@ -11,6 +11,12 @@ function PriceField({ label, name, value, onChange }) {
         }
     }, [checked])
 
+    useEffect(() => {
+        if (value) {
+            setChecked(true);
+        }
+    }, [])
+
     return (
         <div className="price-fields">
             <label className="checkbox-label">

@@ -13,6 +13,7 @@
   "dependencies": {
     "@twa-dev/sdk": "^8.0.1",
     "axios": "^1.7.9",
+    "deep-equal": "^2.2.3",
     "embla-carousel-autoplay": "^8.5.2",
     "embla-carousel-react": "^8.5.2",
     "react": "^18.3.1",
