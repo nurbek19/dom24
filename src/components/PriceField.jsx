@@ -19,7 +19,7 @@ function PriceField({ label, name, value, onChange }) {
                 <span>{label}</span>
             </label>
 
-            <input type="number" pattern="[0-9]*" inputmode="numeric" name={name} value={value} onChange={(e) => onChange(e.target.name, e.target.value)} className="price-input" disabled={!checked} />
+            <input type="number" pattern="[0-9]*" inputMode="numeric" name={name} value={value} onChange={(e) => onChange(e.target.name, e.target.value)} className="price-input" disabled={!checked} />
         </div>
     )
 }
