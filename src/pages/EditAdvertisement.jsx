@@ -82,7 +82,7 @@ function EditAdvertisement({ doc }) {
       address: doc.address,
       phone: doc.phone,
       room_count: parseInt(doc.room_count),
-      price: docPrices
+      price: doc.price
     }
 
     console.log(payload, docObj);
