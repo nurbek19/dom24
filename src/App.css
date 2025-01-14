@@ -229,8 +229,8 @@ body {
   }
 
   .card-container {
-    background-color: var(--tg-theme-secondary-bg-color);
-    /* background-color: #eee; */
+    /* background-color: var(--tg-theme-secondary-bg-color); */
+    background-color: #eee;
     border-radius: 8px;
     margin-bottom: 15px;
     padding: 10px;
@@ -262,16 +262,20 @@ body {
     color: var(--tg-theme-text-color);
   }
 
-  .card-prices {
-    display: flex;
-    justify-content: space-around;
-    padding-top: 10px;
+  .card-detail p span {
+    font-weight: 600;
   }
 
-  .card-prices p {
-    margin: 0;
+  .card-prices {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .card-prices div {
     font-size: 14px;
     color: var(--tg-theme-text-color);
+    /* white-space: nowrap; */
   }
 
   .switch {
@@ -295,7 +299,7 @@ body {
     right: 0;
     bottom: 0;
     /* background-color: #ccc; */
-    background-color: var(--tg-theme-secondary-bg-color);
+    background-color: var(--tg-theme-bg-color);
     -webkit-transition: .4s;
     transition: .4s;
   }

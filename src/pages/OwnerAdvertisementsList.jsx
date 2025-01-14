@@ -22,15 +22,10 @@ function OwnerAdvertisementsList() {
     const [payload, setPayload] = useState(null);
 
     const [searchParams] = useSearchParams();
-    // const { owner_id } = useParams();
 
-
-    useEffect(() => {
-        WebApp.expand();
-      }, []);
-
-    useEffect(() => {
+    const fetchData = () => {
         const id = searchParams.get('owner_id');
+
         axios.get(`https://ainur-khakimov.ru/dom24/houses?owner_id=${id}`).then((res) => {
             if (res.data) {
                 setData(res.data);
@@ -46,6 +41,15 @@ function OwnerAdvertisementsList() {
                 console.log(res.data);
             }
         })
+    }
+
+
+    useEffect(() => {
+        WebApp.expand();
+    }, []);
+
+    useEffect(() => {
+        fetchData();
     }, []);
 
 
@@ -58,9 +62,9 @@ function OwnerAdvertisementsList() {
 
     const onSendData = useCallback(() => {
         if (payload) {
-          WebApp.sendData(JSON.stringify(payload));
+            WebApp.sendData(JSON.stringify(payload));
         }
-      }, [payload]);
+    }, [payload]);
 
     useEffect(() => {
         const hasChanged = data.some((item) => item.active !== docStatuses[item._id]);
@@ -80,16 +84,16 @@ function OwnerAdvertisementsList() {
 
             WebApp.MainButton.show();
             WebApp.MainButton.text = 'Обновить статусы';
-              WebApp.onEvent('mainButtonClicked', onSendData);
+            WebApp.onEvent('mainButtonClicked', onSendData);
         } else {
             setPayload(null);
             WebApp.MainButton.hide();
         }
 
         return () => {
-              WebApp.MainButton.hide();
-              WebApp.offEvent('mainButtonClicked', onSendData);
-            };
+            WebApp.MainButton.hide();
+            WebApp.offEvent('mainButtonClicked', onSendData);
+        };
     }, [docStatuses, data]);
 
     return (
@@ -108,17 +112,17 @@ function OwnerAdvertisementsList() {
                             <ImageSlider imageIds={item.photo_ids} />
                         )}
                         <div className="card-detail">
-                            <p>🏙️ {item.city}</p>
-                            <p>📍 {item.address}</p>
-                            <p>🏠 {item.room_count}</p>
-                            <p>📱 {item.phone}</p>
-                        </div>
-                    </div>
+                            <p><span>Город:</span> {item.city}</p>
+                            <p><span>Адрес:</span> {item.address}</p>
+                            <p><span>Количество комнат:</span> {item.room_count}</p>
+                            <p><span>Телефон:</span> {item.phone}</p>
 
-                    <div className="card-prices">
-                        {Object.entries(item.price).map(([key, value]) => (
-                            <p key={key}>{emojiObj[key]} {value}</p>
-                        ))}
+                            <div className="card-prices">
+                                {Object.entries(item.price).map(([key, value]) => (
+                                    <div key={key}>{emojiObj[key]} {value}3000</div>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 </div>
             ))}
