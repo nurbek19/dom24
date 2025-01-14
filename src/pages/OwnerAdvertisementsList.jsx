@@ -58,7 +58,7 @@ function OwnerAdvertisementsList() {
 
     const onSendData = useCallback(() => {
         if (payload) {
-          WebApp.sendData(JSON.stringify());
+          WebApp.sendData(JSON.stringify(payload));
         }
       }, [payload]);
 

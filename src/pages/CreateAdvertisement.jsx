@@ -69,7 +69,7 @@ function CreateAdvertisement() {
       console.log(data);
       setData(payload);
 
-      WebApp.MainButton.show();
+      WebApp.MainButton.isVisible = true;
 
       WebApp.MainButton.text = 'Создать объявление';
       WebApp.onEvent('mainButtonClicked', onSendData);
