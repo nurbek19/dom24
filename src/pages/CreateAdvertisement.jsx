@@ -35,12 +35,28 @@ function CreateAdvertisement() {
   }
 
   const onSendData = useCallback(() => {
-    console.log(data);
+    let pricesObj = {};
 
-    if (data) {
-      WebApp.sendData(JSON.stringify(data));
+    for (let key in price) {
+      if (price[key]) {
+        pricesObj[key] = parseInt(price[key]);
+      }
     }
-  }, [data]);
+
+    const payload = {
+      city,
+      address,
+      phone,
+      room_count: parseInt(room),
+      price: pricesObj
+    };
+
+    console.log(payload);
+
+    // if (data) {
+      WebApp.sendData(JSON.stringify(payload));
+    // }
+  }, [city, address, room, phone, price]);
 
   useEffect(() => {
     WebApp.expand();
