@@ -61,6 +61,7 @@ function EditAdvertisement({ doc }) {
   const isFormValid = useMemo(() => {
     const isSomeprice = Object.values(price).some((value) => value);
 
+    let pricesObj = {};
     for (let key in price) {
           if (price[key]) {
             pricesObj[key] = parseInt(price[key]);
