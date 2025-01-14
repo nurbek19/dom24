@@ -35,9 +35,23 @@ function CreateAdvertisement() {
   }
 
   const onSendData = useCallback(() => {
-    if (data) {
-      WebApp.sendData(JSON.stringify(data));
+    let pricesObj = {};
+
+    for (let key in price) {
+      if (price[key]) {
+        pricesObj[key] = parseInt(price[key]);
+      }
     }
+
+    const payload = {
+      city,
+      address,
+      phone,
+      room_count: parseInt(room),
+      price: pricesObj
+    }
+
+    WebApp.sendData(JSON.stringify(payload));
   }, [data]);
 
   useEffect(() => {
@@ -51,33 +65,12 @@ function CreateAdvertisement() {
   }, [city, address, room, phone, price]);
 
   useEffect(() => {
+    WebApp.MainButton.text = 'Создать объявление';
+    WebApp.onEvent('mainButtonClicked', onSendData);
+
     if (isFormValid) {
-      let pricesObj = {};
-
-      for (let key in price) {
-        if (price[key]) {
-          pricesObj[key] = parseInt(price[key]);
-        }
-      }
-
-      const payload = {
-        city,
-        address,
-        phone,
-        room_count: parseInt(room),
-        price: pricesObj
-      }
-
-      console.log(data);
-      setData(payload);
-
       WebApp.MainButton.show();
-
-      WebApp.MainButton.text = 'Создать объявление';
-      WebApp.onEvent('mainButtonClicked', onSendData);
-      console.log(payload);
     } else {
-      setData(null);
       WebApp.MainButton.hide();
     }
 
