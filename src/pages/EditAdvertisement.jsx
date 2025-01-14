@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import WebApp from '@twa-dev/sdk';
 import { useIMask } from 'react-imask';
+import deepEqual from 'deep-equal';
 
 import PriceField from '../components/PriceField';
 import '../App.css';
@@ -60,11 +61,35 @@ function EditAdvertisement({ doc }) {
   const isFormValid = useMemo(() => {
     const isSomeprice = Object.values(price).some((value) => value);
 
-    return city && address && room && phone && isSomeprice;
-  }, [city, address, room, phone, price]);
+    for (let key in price) {
+          if (price[key]) {
+            pricesObj[key] = parseInt(price[key]);
+          }
+        }
+    
+        const payload = {
+          city,
+          address,
+          phone,
+          room_count: parseInt(room),
+          price: pricesObj
+        };
+    
+        const docObj = {
+          city: doc.city,
+          address: doc.address,
+          phone: doc.phone,
+          room_count: parseInt(doc.room_count),
+          price: doc.price
+        }
+    
+        const isObjectChanged = deepEqual(payload, docObj)
+
+    return city && address && room && phone && isSomeprice && isObjectChanged;
+  }, [city, address, room, phone, price, doc]);
 
   useEffect(() => {
-    WebApp.MainButton.text = 'Создать объявление';
+    WebApp.MainButton.text = 'Применить изменения';
     WebApp.onEvent('mainButtonClicked', onSendData);
 
     if (isFormValid) {
