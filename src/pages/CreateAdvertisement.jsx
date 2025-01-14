@@ -52,7 +52,7 @@ function CreateAdvertisement() {
     }
 
     WebApp.sendData(JSON.stringify(payload));
-  }, [data]);
+  }, [price, city, address, phone, room]);
 
   useEffect(() => {
     WebApp.expand();

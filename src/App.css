@@ -229,8 +229,8 @@ body {
   }
 
   .card-container {
-    /* background-color: var(--tg-theme-secondary-bg-color); */
-    background-color: #eee;
+    background-color: var(--tg-theme-secondary-bg-color);
+    /* background-color: #eee; */
     border-radius: 8px;
     margin-bottom: 15px;
     padding: 10px;
