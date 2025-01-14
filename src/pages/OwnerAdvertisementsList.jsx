@@ -97,7 +97,7 @@ function OwnerAdvertisementsList() {
     }, [hasChanged]);
 
     return (
-        <div>
+        <div style={{ overflow: editDoc ? 'hidden': 'auto' }}>
             {data.map((item) => (
                 <div key={item._id} className="card-container">
                     <div className="card-actions">

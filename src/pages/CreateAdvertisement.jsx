@@ -51,7 +51,7 @@ function CreateAdvertisement() {
       price: pricesObj
     };
 
-    console.log(payload, payload.price, pricesObj);
+    console.log(payload, price);
 
     WebApp.sendData(JSON.stringify(payload));
   };
@@ -145,8 +145,6 @@ function CreateAdvertisement() {
         <PriceField label="Ночь" name="night" value={price.night} onChange={priceChangeHandler} />
         <PriceField label="Сутки" name="day_night" value={price.day_night} onChange={priceChangeHandler} />
       </div>
-
-      <button onClick={onSendData}>sdfsd</button>
     </div>
   )
 }
