@@ -34,13 +34,13 @@ function CreateAdvertisement() {
     setPrice(copyObj);
   }
 
-  const onSendData = () => {
+  const onSendData = useCallback(() => {
     console.log(data);
 
     if (data) {
       WebApp.sendData(JSON.stringify(data));
     }
-  };
+  }, [data]);
 
   useEffect(() => {
     WebApp.expand();
@@ -51,7 +51,34 @@ function CreateAdvertisement() {
 
     const valid = city && address && room && phone && isSomeprice;
 
-    if (valid) {
+    // if (valid) {
+    //   let pricesObj = {};
+
+    //   for (let key in price) {
+    //     if (price[key]) {
+    //       pricesObj[key] = parseInt(price[key]);
+    //     }
+    //   }
+
+    //   const payload = {
+    //     city,
+    //     address,
+    //     phone,
+    //     room_count: parseInt(room),
+    //     price: pricesObj
+    //   };
+
+    //   setData(payload)
+    // } else {
+    //   setData(null)
+    // }
+
+    return valid;
+
+  }, [city, address, room, phone, price]);
+
+  useEffect(() => {
+    if (isFormValid) {
       let pricesObj = {};
 
       for (let key in price) {
@@ -72,10 +99,7 @@ function CreateAdvertisement() {
     } else {
       setData(null)
     }
-
-    return valid;
-
-  }, [city, address, room, phone, price]);
+  }, [city, address, room, phone, price, isFormValid, setData, data])
 
   useEffect(() => {
     WebApp.MainButton.text = 'Создать объявление';
