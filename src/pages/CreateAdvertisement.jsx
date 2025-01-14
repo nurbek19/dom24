@@ -97,11 +97,13 @@ function CreateAdvertisement() {
         price: pricesObj
       };
 
+      console.log(payload, 'payload');
+
       setData(payload)
     } else {
       setData(null)
     }
-  }, [city, address, room, phone, price, setData])
+  }, [city, address, room, phone, price, setData]);
 
   useEffect(() => {
     WebApp.MainButton.text = 'Создать объявление';
