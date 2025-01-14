@@ -12,7 +12,7 @@ const CITIES = ['Бишкек', 'Нарын', 'Каракол', 'Ош'];
 function EditAdvertisement({ doc }) {
   const [city, setCity] = useState(doc.city);
   const [address, setAddress] = useState(doc.address);
-  const [room, setRoom] = useState(doc.room_count);
+  const [room, setRoom] = useState(doc.room_count.toString());
   const [price, setPrice] = useState(doc.price);
   const [data, setData] = useState(null);
 

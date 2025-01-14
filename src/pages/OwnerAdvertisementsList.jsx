@@ -70,7 +70,7 @@ function OwnerAdvertisementsList() {
             }
         });
 
-        console.log(changedDocs);
+        console.log(changedDocs, data, docStatuses, ...changedDocs);
 
         WebApp.sendData(JSON.stringify(changedDocs));
     }
