@@ -41,6 +41,7 @@ function EditAdvertisement({ doc }) {
     }
 
     const payload = {
+      _id: doc._id,
       city,
       address,
       phone,
@@ -63,30 +64,34 @@ function EditAdvertisement({ doc }) {
 
     let pricesObj = {};
     for (let key in price) {
-          if (price[key]) {
-            pricesObj[key] = parseInt(price[key]);
-          }
-        }
-    
-        const payload = {
-          city,
-          address,
-          phone,
-          room_count: parseInt(room),
-          price: pricesObj
-        };
-    
-        const docObj = {
-          city: doc.city,
-          address: doc.address,
-          phone: doc.phone,
-          room_count: parseInt(doc.room_count),
-          price: doc.price
-        }
-    
-        const isObjectChanged = deepEqual(payload, docObj)
+      if (price[key]) {
+        pricesObj[key] = parseInt(price[key]);
+      }
+    }
 
-    return city && address && room && phone && isSomeprice && isObjectChanged;
+    const payload = {
+      city,
+      address,
+      phone,
+      room_count: parseInt(room),
+      price: pricesObj
+    };
+
+    const docObj = {
+      city: doc.city,
+      address: doc.address,
+      phone: doc.phone,
+      room_count: parseInt(doc.room_count),
+      price: docPrices
+    }
+
+    console.log(payload, docObj);
+
+    const isObjectChanged = deepEqual(payload, docObj);
+
+    console.log('status', city && address && room && phone && isSomeprice && !isObjectChanged);
+
+    return city && address && room && phone && isSomeprice && !isObjectChanged;
   }, [city, address, room, phone, price, doc]);
 
   useEffect(() => {

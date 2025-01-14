@@ -375,4 +375,5 @@ input[type=number] {
   background-color: var(--tg-theme-bg-color);
   /* background-color: #eee; */
   padding: 20px;
+  box-sizing: border-box;
 }
