@@ -1,0 +1,38 @@
+.radio-input-label {
+    position: relative;
+
+    border-right: 1px solid var(--tg-theme-bg-color);
+    /* border-right: 1px solid #000; */
+
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.radio-input {
+    position: absolute;
+    left: -9999px;
+}
+
+.radio-input-text {
+    background-color: var(--tg-theme-secondary-bg-color);
+    /* background-color: #eee; */
+
+    font-size: 18px;
+    color: var(--tg-theme-text-color);
+
+    display: inline-flex;
+    justify-content: center;
+
+    box-sizing: border-box;
+
+    width: 100%;
+    padding: 10px;
+
+    transition: 0.25s ease;
+}
+
+.radio-input:checked + .radio-input-text {
+    background-color: var(--tg-theme-button-color);
+    /* background-color: blue; */
+    color: var(--tg-theme-button-text-color)
+}

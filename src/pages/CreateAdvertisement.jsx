@@ -1,7 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import WebApp from '@twa-dev/sdk';
 import { useIMask } from 'react-imask';
-import { Link } from 'react-router-dom';
 
 import PriceField from '../components/PriceField';
 import '../App.css';
@@ -45,11 +44,14 @@ function CreateAdvertisement() {
     WebApp.expand();
   }, []);
 
-  useEffect(() => {
+  const isFormValid = useMemo(() => {
     const isSomeprice = Object.values(price).some((value) => value);
 
+    return city && address && room && phone && isSomeprice;
+  }, [city, address, room, phone, price]);
 
-    if (city && address && room && phone && isSomeprice) {
+  useEffect(() => {
+    if (isFormValid) {
       let pricesObj = {};
 
       for (let key in price) {
@@ -69,7 +71,7 @@ function CreateAdvertisement() {
       console.log(data);
       setData(payload);
 
-      WebApp.MainButton.isVisible = true;
+      WebApp.MainButton.show();
 
       WebApp.MainButton.text = 'Создать объявление';
       WebApp.onEvent('mainButtonClicked', onSendData);
@@ -85,7 +87,7 @@ function CreateAdvertisement() {
       WebApp.offEvent('mainButtonClicked', onSendData);
     };
 
-  }, [city, address, room, phone, price])
+  }, [isFormValid])
 
 
   return (

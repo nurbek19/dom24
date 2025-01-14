@@ -34,56 +34,9 @@ body {
     padding-bottom: 5px;
 }
 
-.select-field {
-    background-color: var(--tg-theme-secondary-bg-color);
-    /* background-color: #eee; */
-
-    font-size: 18px;
-    color: var(--tg-theme-text-color);
-    
-    width: 100%;
-    padding: 10px 20px;
-    
-    border: none;
-    border-radius: 8px;
-    
-    box-sizing: border-box;
-    
-    appearance: none;
-    outline: 0;
-}
-
-.text-field {
-    background-color: var(--tg-theme-secondary-bg-color);
-    /* background-color: #eee; */
-
-    font-size: 18px;
-    color: var(--tg-theme-text-color);
-
-    width: 100%;
-    padding: 10px 20px;
-
-    border: none;
-    border-radius: 8px;
-
-    box-sizing: border-box;
-
-    outline: 0;
-}
-
 .room-buttons {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-}
-
-.radio-input-label {
-    position: relative;
-
-    border-right: 1px solid var(--tg-theme-bg-color);
-    /* border-right: 1px solid #000; */
-
-    overflow: hidden;
-    cursor: pointer;
 }
 
 .radio-input-label:first-child {
@@ -105,28 +58,6 @@ body {
 .radio-input {
     position: absolute;
     left: -9999px;
-}
-
-.radio-input-text {
-    font-size: 18px;
-    color: var(--tg-theme-text-color);
-
-    display: inline-flex;
-    justify-content: center;
-    box-sizing: border-box;
-    background-color: var(--tg-theme-secondary-bg-color);
-    /* background-color: #eee; */
-
-    width: 100%;
-    padding: 10px;
-
-    transition: 0.25s ease;
-}
-
-.radio-input:checked + .radio-input-text {
-    background-color: var(--tg-theme-button-color);
-    /* background-color: blue; */
-    color: var(--tg-theme-button-text-color)
 }
 
 .checkbox-label {

@@ -1,0 +1,25 @@
+.field-label {
+    font-size: 12px;
+    text-transform: uppercase;
+
+    padding-bottom: 5px;
+}
+
+.select-field {
+    background-color: var(--tg-theme-secondary-bg-color);
+    /* background-color: #eee; */
+
+    font-size: 18px;
+    color: var(--tg-theme-text-color);
+    
+    width: 100%;
+    padding: 10px 20px;
+    
+    border: none;
+    border-radius: 8px;
+    
+    box-sizing: border-box;
+    
+    appearance: none;
+    outline: 0;
+}
