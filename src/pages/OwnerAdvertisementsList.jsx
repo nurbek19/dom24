@@ -7,6 +7,7 @@ import ImageSlider from "../components/ImageSlider";
 
 import '../App.css';
 import EditAdvertisement from "./EditAdvertisement";
+import { use } from "react";
 
 const emojiObj = {
     hour: '🕘',
@@ -21,6 +22,8 @@ function OwnerAdvertisementsList() {
     const [data, setData] = useState([]);
     const [docStatuses, setDocStatus] = useState({});
     const [editDoc, setEditDoc] = useState(null);
+
+    const [payload, setPayload] = useState(null);
 
     const [searchParams] = useSearchParams();
 
@@ -62,21 +65,34 @@ function OwnerAdvertisementsList() {
     }
 
     const onSendData = () => {
-        const changedDocs = [];
 
-        data.forEach((item) => {
-            if ((item.active !== docStatuses[item._id])) {
-                changedDocs.push({ _id: item._id, active: docStatuses[item._id] })
-            }
-        });
 
-        console.log(changedDocs, data, docStatuses, ...changedDocs);
+        console.log(...payload);
 
-        WebApp.sendData(JSON.stringify(changedDocs));
+        if (payload) {
+            WebApp.sendData(JSON.stringify(payload));
+        }
     }
 
     const hasChanged = useMemo(() => {
-        return data.some((item) => item.active !== docStatuses[item._id]);
+        const valid = data.some((item) => item.active !== docStatuses[item._id]);
+
+        if (valid) {
+            const changedDocs = [];
+
+            data.forEach((item) => {
+                if ((item.active !== docStatuses[item._id])) {
+                    changedDocs.push({ _id: item._id, active: docStatuses[item._id] })
+                }
+            });
+
+            setPayload(changedDocs);
+        } else {
+            setPayload(null);
+        }
+
+        return valid;
+
     }, [docStatuses, data])
 
     useEffect(() => {
@@ -97,7 +113,7 @@ function OwnerAdvertisementsList() {
     }, [hasChanged]);
 
     return (
-        <div style={{ overflow: editDoc ? 'hidden': 'auto' }}>
+        <div style={editDoc ? { overflow: 'hidden', position: 'fixed', left: 0, top: 0 } : { overflow: 'auto' }}>
             {data.map((item) => (
                 <div key={item._id} className="card-container">
                     <div className="card-actions">

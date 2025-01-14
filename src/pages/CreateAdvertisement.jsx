@@ -35,25 +35,11 @@ function CreateAdvertisement() {
   }
 
   const onSendData = () => {
-    let pricesObj = {};
+    console.log(data);
 
-    for (let key in price) {
-      if (price[key]) {
-        pricesObj[key] = parseInt(price[key]);
-      }
+    if (data) {
+      WebApp.sendData(JSON.stringify(data));
     }
-
-    const payload = {
-      city,
-      address,
-      phone,
-      room_count: parseInt(room),
-      price: pricesObj
-    };
-
-    console.log(payload, price);
-
-    WebApp.sendData(JSON.stringify(payload));
   };
 
   useEffect(() => {
@@ -63,7 +49,32 @@ function CreateAdvertisement() {
   const isFormValid = useMemo(() => {
     const isSomeprice = Object.values(price).some((value) => value);
 
-    return city && address && room && phone && isSomeprice;
+    const valid = city && address && room && phone && isSomeprice;
+
+    if (valid) {
+      let pricesObj = {};
+
+      for (let key in price) {
+        if (price[key]) {
+          pricesObj[key] = parseInt(price[key]);
+        }
+      }
+
+      const payload = {
+        city,
+        address,
+        phone,
+        room_count: parseInt(room),
+        price: pricesObj
+      };
+
+      setData(payload)
+    } else {
+      setData(null)
+    }
+
+    return valid;
+
   }, [city, address, room, phone, price]);
 
   useEffect(() => {
