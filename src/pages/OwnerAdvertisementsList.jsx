@@ -65,8 +65,6 @@ function OwnerAdvertisementsList() {
     }
 
     const onSendData = () => {
-
-
         console.log(...payload);
 
         if (payload) {
@@ -75,6 +73,27 @@ function OwnerAdvertisementsList() {
     }
 
     const hasChanged = useMemo(() => {
+        const valid = data.some((item) => item.active !== docStatuses[item._id]);
+
+        // if (valid) {
+        //     const changedDocs = [];
+
+        //     data.forEach((item) => {
+        //         if ((item.active !== docStatuses[item._id])) {
+        //             changedDocs.push({ _id: item._id, active: docStatuses[item._id] })
+        //         }
+        //     });
+
+        //     setPayload(changedDocs);
+        // } else {
+        //     setPayload(null);
+        // }
+
+        return valid;
+
+    }, [docStatuses, data])
+
+    useEffect(() => {
         const valid = data.some((item) => item.active !== docStatuses[item._id]);
 
         if (valid) {
@@ -90,9 +109,6 @@ function OwnerAdvertisementsList() {
         } else {
             setPayload(null);
         }
-
-        return valid;
-
     }, [docStatuses, data])
 
     useEffect(() => {

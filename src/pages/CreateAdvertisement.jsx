@@ -78,7 +78,9 @@ function CreateAdvertisement() {
   }, [city, address, room, phone, price]);
 
   useEffect(() => {
-    if (isFormValid) {
+    const isSomeprice = Object.values(price).some((value) => value);
+
+    if (city && address && room && phone && isSomeprice) {
       let pricesObj = {};
 
       for (let key in price) {
@@ -99,7 +101,7 @@ function CreateAdvertisement() {
     } else {
       setData(null)
     }
-  }, [city, address, room, phone, price, isFormValid, setData, data])
+  }, [city, address, room, phone, price, setData])
 
   useEffect(() => {
     WebApp.MainButton.text = 'Создать объявление';
