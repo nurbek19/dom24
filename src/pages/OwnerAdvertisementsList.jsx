@@ -105,7 +105,10 @@ function OwnerAdvertisementsList() {
                 }
             });
 
-            setPayload(changedDocs);
+            console.log(changedDocs);
+
+            // setPayload(changedDocs);
+            WebApp.MainButton.onClick = () => WebApp.sendData(JSON.stringify(changedDocs));
         } else {
             setPayload(null);
         }
@@ -113,7 +116,7 @@ function OwnerAdvertisementsList() {
 
     useEffect(() => {
         WebApp.MainButton.text = 'Обновить статусы';
-        WebApp.onEvent('mainButtonClicked', onSendData);
+        // WebApp.onEvent('mainButtonClicked', onSendData);
 
         if (hasChanged) {
             WebApp.MainButton.show();
@@ -124,7 +127,7 @@ function OwnerAdvertisementsList() {
 
         return () => {
             WebApp.MainButton.hide();
-            WebApp.offEvent('mainButtonClicked', onSendData);
+            // WebApp.offEvent('mainButtonClicked', onSendData);
         };
     }, [hasChanged]);
 

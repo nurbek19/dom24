@@ -97,7 +97,6 @@ function CreateAdvertisement() {
     const isSomeprice = Object.values(price).some((value) => value);
 
     if (city && address && room && phone && isSomeprice) {
-      WebApp.onEvent('mainButtonClicked', onSendData);
       let pricesObj = {};
 
       for (let key in price) {
@@ -116,19 +115,16 @@ function CreateAdvertisement() {
 
       console.log(payload, 'payload');
 
+      WebApp.MainButton.onClick = () => WebApp.sendData(JSON.stringify(payload));
       setData(payload)
     } else {
       setData(null)
     }
-
-    return () => {
-      WebApp.offEvent('mainButtonClicked', onSendData);
-    };
   }, [city, address, room, phone, price, setData]);
 
   useEffect(() => {
     WebApp.MainButton.text = 'Создать объявление';
-    WebApp.onEvent('mainButtonClicked', onSendData);
+    // WebApp.onEvent('mainButtonClicked', onSendData);
 
     if (isFormValid) {
       WebApp.MainButton.show();
@@ -139,7 +135,7 @@ function CreateAdvertisement() {
 
     return () => {
       WebApp.MainButton.hide();
-      WebApp.offEvent('mainButtonClicked', onSendData);
+      // WebApp.offEvent('mainButtonClicked', onSendData);
     };
 
   }, [isFormValid])
