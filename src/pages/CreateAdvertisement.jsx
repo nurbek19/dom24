@@ -115,11 +115,16 @@ function CreateAdvertisement() {
 
       console.log(payload, 'payload');
 
-      WebApp.MainButton.onClick = () => WebApp.sendData(JSON.stringify(payload));
-      setData(payload)
+      setData(payload);
+      WebApp.onEvent('mainButtonClicked', onSendData);
     } else {
       setData(null)
     }
+
+    return () => {
+      // WebApp.MainButton.hide();
+      WebApp.offEvent('mainButtonClicked', onSendData);
+    };
   }, [city, address, room, phone, price, setData]);
 
   useEffect(() => {
