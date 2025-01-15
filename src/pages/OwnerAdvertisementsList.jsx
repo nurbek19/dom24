@@ -129,7 +129,7 @@ function OwnerAdvertisementsList() {
     }, [hasChanged]);
 
     return (
-        <div style={editDoc ? { overflow: 'hidden', position: 'fixed', left: 0, top: 0 } : { overflow: 'auto' }}>
+        <div>
             {data.map((item) => (
                 <div key={item._id} className="card-container">
                     <div className="card-actions">

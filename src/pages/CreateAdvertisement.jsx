@@ -97,6 +97,7 @@ function CreateAdvertisement() {
     const isSomeprice = Object.values(price).some((value) => value);
 
     if (city && address && room && phone && isSomeprice) {
+      WebApp.onEvent('mainButtonClicked', onSendData);
       let pricesObj = {};
 
       for (let key in price) {
@@ -119,6 +120,10 @@ function CreateAdvertisement() {
     } else {
       setData(null)
     }
+
+    return () => {
+      WebApp.offEvent('mainButtonClicked', onSendData);
+    };
   }, [city, address, room, phone, price, setData]);
 
   useEffect(() => {
