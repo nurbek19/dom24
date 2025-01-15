@@ -65,11 +65,19 @@ function OwnerAdvertisementsList() {
     }
 
     const onSendData = () => {
-        console.log(...payload);
+        const changedDocs = [];
 
-        if (payload) {
-            WebApp.sendData(JSON.stringify(payload));
-        }
+        data.forEach((item) => {
+            if ((item.active !== docStatuses[item._id])) {
+                changedDocs.push({ _id: item._id, active: docStatuses[item._id] })
+            }
+        });
+
+        console.log(...changedDocs);
+
+        // if (payload) {
+            WebApp.sendData(JSON.stringify(changedDocs));
+        // }
     }
 
     const hasChanged = useMemo(() => {
@@ -106,14 +114,19 @@ function OwnerAdvertisementsList() {
             });
 
             setPayload(changedDocs);
+            WebApp.onEvent('mainButtonClicked', onSendData);
         } else {
             setPayload(null);
         }
+
+        return () => {
+            WebApp.offEvent('mainButtonClicked', onSendData);
+        };
     }, [docStatuses, data])
 
     useEffect(() => {
         WebApp.MainButton.text = 'Обновить статусы';
-        WebApp.onEvent('mainButtonClicked', onSendData);
+        // WebApp.onEvent('mainButtonClicked', onSendData);
 
         if (hasChanged) {
             WebApp.MainButton.show();
@@ -124,7 +137,7 @@ function OwnerAdvertisementsList() {
 
         return () => {
             WebApp.MainButton.hide();
-            WebApp.offEvent('mainButtonClicked', onSendData);
+            // WebApp.offEvent('mainButtonClicked', onSendData);
         };
     }, [hasChanged]);
 

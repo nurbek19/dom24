@@ -64,7 +64,7 @@ function EditAdvertisement({ doc }) {
 
     let pricesObj = {};
     for (let key in price) {
-      if (price[key]) {
+      if (price[key] || price[key] === 0) {
         pricesObj[key] = parseInt(price[key]);
       }
     }
@@ -95,8 +95,16 @@ function EditAdvertisement({ doc }) {
   }, [city, address, room, phone, price, doc]);
 
   useEffect(() => {
-    WebApp.MainButton.text = 'Применить изменения';
     WebApp.onEvent('mainButtonClicked', onSendData);
+
+    return () => {
+      WebApp.offEvent('mainButtonClicked', onSendData);
+    };
+  }, [city, address, room, phone, price, doc])
+
+  useEffect(() => {
+    WebApp.MainButton.text = 'Применить изменения';
+    // WebApp.onEvent('mainButtonClicked', onSendData);
 
     if (isFormValid) {
       WebApp.MainButton.show();
@@ -107,7 +115,7 @@ function EditAdvertisement({ doc }) {
 
     return () => {
       WebApp.MainButton.hide();
-      WebApp.offEvent('mainButtonClicked', onSendData);
+      // WebApp.offEvent('mainButtonClicked', onSendData);
     };
 
   }, [isFormValid])
