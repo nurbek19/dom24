@@ -143,7 +143,9 @@ function OwnerAdvertisementsList() {
 
     return (
         <div>
-            {data.map((item) => (
+            {!editDoc && (
+                <div>
+                {data.map((item) => (
                 <div key={item._id} className="card-container">
                     <div className="card-actions">
                         <label className="switch">
@@ -185,6 +187,8 @@ function OwnerAdvertisementsList() {
                     </div>
                 </div>
             ))}
+            </div>
+            )}
 
             {editDoc && (
                 <div className="edit-modal">
