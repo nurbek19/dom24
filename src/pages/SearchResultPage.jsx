@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../App.css';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { emojiObj } from './OwnerAdvertisementsList';
 import ImageSlider from "../components/ImageSlider";
@@ -13,6 +13,7 @@ const SearchResultPage = () => {
     const [data, setData] = useState([]);
     const { state } = useLocation();
     const [activeDoc, setActiveDoc] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const { city, rent_type, room_count, chat_id } = state;
@@ -26,16 +27,10 @@ const SearchResultPage = () => {
         })
     }, [])
 
-    const callHandler = (e, _id, owner_id, phone) => {
-        e.stopPropagation();
-
-        const { chat_id } = state;
-
-        axios.put('https://ainur-khakimov.ru/dom24/houses/call', { _id, owner_id, phone, caller_id: chat_id })
-    }
-
     return (
         <div>
+            <div className="back-button" onClick={() => navigate(-1)}>« Назад</div>
+
             {activeDoc ? (
                 <div className="edit-modal">
                     <SingleAdvertisement item={activeDoc} onBackHandler={() => setActiveDoc(null)} />
@@ -50,14 +45,7 @@ const SearchResultPage = () => {
                             )}
                             <div className="card-detail">
                                 <p><span>📍</span> {item.city}, {item.address}</p>
-                                <div className="card-actions-wrapper">
-                                    <div className="card-actions">
-                                        <div onClick={(e) => callHandler(e, item._id, item.owner_id, item.phone)}>
-                                        <a href={`tel:${item.phone}`} className='phone-link'>📞</a>
-                                        </div>
-                                    </div>
-
-                                    <p><span>Кол-во комнат:</span> {item.room_count}</p>
+                                <p><span>Кол-во комнат:</span> {item.room_count}</p>
                                     {/* <p><span>📞</span> {item.phone}</p> */}
 
                                     <div className="card-prices">
@@ -67,9 +55,8 @@ const SearchResultPage = () => {
                                     </div>
 
                                     <div className='card-status'>
-                                        {item.active ? <div className='free'>свободно</div> : <div className='busy'>занято</div>}
+                                        {item.active ? <div className='free'>Свободно</div> : <div className='busy'>Занято</div>}
                                     </div>
-                                </div>
                             </div>
                         </div>
                     </div>

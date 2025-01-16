@@ -128,7 +128,7 @@ function EditAdvertisement({ doc, onBackHandler }) {
 
   return (
     <div>
-      <div className="back-button" onClick={onBackHandler}>« назад</div>
+      <div className="back-button" onClick={onBackHandler}>« Назад</div>
 
       <div className="field-wrapper select-wrapper">
         <label htmlFor="city" className="field-label">Город</label>

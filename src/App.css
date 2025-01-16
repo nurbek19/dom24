@@ -272,6 +272,7 @@ body {
 
   .card-prices div {
     background-color: var(--tg-theme-button-color);
+    /* background-color: blue; */
 
     font-size: 14px;
     color: var(--tg-theme-button-text-color);
@@ -398,8 +399,8 @@ input[type=number] {
 }
 
 .back-button {
-  font-size: 14px;
-  color: var(--tg-theme-text-color);
+  font-size: 18px;
+  color: var(--tg-theme-button-color);
   padding-bottom: 15px;
 }
 
@@ -415,19 +416,6 @@ input[type=number] {
     padding: 10px;
     border-radius: 8px;
     border: none;
-}
-
-.phone-link {
-  text-decoration: none;
-  background-color: var(--tg-theme-button-color);
-  /* background-color: blue; */
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
 }
 
 .card-status {
@@ -459,8 +447,7 @@ input[type=number] {
 }
 
 .single-card-prices {
-  display: flex;
-  justify-content: space-between;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
 .single-card-detail {
@@ -471,18 +458,61 @@ input[type=number] {
   background-color: var(--tg-theme-button-color);
   /* background-color: blue; */
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-
-  position: fixed;
-  right: 10px;
-  bottom: 10px;
+  font-size: 18px;
+  color: var(--tg-theme-button-text-color);
+  text-align: center;
+  
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  box-sizing: border-box;
 }
 
-.single-card-detail p {
+.single-result-card {
+  background-color: var(--tg-theme-secondary-bg-color);
+    /* background-color: #eee; */
+    border-radius: 8px;
+    height: 100%;
+    padding: 10px;
+}
+
+.search-container {
+  height: 100%;
+}
+
+.info-text {
+  margin: 0;
+    padding: 10px;
+
+    font-size: 14px;
+    color: #E16A54;
+    text-align: center;
+}
+
+.phone-number {
+  position: relative;
   font-size: 18px;
+  color: var(--tg-theme-text-color);
+  text-align: center;
+  
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 2px solid var(--tg-theme-button-color);
+  /* border: 2px solid blue; */
+  box-sizing: border-box;
+}
+
+.phone-number svg {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+}
+
+.copy-text {
+  padding-top: 5px;
 }
