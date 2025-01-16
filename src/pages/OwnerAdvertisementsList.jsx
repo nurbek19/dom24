@@ -10,10 +10,10 @@ import EditAdvertisement from "./EditAdvertisement";
 import { use } from "react";
 
 const emojiObj = {
-    hour: '🕘',
-    day: '🌞',
-    night: '🌙',
-    day_night: '🌞🌙'
+    hour: 'Час',
+    day: 'День',
+    night: 'Ночь',
+    day_night: 'Сутки'
 };
 
 
@@ -76,7 +76,7 @@ function OwnerAdvertisementsList() {
         console.log(...changedDocs);
 
         // if (payload) {
-            WebApp.sendData(JSON.stringify(changedDocs));
+        WebApp.sendData(JSON.stringify(changedDocs));
         // }
     }
 
@@ -145,53 +145,54 @@ function OwnerAdvertisementsList() {
         <div>
             {editDoc ? (
                 <div className="edit-modal">
-                    <EditAdvertisement doc={editDoc} />
+                    <EditAdvertisement doc={editDoc} onBackHandler={() => setEditDoc(null)} />
                 </div>
             ) : (
                 <div>
-                {data.map((item) => (
-                <div key={item._id} className="card-container">
-                    <div className="card-actions">
-                        <label className="switch">
-                            <input type="checkbox" checked={docStatuses[item._id]} onChange={(e) => statusChangeHandler(e, item._id)} />
-                            <span className="slider round"></span>
-                        </label>
+                    {data.map((item) => (
+                        <div key={item._id} className="card-container">
+                            <div className="card">
+                                {item.photo_ids && (
+                                    <ImageSlider imageIds={item.photo_ids} />
+                                )}
+                                <div className="card-detail">
+                                    <p><span>📍</span> {item.city}, {item.address}</p>
+                                    <div className="card-actions-wrapper">
+                                        <div className="card-actions">
+                                            <label className="switch">
+                                                <input type="checkbox" checked={docStatuses[item._id]} onChange={(e) => statusChangeHandler(e, item._id)} />
+                                                <span className="slider round"></span>
+                                            </label>
 
-                        <div className="edit-button" onClick={() => setEditDoc(item)}>
-                            <svg className="feather feather-edit"
-                                fill="none"
-                                height="24"
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                viewBox="0 0 24 24"
-                                width="24" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-                            </svg>
-                        </div>
-                    </div>
+                                            <div className="edit-button" onClick={() => setEditDoc(item)}>
+                                                <svg className="feather feather-edit"
+                                                    fill="none"
+                                                    height="24"
+                                                    stroke="currentColor"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth="2"
+                                                    viewBox="0 0 24 24"
+                                                    width="24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                                                </svg>
+                                            </div>
+                                        </div>
 
-                    <div className="card">
-                        {item.photo_ids && (
-                            <ImageSlider imageIds={item.photo_ids} />
-                        )}
-                        <div className="card-detail">
-                            <p><span>Город:</span> {item.city}</p>
-                            <p><span>Адрес:</span> {item.address}</p>
-                            <p><span>Количество комнат:</span> {item.room_count}</p>
-                            <p><span>Телефон:</span> {item.phone}</p>
+                                        <p><span>Кол-во комнат:</span> {item.room_count}</p>
+                                        <p><span>📞</span> {item.phone}</p>
 
-                            <div className="card-prices">
-                                {Object.entries(item.price).map(([key, value]) => (
-                                    <div key={key}>{emojiObj[key]} {value}</div>
-                                ))}
+                                        <div className="card-prices">
+                                            {Object.entries(item.price).map(([key, value]) => (
+                                                <div key={key}>{emojiObj[key]}: {value}</div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    ))}
                 </div>
-            ))}
-            </div>
             )}
         </div>
     )

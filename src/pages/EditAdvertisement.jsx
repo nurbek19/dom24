@@ -9,7 +9,7 @@ import '../App.css';
 
 const CITIES = ['Бишкек', 'Нарын', 'Каракол', 'Ош'];
 
-function EditAdvertisement({ doc }) {
+function EditAdvertisement({ doc, onBackHandler }) {
   const [city, setCity] = useState(doc.city);
   const [address, setAddress] = useState(doc.address);
   const [room, setRoom] = useState(doc.room_count.toString());
@@ -128,6 +128,7 @@ function EditAdvertisement({ doc }) {
 
   return (
     <div>
+      <div className="back-button" onClick={onBackHandler}>« назад</div>
 
       <div className="field-wrapper select-wrapper">
         <label htmlFor="city" className="field-label">Город</label>
