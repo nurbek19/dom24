@@ -13,7 +13,7 @@ function EditAdvertisement({ doc, onBackHandler }) {
   const [city, setCity] = useState(doc.city);
   const [address, setAddress] = useState(doc.address);
   const [room, setRoom] = useState(doc.room_count.toString());
-  const [price, setPrice] = useState({ ...doc.price, 'day_night': doc.price['day_night ']});
+  const [price, setPrice] = useState({ ...doc.price });
   const [data, setData] = useState(null);
 
   const {
@@ -31,28 +31,28 @@ function EditAdvertisement({ doc, onBackHandler }) {
     setPrice(copyObj);
   }
 
-  const onSendData = () => {
-    let pricesObj = {};
+  // const onSendData = () => {
+  //   let pricesObj = {};
 
-    for (let key in price) {
-      if (price[key]) {
-        pricesObj[key] = parseInt(price[key]);
-      }
-    }
+  //   for (let key in price) {
+  //     if (price[key]) {
+  //       pricesObj[key] = parseInt(price[key]);
+  //     }
+  //   }
 
-    const payload = {
-      _id: doc._id,
-      city,
-      address,
-      phone,
-      room_count: parseInt(room),
-      price: pricesObj
-    };
+  //   const payload = {
+  //     _id: doc._id,
+  //     city,
+  //     address,
+  //     phone,
+  //     room_count: parseInt(room),
+  //     price: pricesObj
+  //   };
 
-    console.log(payload);
+  //   console.log(payload);
 
-    WebApp.sendData(JSON.stringify(payload));
-  };
+  //   WebApp.sendData(JSON.stringify(payload));
+  // };
 
   useEffect(() => {
     WebApp.expand();
@@ -98,13 +98,13 @@ function EditAdvertisement({ doc, onBackHandler }) {
     return city && address && room && phone && isSomeprice && !isObjectChanged;
   }, [city, address, room, phone, price, doc]);
 
-  useEffect(() => {
-    WebApp.onEvent('mainButtonClicked', onSendData);
+  // useEffect(() => {
+  //   WebApp.onEvent('mainButtonClicked', onSendData);
 
-    return () => {
-      WebApp.offEvent('mainButtonClicked', onSendData);
-    };
-  }, [city, address, room, phone, price, doc])
+  //   return () => {
+  //     WebApp.offEvent('mainButtonClicked', onSendData);
+  //   };
+  // }, [city, address, room, phone, price, doc])
 
   useEffect(() => {
     WebApp.MainButton.text = 'Применить изменения';
