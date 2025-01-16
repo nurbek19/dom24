@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { CITIES } from './CreateAdvertisement';
+import WebApp from '@twa-dev/sdk';
 import '../App.css';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
