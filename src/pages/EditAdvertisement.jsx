@@ -13,7 +13,7 @@ function EditAdvertisement({ doc, onBackHandler }) {
   const [city, setCity] = useState(doc.city);
   const [address, setAddress] = useState(doc.address);
   const [room, setRoom] = useState(doc.room_count.toString());
-  const [price, setPrice] = useState({ ...doc.price, dn: doc.price.day_night});
+  const [price, setPrice] = useState({ ...doc.price, test: doc.price.day_night});
   const [data, setData] = useState(null);
 
   const {
@@ -184,7 +184,7 @@ function EditAdvertisement({ doc, onBackHandler }) {
         <PriceField label="Час" name="hour" value={price.hour} onChange={priceChangeHandler} />
         <PriceField label="День" name="day" value={price.day} onChange={priceChangeHandler} />
         <PriceField label="Ночь" name="night" value={price.night} onChange={priceChangeHandler} />
-        <PriceField label="Сутки" name="dn" value={price.day_night} onChange={priceChangeHandler} />
+        <PriceField label="Сутки" name="day_night" value={price.day_night} onChange={priceChangeHandler} />
       </div>
     </div>
   )
