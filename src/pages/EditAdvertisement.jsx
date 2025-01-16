@@ -90,11 +90,10 @@ function EditAdvertisement({ doc, onBackHandler }) {
       price: doc.price
     }
 
+    console.log('Price', price, doc.price, pricesObj);
     console.log(payload, docObj);
 
     const isObjectChanged = deepEqual(payload, docObj);
-
-    console.log('status', city && address && room && phone && isSomeprice && !isObjectChanged);
 
     return city && address && room && phone && isSomeprice && !isObjectChanged;
   }, [city, address, room, phone, price, doc]);
