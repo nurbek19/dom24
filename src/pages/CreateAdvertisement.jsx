@@ -6,7 +6,7 @@ import PriceField from '../components/PriceField';
 import '../App.css';
 
 
-const CITIES = ['Бишкек', 'Нарын', 'Каракол', 'Ош'];
+export const CITIES = ['Бишкек', 'Нарын', 'Каракол', 'Ош'];
 
 function CreateAdvertisement() {
   const [city, setCity] = useState(CITIES[0]);

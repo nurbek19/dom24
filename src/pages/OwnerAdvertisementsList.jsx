@@ -9,7 +9,7 @@ import '../App.css';
 import EditAdvertisement from "./EditAdvertisement";
 import { use } from "react";
 
-const emojiObj = {
+export const emojiObj = {
     hour: 'Час',
     day: 'День',
     night: 'Ночь',
