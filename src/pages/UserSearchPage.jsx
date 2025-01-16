@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CITIES } from './CreateAdvertisement';
 import '../App.css';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -9,6 +9,10 @@ const UserSearchPage = () => {
     const [room, setRoom] = useState(null);
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
+
+    useEffect(() => {
+        WebApp.expand();
+      }, []);
 
     const navigateHandler = () => {
         const id = searchParams.get('user_id');
