@@ -275,7 +275,7 @@ body {
     background-color: var(--tg-theme-button-color);
 
     font-size: 14px;
-    color: var(--tg-theme-text-color);
+    color: var(--tg-theme-button-text-color);
     text-align: center;
     
     padding: 4px 8px;
@@ -315,8 +315,9 @@ body {
     width: 18px;
     left: 2px;
     bottom: 2px;
-    background-color: var(--tg-theme-button-color);
-    /* background-color: #2196F3; */
+    border: 2px solid var(--tg-theme-button-color);
+    /* border: 2px solid #2196F3; */
+    box-sizing: border-box;
     -webkit-transition: .4s;
     transition: .4s;
   }
@@ -328,6 +329,7 @@ body {
 
   .switch input:checked + .slider::before {
     background-color: #fff;
+    border: none;
   }
   
   .switch input:focus + .slider {
