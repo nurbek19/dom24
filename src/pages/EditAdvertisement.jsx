@@ -13,7 +13,7 @@ function EditAdvertisement({ doc, onBackHandler }) {
   const [city, setCity] = useState(doc.city);
   const [address, setAddress] = useState(doc.address);
   const [room, setRoom] = useState(doc.room_count.toString());
-  const [price, setPrice] = useState({ ...doc.price });
+  const [price, setPrice] = useState({ ...doc.price, day_night: doc.price.day_night });
   const [data, setData] = useState(null);
 
   const {
