@@ -5,22 +5,30 @@ import '../App.css';
 function PriceField({ label, name, value, onChange }) {
     const [checked, setChecked] = useState(false);
 
-    useEffect(() => {
-        if (!checked) {
-            onChange(name, '');
-        }
-    }, [checked])
+    // useEffect(() => {
+    //     if (!checked) {
+    //         onChange(name, '');
+    //     }
+    // }, [checked])
 
     useEffect(() => {
         if (value) {
             setChecked(true);
         }
-    }, [])
+    }, []);
+
+    const statusHandler = (e) => {
+        if (!e.checked) {
+            onChange(name, '');
+        }
+
+        setChecked((prev) => !prev)
+    }
 
     return (
         <div className="price-fields">
             <label className="checkbox-label">
-                <input type="checkbox" className="" checked={checked} onChange={() => setChecked((prev) => !prev)} />
+                <input type="checkbox" className="" checked={checked} onChange={statusHandler} />
                 <span className="checkmark"></span>
                 <span>{label}</span>
             </label>
