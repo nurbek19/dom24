@@ -6,6 +6,32 @@ import PriceField from '../components/PriceField';
 import '../App.css';
 
 
+export const DICTIONARY = {
+  ru: {
+    city: 'Город',
+    address: 'Адрес',
+    phone: 'Номер телефона',
+    roomCount: 'Количество комнат',
+    price: 'Цена',
+    day: 'День',
+    night: 'Ночь',
+    hour: 'Час',
+    dayNight: 'Сутки',
+  },
+  kg: {
+    city: 'Город',
+    address: 'Адрес',
+    phone: 'Номер телефона',
+    roomCount: 'Количество комнат',
+    price: 'Цена',
+    day: 'День',
+    night: 'Ночь',
+    hour: 'Час',
+    dayNight: 'Сутки',
+  }
+}
+
+
 export const CITIES = ['Бишкек', 'Нарын', 'Каракол', 'Ош'];
 
 function CreateAdvertisement() {
@@ -66,28 +92,6 @@ function CreateAdvertisement() {
     const isSomeprice = Object.values(price).some((value) => value);
 
     const valid = city && address && room && phone && isSomeprice;
-
-    // if (valid) {
-    //   let pricesObj = {};
-
-    //   for (let key in price) {
-    //     if (price[key]) {
-    //       pricesObj[key] = parseInt(price[key]);
-    //     }
-    //   }
-
-    //   const payload = {
-    //     city,
-    //     address,
-    //     phone,
-    //     room_count: parseInt(room),
-    //     price: pricesObj
-    //   };
-
-    //   setData(payload)
-    // } else {
-    //   setData(null)
-    // }
 
     return valid;
 

@@ -184,7 +184,7 @@ function OwnerAdvertisementsList() {
 
                                         <div className="card-prices">
                                             {Object.entries(item.price).map(([key, value]) => (
-                                                <div key={key}>{emojiObj[key]}: {value}</div>
+                                                <div key={key}>{emojiObj[key]} {value}</div>
                                             ))}
                                         </div>
                                     </div>

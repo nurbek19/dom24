@@ -5,11 +5,12 @@ import axios from 'axios';
 import '../App.css';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
+import logo from '../images/logo.png';
+
 const UserSearchPage = () => {
     const [city, setCity] = useState(CITIES[0]);
     const [rentType, setRentType] = useState(null);
     const [room, setRoom] = useState(null);
-    const [info, setInfo] = useState(false);
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
 
@@ -20,21 +21,16 @@ const UserSearchPage = () => {
     const navigateHandler = () => {
         const id = searchParams.get('user_id');    
 
-        axios.get(`https://ainur-khakimov.ru/dom24/houses?city=${city}&rent_type=${rentType}&room_count=${room}&chat_id=${id}`).then((res) => {
-            if (res.data) {
-                navigate('/dom24/search/result', { state: { city, rent_type: rentType, room_count: room, chat_id: id } });
-            } else {
-                setInfo(true)
-            }
-        })
+        navigate('/dom24/search/result', { state: { city, rent_type: rentType, room_count: room, chat_id: id } });
     }
 
-    useEffect(() => {
-        setInfo(false);
-    }, [city, room, rentType])
 
     return (
         <div>
+            <div className="logo-container">
+                <img src={logo} alt="logotype" />
+            </div>
+
             <div className="field-wrapper select-wrapper">
                 <label htmlFor="city" className="field-label">Город</label>
 
@@ -97,8 +93,6 @@ const UserSearchPage = () => {
 
             {city && rentType && room && <button className='search-button'
                 onClick={navigateHandler}>Найти</button>}
-
-                {info && <p className='info-text'>Нету подходящих квартир с текущими параметрами. Попробуйте другие параметры.</p>}
         </div>
     );
 }

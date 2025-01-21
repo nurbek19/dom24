@@ -40,7 +40,7 @@ const SingleAdvertisement = ({ item, onBackHandler }) => {
                             <p><span>Количество комнат:</span> {item.room_count}</p>
                             <div className="card-prices single-card-prices">
                                 {Object.entries(item.price).map(([key, value]) => (
-                                    <div key={key}>{emojiObj[key]}: {value}</div>
+                                    <div key={key}>{emojiObj[key]} <br /> {value}</div>
                                 ))}
                             </div>
 

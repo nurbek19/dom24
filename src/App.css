@@ -260,6 +260,11 @@ body {
     color: var(--tg-theme-text-color);
   }
 
+  .card-detail p a {
+    color: var(--tg-theme-link-color);
+    text-decoration: none;
+  }
+
   .card-detail p span {
     font-weight: 600;
   }
@@ -474,12 +479,7 @@ input[type=number] {
   background-color: var(--tg-theme-secondary-bg-color);
     /* background-color: #eee; */
     border-radius: 8px;
-    height: 100%;
     padding: 10px;
-}
-
-.search-container {
-  height: 100%;
 }
 
 .info-text {
@@ -515,4 +515,26 @@ input[type=number] {
 
 .copy-text {
   padding-top: 5px;
+}
+
+.not-found-info {
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+}
+
+.not-found-info img {
+  width: 120px;
+}
+
+.logo-container {
+  text-align: center;
+  padding-bottom: 15px;
+}
+
+.logo-container img {
+  width: 50px;
 }
