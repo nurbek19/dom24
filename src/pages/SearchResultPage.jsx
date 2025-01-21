@@ -10,14 +10,27 @@ import SingleAdvertisement from './SingleAdvertisement';
 
 import notFoundImage from '../images/image.png';
 
+import { DICTIONARY } from './CreateAdvertisement';
+
 
 const SearchResultPage = () => {
     const [data, setData] = useState([]);
     const { state } = useLocation();
     const [activeDoc, setActiveDoc] = useState(null);
     const [info, setInfo] = useState(false);
+    const [lang, setLang] = useState('ru');
 
     const navigate = useNavigate();
+
+
+    useEffect(() => {
+        const { lang } = state;
+    
+        if (lang) {
+          setLang(lang);
+        }
+        
+      }, []);
 
     useEffect(() => {
         const { city, rent_type, room_count, chat_id } = state;
@@ -50,11 +63,11 @@ const SearchResultPage = () => {
 
     return (
         <div>
-            <div className="back-button" onClick={() => navigate(-1)}>« Назад</div>
+            <div className="back-button" onClick={() => navigate(-1)}>« {DICTIONARY[lang].back}</div>
 
             {activeDoc ? (
                 <div className="edit-modal">
-                    <SingleAdvertisement item={activeDoc} onBackHandler={() => setActiveDoc(null)} />
+                    <SingleAdvertisement item={activeDoc} lang={lang} onBackHandler={() => setActiveDoc(null)} />
                 </div>
             ) : (
                 <div>
@@ -68,17 +81,17 @@ const SearchResultPage = () => {
                                 <p>
                                     <a href={`https://2gis.kg/search/${encodeURIComponent(item.city + ' ' + item.address)}`} target='_blank'><span>📍</span> {item.city}, {item.address}</a>
                                 </p>
-                                <p><span>Кол-во комнат:</span> {item.room_count}</p>
+                                <p><span>{DICTIONARY[lang].shortRoomCount}:</span> {item.room_count}</p>
                                     {/* <p><span>📞</span> {item.phone}</p> */}
 
                                     <div className="card-prices">
                                         {Object.entries(item.price).map(([key, value]) => (
-                                            <div key={key}>{emojiObj[key]} {value}</div>
+                                            <div key={key}>{DICTIONARY[lang][key]} {value}</div>
                                         ))}
                                     </div>
 
                                     <div className='card-status'>
-                                        {item.active ? <div className='free'>Свободно</div> : <div className='busy'>Занято</div>}
+                                        {item.active ? <div className='free'>{DICTIONARY[lang].free}</div> : <div className='busy'>{DICTIONARY[lang].busy}</div>}
                                     </div>
                             </div>
                         </div>

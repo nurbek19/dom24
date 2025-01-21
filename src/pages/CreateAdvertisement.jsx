@@ -1,13 +1,14 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState, useLayoutEffect } from 'react';
 import WebApp from '@twa-dev/sdk';
 import { useIMask } from 'react-imask';
+import { useSearchParams } from 'react-router-dom';
 
 import PriceField from '../components/PriceField';
 import '../App.css';
 
 
 export const DICTIONARY = {
-  ru: {
+  'ru': {
     city: 'Город',
     address: 'Адрес',
     phone: 'Номер телефона',
@@ -16,18 +17,34 @@ export const DICTIONARY = {
     day: 'День',
     night: 'Ночь',
     hour: 'Час',
-    dayNight: 'Сутки',
+    day_night: 'Сутки',
+    shortRoomCount: 'Кол-во комнат',
+    back: 'Назад',
+    find: 'Найти',
+    rentType: 'Тип аренды',
+    free: 'Свободно',
+    busy: 'Занято',
+    showNumber: 'Показать номер',
+    numberCopied: 'Номер телефона скопировано'
   },
-  kg: {
-    city: 'Город',
-    address: 'Адрес',
-    phone: 'Номер телефона',
-    roomCount: 'Количество комнат',
-    price: 'Цена',
-    day: 'День',
-    night: 'Ночь',
-    hour: 'Час',
-    dayNight: 'Сутки',
+  'kg': {
+    city: 'Шаар',
+    address: 'Дарек',
+    phone: 'Телефон номер',
+    roomCount: 'Комната саны',
+    price: 'Баа',
+    day: 'Күндүз',
+    night: 'Түн',
+    hour: 'Саат',
+    day_night: 'Күн',
+    shortRoomCount: 'Комната саны',
+    back: 'Артка кайтуу',
+    find: 'Табуу',
+    rentType: 'Ижара түрү',
+    free: 'Бош',
+    busy: 'Бош эмес',
+    showNumber: 'Номер көрсөтүү',
+    numberCopied: 'Телефон номер көчүрүлдү'
   }
 }
 
@@ -45,6 +62,8 @@ function CreateAdvertisement() {
     day_night: ''
   });
   const [data, setData] = useState(null);
+  const [searchParams] = useSearchParams();
+  const [lang, setLang] = useState('ru');
 
   const {
     ref,
@@ -86,6 +105,15 @@ function CreateAdvertisement() {
 
   useEffect(() => {
     WebApp.expand();
+  }, []);
+
+  useEffect(() => {
+    const language = searchParams.get('lang');
+
+    if (language) {
+      setLang(language);
+    }
+    
   }, []);
 
   const isFormValid = useMemo(() => {
@@ -154,7 +182,7 @@ function CreateAdvertisement() {
     <div>
 
       <div className="field-wrapper select-wrapper">
-        <label htmlFor="city" className="field-label">Город</label>
+        <label htmlFor="city" className="field-label">{DICTIONARY[lang].city}</label>
 
         <select name="city" id="city" value={city} onChange={(e) => setCity(e.target.value)} className="select-field">
           {CITIES.map((v) => (
@@ -164,19 +192,19 @@ function CreateAdvertisement() {
       </div>
 
       <div className="field-wrapper">
-        <label htmlFor="address" className="field-label">Адрес</label>
+        <label htmlFor="address" className="field-label">{DICTIONARY[lang].address}</label>
 
         <input type="text" id="address" className="text-field" maxLength={50} value={address} onChange={(e) => setAddress(e.target.value)} />
       </div>
 
       <div className="field-wrapper">
-        <label htmlFor="phone" className="field-label">Номер телефона</label>
+        <label htmlFor="phone" className="field-label">{DICTIONARY[lang].phone}</label>
 
         <input type="tel" pattern="[0-9]*" noValidate id="phone" className="text-field" ref={ref} />
       </div>
 
       <div className="field-wrapper">
-        <span className="field-label">Количество комнат</span>
+        <span className="field-label">{DICTIONARY[lang].roomCount}</span>
 
         <div className="room-buttons">
           <label className="radio-input-label">
@@ -205,10 +233,10 @@ function CreateAdvertisement() {
       <div className="field-wrapper">
         <span className="field-label">Цена</span>
 
-        <PriceField label="Час" name="hour" value={price.hour} onChange={priceChangeHandler} />
-        <PriceField label="День" name="day" value={price.day} onChange={priceChangeHandler} />
-        <PriceField label="Ночь" name="night" value={price.night} onChange={priceChangeHandler} />
-        <PriceField label="Сутки" name="day_night" value={price.day_night} onChange={priceChangeHandler} />
+        <PriceField label={DICTIONARY[lang].hour} name="hour" value={price.hour} onChange={priceChangeHandler} />
+        <PriceField label={DICTIONARY[lang].day} name="day" value={price.day} onChange={priceChangeHandler} />
+        <PriceField label={DICTIONARY[lang].night} name="night" value={price.night} onChange={priceChangeHandler} />
+        <PriceField label={DICTIONARY[lang].day_night} name="day_night" value={price.day_night} onChange={priceChangeHandler} />
       </div>
     </div>
   )

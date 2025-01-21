@@ -6,10 +6,12 @@ import deepEqual from 'deep-equal';
 import PriceField from '../components/PriceField';
 import '../App.css';
 
+import { DICTIONARY } from './CreateAdvertisement';
+
 
 const CITIES = ['Бишкек', 'Нарын', 'Каракол', 'Ош'];
 
-function EditAdvertisement({ doc, onBackHandler }) {
+function EditAdvertisement({ doc, lang, onBackHandler }) {
   const [city, setCity] = useState(doc.city);
   const [address, setAddress] = useState(doc.address);
   const [room, setRoom] = useState(doc.room_count.toString());
@@ -127,10 +129,10 @@ function EditAdvertisement({ doc, onBackHandler }) {
 
   return (
     <div>
-      <div className="back-button" onClick={onBackHandler}>« Назад</div>
+      <div className="back-button" onClick={onBackHandler}>« {DICTIONARY[lang].back}</div>
 
       <div className="field-wrapper select-wrapper">
-        <label htmlFor="city" className="field-label">Город</label>
+        <label htmlFor="city" className="field-label">{DICTIONARY[lang].city}</label>
 
         <select name="city" id="city" value={city} onChange={(e) => setCity(e.target.value)} className="select-field">
           {CITIES.map((v) => (
@@ -140,19 +142,19 @@ function EditAdvertisement({ doc, onBackHandler }) {
       </div>
 
       <div className="field-wrapper">
-        <label htmlFor="address" className="field-label">Адрес</label>
+        <label htmlFor="address" className="field-label">{DICTIONARY[lang].address}</label>
 
         <input type="text" id="address" className="text-field" maxLength={50} value={address} onChange={(e) => setAddress(e.target.value)} />
       </div>
 
       <div className="field-wrapper">
-        <label htmlFor="phone" className="field-label">Номер телефона</label>
+        <label htmlFor="phone" className="field-label">{DICTIONARY[lang].phone}</label>
 
         <input type="tel" pattern="[0-9]*" noValidate id="phone" className="text-field" ref={ref} />
       </div>
 
       <div className="field-wrapper">
-        <span className="field-label">Количество комнат</span>
+        <span className="field-label">{DICTIONARY[lang].room}</span>
 
         <div className="room-buttons">
           <label className="radio-input-label">
@@ -179,12 +181,12 @@ function EditAdvertisement({ doc, onBackHandler }) {
       </div>
 
       <div className="field-wrapper">
-        <span className="field-label">Цена</span>
+        <span className="field-label">{DICTIONARY[lang].price}</span>
 
-        <PriceField label="Час" name="hour" value={price.hour} onChange={priceChangeHandler} />
-        <PriceField label="День" name="day" value={price.day} onChange={priceChangeHandler} />
-        <PriceField label="Ночь" name="night" value={price.night} onChange={priceChangeHandler} />
-        <PriceField label="Сутки" name="day_night" value={price.day_night} onChange={priceChangeHandler} />
+        <PriceField label={DICTIONARY[lang].hour} name="hour" value={price.hour} onChange={priceChangeHandler} />
+        <PriceField label={DICTIONARY[lang].day} name="day" value={price.day} onChange={priceChangeHandler} />
+        <PriceField label={DICTIONARY[lang].night} name="night" value={price.night} onChange={priceChangeHandler} />
+        <PriceField label={DICTIONARY[lang].day_night} name="day_night" value={price.day_night} onChange={priceChangeHandler} />
       </div>
     </div>
   )

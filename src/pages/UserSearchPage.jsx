@@ -6,6 +6,7 @@ import '../App.css';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import logo from '../images/logo.png';
+import { DICTIONARY } from './CreateAdvertisement';
 
 const UserSearchPage = () => {
     const [city, setCity] = useState(CITIES[0]);
@@ -13,15 +14,25 @@ const UserSearchPage = () => {
     const [room, setRoom] = useState(null);
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
+    const [lang, setLang] = useState('ru');
 
     useEffect(() => {
         WebApp.expand();
       }, []);
 
+      useEffect(() => {
+        const language = searchParams.get('lang');
+    
+        if (language) {
+          setLang(language);
+        }
+        
+      }, []);
+
     const navigateHandler = () => {
         const id = searchParams.get('user_id');    
 
-        navigate('/dom24/search/result', { state: { city, rent_type: rentType, room_count: room, chat_id: id } });
+        navigate('/dom24/search/result', { state: { city, rent_type: rentType, room_count: room, chat_id: id, lang } });
     }
 
 
@@ -32,7 +43,7 @@ const UserSearchPage = () => {
             </div>
 
             <div className="field-wrapper select-wrapper">
-                <label htmlFor="city" className="field-label">Город</label>
+                <label htmlFor="city" className="field-label">{DICTIONARY[lang].city}</label>
 
                 <select name="city" id="city" value={city} onChange={(e) => setCity(e.target.value)} className="select-field">
                     {CITIES.map((v) => (
@@ -42,30 +53,30 @@ const UserSearchPage = () => {
             </div>
 
             <div className="field-wrapper">
-                <span className="field-label">Тип аренды</span>
+                <span className="field-label">{DICTIONARY[lang].rentType}</span>
 
                 <div className="rent-type-buttons">
                     <label className="radio-input-label">
                         <input type="radio" name="rentType" value="hour" className="radio-input" checked={rentType === 'hour'} onChange={(e) => setRentType(e.target.value)} />
-                        <span className="radio-input-text">Час</span>
+                        <span className="radio-input-text">{DICTIONARY[lang].hour}</span>
                     </label>
                     <label className="radio-input-label">
                         <input type="radio" name="rentType" value="day" className="radio-input" checked={rentType === 'day'} onChange={(e) => setRentType(e.target.value)} />
-                        <span className="radio-input-text">День</span>
+                        <span className="radio-input-text">{DICTIONARY[lang].day}</span>
                     </label>
                     <label className="radio-input-label">
                         <input type="radio" name="rentType" value="night" className="radio-input" checked={rentType === 'night'} onChange={(e) => setRentType(e.target.value)} />
-                        <span className="radio-input-text">Ночь</span>
+                        <span className="radio-input-text">{DICTIONARY[lang].night}</span>
                     </label>
                     <label className="radio-input-label">
                         <input type="radio" name="rentType" value="day_night" className="radio-input" checked={rentType === 'day_night'} onChange={(e) => setRentType(e.target.value)} />
-                        <span className="radio-input-text">Сутки</span>
+                        <span className="radio-input-text">{DICTIONARY[lang].day_night}</span>
                     </label>
                 </div>
             </div>
 
             <div className="field-wrapper">
-                <span className="field-label">Количество комнат</span>
+                <span className="field-label">{DICTIONARY[lang].roomCount}</span>
 
                 <div className="room-buttons">
                     <label className="radio-input-label">
@@ -92,7 +103,7 @@ const UserSearchPage = () => {
             </div>
 
             {city && rentType && room && <button className='search-button'
-                onClick={navigateHandler}>Найти</button>}
+                onClick={navigateHandler}>{DICTIONARY[lang].find}</button>}
         </div>
     );
 }

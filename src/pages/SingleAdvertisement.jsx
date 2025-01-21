@@ -5,7 +5,9 @@ import { emojiObj } from './OwnerAdvertisementsList';
 import ImageSlider from "../components/ImageSlider";
 import '../App.css';
 
-const SingleAdvertisement = ({ item, onBackHandler }) => {
+import { DICTIONARY } from './CreateAdvertisement';
+
+const SingleAdvertisement = ({ item, lang, onBackHandler }) => {
     const [show, setShow] = useState(false);
     const [showText, setShowText] = useState(false);
     const { state } = useLocation();
@@ -27,7 +29,7 @@ const SingleAdvertisement = ({ item, onBackHandler }) => {
 
     return (
         <div className='search-container'>
-            <div className="back-button" onClick={onBackHandler}>« Назад</div>
+            <div className="back-button" onClick={onBackHandler}>« {DICTIONARY[lang].back}</div>
             <div className='single-result-card'>
                 <div className="">
                     <div className="single-card">
@@ -35,17 +37,17 @@ const SingleAdvertisement = ({ item, onBackHandler }) => {
                             <ImageSlider imageIds={item.photo_ids} />
                         )}
                         <div className="card-detail single-card-detail">
-                            <p><span>Город:</span> {item.city}</p>
-                            <p><span>Адрес:</span> {item.address}</p>
-                            <p><span>Количество комнат:</span> {item.room_count}</p>
+                            <p><span>{DICTIONARY[lang].city}:</span> {item.city}</p>
+                            <p><span>{DICTIONARY[lang].address}:</span> {item.address}</p>
+                            <p><span>{DICTIONARY[lang].roomCount}:</span> {item.room_count}</p>
                             <div className="card-prices single-card-prices">
                                 {Object.entries(item.price).map(([key, value]) => (
-                                    <div key={key}>{emojiObj[key]} <br /> {value}</div>
+                                    <div key={key}>{DICTIONARY[lang][key]} <br /> {value}</div>
                                 ))}
                             </div>
 
                             <div className='card-status'>
-                                {item.active ? <div className='free'>Свободно</div> : <div className='busy'>Занято</div>}
+                                {item.active ? <div className='free'>{DICTIONARY[lang].free}</div> : <div className='busy'>{DICTIONARY[lang].busy}</div>}
                             </div>
 
                             {show ? (
@@ -56,11 +58,11 @@ const SingleAdvertisement = ({ item, onBackHandler }) => {
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg>
                                     </div>
 
-                                    {showText && (<p className='copy-text'>Номер телефона скопировано</p>)}
+                                    {showText && (<p className='copy-text'>{DICTIONARY[lang].numberCopied}</p>)}
                                 </div>
                             ) : (
                                 <div className='call-btn' onClick={(e) => callHandler(e, item._id, item.owner_id, item.phone)}>
-                                    Показать номер
+                                    {DICTIONARY[lang].showNumber}
                                 </div>
                             )}
                         </div>

@@ -7,7 +7,8 @@ import ImageSlider from "../components/ImageSlider";
 
 import '../App.css';
 import EditAdvertisement from "./EditAdvertisement";
-import { use } from "react";
+
+import { DICTIONARY } from "./CreateAdvertisement";
 
 export const emojiObj = {
     hour: 'Час',
@@ -24,6 +25,7 @@ function OwnerAdvertisementsList() {
     const [editDoc, setEditDoc] = useState(null);
 
     const [payload, setPayload] = useState(null);
+    const [lang, setLang] = useState('ru');
 
     const [searchParams] = useSearchParams();
 
@@ -51,6 +53,15 @@ function OwnerAdvertisementsList() {
     useEffect(() => {
         WebApp.expand();
     }, []);
+
+    useEffect(() => {
+        const language = searchParams.get('lang');
+    
+        if (language) {
+          setLang(language);
+        }
+        
+      }, []);
 
     useEffect(() => {
         fetchData();
@@ -145,7 +156,7 @@ function OwnerAdvertisementsList() {
         <div>
             {editDoc ? (
                 <div className="edit-modal">
-                    <EditAdvertisement doc={editDoc} onBackHandler={() => setEditDoc(null)} />
+                    <EditAdvertisement doc={editDoc} lang={lang} onBackHandler={() => setEditDoc(null)} />
                 </div>
             ) : (
                 <div>
@@ -179,12 +190,12 @@ function OwnerAdvertisementsList() {
                                             </div>
                                         </div>
 
-                                        <p><span>Кол-во комнат:</span> {item.room_count}</p>
+                                        <p><span>{DICTIONARY[lang].shortRoomCount}:</span> {item.room_count}</p>
                                         <p><span>📞</span> {item.phone}</p>
 
                                         <div className="card-prices">
                                             {Object.entries(item.price).map(([key, value]) => (
-                                                <div key={key}>{emojiObj[key]} {value}</div>
+                                                <div key={key}>{DICTIONARY[lang][key]} {value}</div>
                                             ))}
                                         </div>
                                     </div>
