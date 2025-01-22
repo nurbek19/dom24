@@ -38,7 +38,7 @@ const SingleAdvertisement = ({ item, lang, onBackHandler }) => {
                         )}
                         <div className="card-detail single-card-detail">
                             <p><span>{DICTIONARY[lang].city}:</span> {item.city}</p>
-                            <p><span>{DICTIONARY[lang].address}:</span> {item.address}</p>
+                            <p><span>{DICTIONARY[lang].address}:</span> <a href={`https://2gis.kg/search/${encodeURIComponent(item.city + ' ' + item.address)}`} target='_blank'>{item.address}</a></p>
                             <p><span>{DICTIONARY[lang].roomCount}:</span> {item.room_count}</p>
                             <div className="card-prices single-card-prices">
                                 {Object.entries(item.price).map(([key, value]) => (

@@ -5,7 +5,6 @@ import axios from 'axios';
 import '../App.css';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import logo from '../images/logo.png';
 import { DICTIONARY } from './CreateAdvertisement';
 
 const UserSearchPage = () => {
@@ -38,9 +37,9 @@ const UserSearchPage = () => {
 
     return (
         <div>
-            <div className="logo-container">
+            {/* <div className="logo-container">
                 <img src={logo} alt="logotype" />
-            </div>
+            </div> */}
 
             <div className="field-wrapper select-wrapper">
                 <label htmlFor="city" className="field-label">{DICTIONARY[lang].city}</label>
