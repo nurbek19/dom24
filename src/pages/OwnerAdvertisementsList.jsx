@@ -167,6 +167,7 @@ function OwnerAdvertisementsList() {
                                     <ImageSlider imageIds={item.photo_ids} />
                                 )}
                                 <div className="card-detail">
+                                    {item.name && (<p><span>{item.name}</span></p>)}
                                     <p><span>📍</span> {item.city}, {item.address}</p>
                                     <div className="card-actions-wrapper">
                                         <div className="card-actions">

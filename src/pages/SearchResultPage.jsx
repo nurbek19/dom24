@@ -4,7 +4,6 @@ import axios from 'axios';
 import '../App.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { emojiObj } from './OwnerAdvertisementsList';
 import ImageSlider from "../components/ImageSlider";
 import SingleAdvertisement from './SingleAdvertisement';
 
@@ -50,12 +49,12 @@ const SearchResultPage = () => {
     if (info) {
         return (
             <div className='not-found-container'>
-                <div className="back-button" onClick={() => navigate(-1)}>« Назад</div>
+                <div className="back-button" onClick={() => navigate(-1)}>« {DICTIONARY[lang].back}</div>
 
 
                 <div className="not-found-info">
                     <img src={notFoundImage} alt="not found" />
-                <p className='info-text'>Нету подходящих квартир с текущими параметрами. Попробуйте другие параметры.</p>
+                <p className='info-text'>{DICTIONARY[lang].notFound}</p>
                 </div>
             </div>
         )
@@ -78,6 +77,7 @@ const SearchResultPage = () => {
                                 <ImageSlider imageIds={item.photo_ids} />
                             )}
                             <div className="card-detail">
+                                {item.name && (<p><span>{item.name}</span></p>)}
                                 <p>
                                     <a href={`https://2gis.kg/search/${encodeURIComponent(item.city + ' ' + item.address)}`} target='_blank'><span>📍</span> {item.city}, {item.address}</a>
                                 </p>

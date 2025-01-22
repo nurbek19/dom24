@@ -17,6 +17,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
   const [room, setRoom] = useState(doc.room_count.toString());
   const [price, setPrice] = useState({ ...doc.price });
   const [data, setData] = useState(null);
+  const [name, setName] = useState(doc.name ? doc.name : '');
 
   const {
     ref,
@@ -51,6 +52,10 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       price: pricesObj
     };
 
+    if (name) {
+      payload.name = name;
+    }
+
     console.log(payload);
 
     WebApp.sendData(JSON.stringify(payload));
@@ -81,7 +86,8 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       address,
       phone,
       room_count: parseInt(room),
-      price: pricesObj
+      price: pricesObj,
+      name,
     };
 
     const docObj = {
@@ -89,7 +95,8 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       address: doc.address,
       phone: doc.phone,
       room_count: parseInt(doc.room_count),
-      price: doc.price
+      price: doc.price,
+      name
     }
 
     console.log('Price', price, doc.price, pricesObj);
@@ -97,8 +104,8 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
 
     const isObjectChanged = deepEqual(payload, docObj);
 
-    return city && address && room && phone && isSomeprice && !isObjectChanged;
-  }, [city, address, room, phone, price, doc]);
+    return city && address && room && phone && name && isSomeprice && !isObjectChanged;
+  }, [city, address, room, phone, price, name, doc]);
 
   useEffect(() => {
     WebApp.onEvent('mainButtonClicked', onSendData);
@@ -139,6 +146,12 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
             <option key={v} value={v}>{v}</option>
           ))}
         </select>
+      </div>
+
+      <div className="field-wrapper">
+        <label htmlFor="name" className="field-label">{DICTIONARY[lang].name}</label>
+
+        <input type="text" id="name" className="text-field" value={name} onChange={(e) => setName(e.target.value)} />
       </div>
 
       <div className="field-wrapper">

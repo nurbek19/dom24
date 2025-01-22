@@ -12,39 +12,45 @@ export const DICTIONARY = {
     city: 'Город',
     address: 'Адрес',
     phone: 'Номер телефона',
-    roomCount: 'Количество комнат',
+    roomCount: 'Количество комнат / мест',
     price: 'Цена',
     day: 'День',
     night: 'Ночь',
     hour: 'Час',
     day_night: 'Сутки',
-    shortRoomCount: 'Кол-во комнат',
+    shortRoomCount: 'Кол-во комнат / мест',
     back: 'Назад',
     find: 'Найти',
     rentType: 'Тип аренды',
     free: 'Свободно',
     busy: 'Занято',
     showNumber: 'Показать номер',
-    numberCopied: 'Номер телефона скопировано'
+    numberCopied: 'Номер телефона скопировано',
+    notFound: 'Нету подходящих квартир с текущими параметрами. Попробуйте другие параметры.',
+    name: 'Название (для отелей)',
+    nameLabel: 'Название',
   },
   'kg': {
     city: 'Шаар',
     address: 'Дарек',
     phone: 'Телефон номер',
-    roomCount: 'Комната саны',
+    roomCount: 'Комната саны / орун',
     price: 'Баа',
     day: 'Күндүз',
     night: 'Түн',
     hour: 'Саат',
     day_night: 'Күн',
-    shortRoomCount: 'Комната саны',
+    shortRoomCount: 'Комната саны / орун',
     back: 'Артка кайтуу',
-    find: 'Табуу',
+    find: 'Издөө',
     rentType: 'Ижара түрү',
     free: 'Бош',
     busy: 'Бош эмес',
     showNumber: 'Номер көрсөтүү',
-    numberCopied: 'Телефон номер көчүрүлдү'
+    numberCopied: 'Телефон номер көчүрүлдү',
+    notFound: 'Учурдагы тандоолор менен ылайыктуу батирлер жок. Башка тандоолорду колдонуп көрүңүз.',
+    name: 'Аты-жөнү (мейманкана үчүн)',
+    nameLabel: 'Аты-жөнү',
   }
 }
 
@@ -64,6 +70,7 @@ function CreateAdvertisement() {
   const [data, setData] = useState(null);
   const [searchParams] = useSearchParams();
   const [lang, setLang] = useState('ru');
+  const [name, setName] = useState('');
 
   const {
     ref,
@@ -96,12 +103,16 @@ function CreateAdvertisement() {
       price: pricesObj
     };
 
+    if (name) {
+      payload.name = name;
+    }
+
     console.log(payload);
 
     // if (data) {
       WebApp.sendData(JSON.stringify(payload));
     // }
-  }, [city, address, room, phone, price]);
+  }, [city, address, room, phone, price, name]);
 
   useEffect(() => {
     WebApp.expand();
@@ -157,7 +168,7 @@ function CreateAdvertisement() {
       // WebApp.MainButton.hide();
       WebApp.offEvent('mainButtonClicked', onSendData);
     };
-  }, [city, address, room, phone, price, setData]);
+  }, [city, address, room, phone, price, name, setData]);
 
   useEffect(() => {
     WebApp.MainButton.text = 'Создать объявление';
@@ -189,6 +200,12 @@ function CreateAdvertisement() {
             <option key={v} value={v}>{v}</option>
           ))}
         </select>
+      </div>
+
+      <div className="field-wrapper">
+        <label htmlFor="name" className="field-label">{DICTIONARY[lang].name}</label>
+
+        <input type="text" id="name" className="text-field" value={name} onChange={(e) => setName(e.target.value)} />
       </div>
 
       <div className="field-wrapper">

@@ -37,6 +37,7 @@ const SingleAdvertisement = ({ item, lang, onBackHandler }) => {
                             <ImageSlider imageIds={item.photo_ids} />
                         )}
                         <div className="card-detail single-card-detail">
+                            {item.name && (<p><span>{DICTIONARY[lang].nameLabel}:</span> {item.name}</p>)}
                             <p><span>{DICTIONARY[lang].city}:</span> {item.city}</p>
                             <p><span>{DICTIONARY[lang].address}:</span> <a href={`https://2gis.kg/search/${encodeURIComponent(item.city + ' ' + item.address)}`} target='_blank'>{item.address}</a></p>
                             <p><span>{DICTIONARY[lang].roomCount}:</span> {item.room_count}</p>
