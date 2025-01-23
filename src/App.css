@@ -423,6 +423,24 @@ input[type=number] {
     border: none;
 }
 
+@keyframes blinkingFree {
+  0% {
+    background-color: var(--tg-theme-secondary-bg-color);
+  }
+
+  33% {
+    background-color: #799351;
+  }
+
+  66% {
+    background-color: var(--tg-theme-secondary-bg-color);
+  }
+
+  100% {
+    background-color: #799351;
+  }
+}
+
 .card-status {
   margin-top: 5px;
 }
@@ -439,6 +457,28 @@ input[type=number] {
   border-radius: 8px;
 }
 
+.free.animation {
+  animation: blinkingFree 1s ease-in;
+}
+
+@keyframes blinkingBusy {
+  0% {
+    background-color: var(--tg-theme-secondary-bg-color);
+  }
+
+  33% {
+    background-color: #EE4E4E;
+  }
+
+  66% {
+    background-color: var(--tg-theme-secondary-bg-color);
+  }
+
+  100% {
+    background-color: #EE4E4E;
+  }
+}
+
 .busy {
   display: inline-flex;
   background-color: #EE4E4E;
@@ -449,6 +489,10 @@ input[type=number] {
   
   padding: 4px 8px;
   border-radius: 8px;
+}
+
+.busy.animation {
+  animation: blinkingBusy 1s ease-in;
 }
 
 .single-card-prices {

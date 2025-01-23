@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../App.css';
 import { useLocation, useNavigate } from 'react-router-dom';
+import clsx from 'clsx';
 
 import ImageSlider from "../components/ImageSlider";
 import SingleAdvertisement from './SingleAdvertisement';
@@ -18,6 +19,7 @@ const SearchResultPage = () => {
     const [activeDoc, setActiveDoc] = useState(null);
     const [info, setInfo] = useState(false);
     const [lang, setLang] = useState('ru');
+    const [itemIndex, setindex] = useState(null);
 
     const navigate = useNavigate();
 
@@ -60,29 +62,13 @@ const SearchResultPage = () => {
         )
     }
 
-    // useEffect(() => {
-    //     const timeoutId = setTimeout(() => {
-    //         const index = Math.floor(Math.random() * 3);
-            
-    //         const dataCopy = [...data];
-    //         console.log(dataCopy[index], index);
-
-    //         if (dataCopy[index]) {
-    //             const copyObj = { ...dataCopy[index] }
-    //             copyObj.active = !copyObj.active;
-
-    //             dataCopy[index] = copyObj;
-
-    //             console.log(copyObj, index);
-                
-    //             setData(dataCopy);
-    //         }
-
-
-    //       }, 5000);
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            setindex(Math.floor(Math.random() * 3));
+          }, 5000);
       
-    //       return () => clearTimeout(timeoutId);
-    // }, []);
+          return () => clearTimeout(timeoutId);
+    }, []);
 
     return (
         <div>
@@ -94,7 +80,7 @@ const SearchResultPage = () => {
                 </div>
             ) : (
                 <div>
-                {data.map((item) => (
+                {data.map((item, index) => (
                     <div key={item._id} className="card-container" onClick={() => setActiveDoc(item)}>
                         <div className="card">
                             {item.photo_ids && (
@@ -121,7 +107,15 @@ const SearchResultPage = () => {
                                     </div>
 
                                     <div className='card-status'>
-                                        {item.active ? <div className='free'>{DICTIONARY[lang].free}</div> : <div className='busy'>{DICTIONARY[lang].busy}</div>}
+                                        {(itemIndex !== null && index === itemIndex) ? (
+                                            <div className={clsx(!item.active ? 'free' : 'busy', { 'animation': index === itemIndex })}>
+                                                {!item.active ? DICTIONARY[lang].free : DICTIONARY[lang].busy}
+                                            </div>
+                                        ) : (
+                                            item.active ? 
+                                        <div className={clsx('free')}>{DICTIONARY[lang].free}</div>
+                                        : <div className={clsx('busy')}>{DICTIONARY[lang].busy}</div>
+                                        )}
                                     </div>
                             </div>
                         </div>
