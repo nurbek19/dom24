@@ -18,7 +18,7 @@ const SingleAdvertisement = ({ item, lang, onBackHandler }) => {
 
         setShow(true);
 
-        axios.post('https://ainur-khakimov.ru/dom24/houses/call', { _id, owner_id, phone, caller_id: parseInt(chat_id) });
+        axios.post('https://ainur-khakimov.ru/dom24/houses/call', { house_id: _id, owner_id, phone, caller_id: parseInt(chat_id) });
     }
 
     const copyHandler = () => {
