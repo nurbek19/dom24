@@ -195,9 +195,15 @@ function OwnerAdvertisementsList() {
                                         <p><span>📞</span> {item.phone}</p>
 
                                         <div className="card-prices">
-                                            {Object.entries(item.price).map(([key, value]) => (
-                                                <div key={key}>{DICTIONARY[lang][key]} {value}</div>
-                                            ))}
+                                            {Object.entries(item.price).map(([key, value]) => {
+                                                if (!value) {
+                                                    return null;
+                                                }
+
+                                                return (
+                                                    <div key={key}>{DICTIONARY[lang][key]} {value}</div>
+                                                );
+                                            })}
                                         </div>
                                     </div>
                                 </div>

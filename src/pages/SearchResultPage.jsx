@@ -60,6 +60,30 @@ const SearchResultPage = () => {
         )
     }
 
+    // useEffect(() => {
+    //     const timeoutId = setTimeout(() => {
+    //         const index = Math.floor(Math.random() * 3);
+            
+    //         const dataCopy = [...data];
+    //         console.log(dataCopy[index], index);
+
+    //         if (dataCopy[index]) {
+    //             const copyObj = { ...dataCopy[index] }
+    //             copyObj.active = !copyObj.active;
+
+    //             dataCopy[index] = copyObj;
+
+    //             console.log(copyObj, index);
+                
+    //             setData(dataCopy);
+    //         }
+
+
+    //       }, 5000);
+      
+    //       return () => clearTimeout(timeoutId);
+    // }, []);
+
     return (
         <div>
             <div className="back-button" onClick={() => navigate(-1)}>« {DICTIONARY[lang].back}</div>
@@ -85,9 +109,15 @@ const SearchResultPage = () => {
                                     {/* <p><span>📞</span> {item.phone}</p> */}
 
                                     <div className="card-prices">
-                                        {Object.entries(item.price).map(([key, value]) => (
-                                            <div key={key}>{DICTIONARY[lang][key]} {value}</div>
-                                        ))}
+                                        {Object.entries(item.price).map(([key, value]) => {
+                                            if (!value) {
+                                                return null;
+                                            }
+
+                                            return (
+                                                <div key={key}>{DICTIONARY[lang][key]} {value}</div>
+                                            );
+                                        })}
                                     </div>
 
                                     <div className='card-status'>
