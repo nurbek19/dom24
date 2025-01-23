@@ -96,7 +96,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       phone: doc.phone,
       room_count: parseInt(doc.room_count),
       price: doc.price,
-      name
+      name: doc.name ? doc.name : '',
     }
 
     console.log('Price', price, doc.price, pricesObj);
