@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { CITIES } from './CreateAdvertisement';
 import WebApp from '@twa-dev/sdk';
-import axios from 'axios';
 import '../App.css';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { DICTIONARY } from './CreateAdvertisement';
+
+import logo from '../images/logo.svg';
 
 const UserSearchPage = () => {
     const [city, setCity] = useState(CITIES[0]);
@@ -37,9 +38,9 @@ const UserSearchPage = () => {
 
     return (
         <div>
-            {/* <div className="logo-container">
+            <div className="logo-container">
                 <img src={logo} alt="logotype" />
-            </div> */}
+            </div>
 
             <div className="field-wrapper select-wrapper">
                 <label htmlFor="city" className="field-label">{DICTIONARY[lang].city}</label>
