@@ -48,6 +48,14 @@ const SearchResultPage = () => {
         })
     }, [])
 
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            setindex(Math.floor(Math.random() * 3));
+          }, 2500);
+      
+          return () => clearTimeout(timeoutId);
+    }, []);
+
     if (info) {
         return (
             <div className='not-found-container'>
@@ -61,14 +69,6 @@ const SearchResultPage = () => {
             </div>
         )
     }
-
-    useEffect(() => {
-        const timeoutId = setTimeout(() => {
-            setindex(Math.floor(Math.random() * 3));
-          }, 5000);
-      
-          return () => clearTimeout(timeoutId);
-    }, []);
 
     return (
         <div>
