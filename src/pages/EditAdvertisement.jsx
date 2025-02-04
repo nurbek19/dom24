@@ -196,7 +196,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       <div className="field-wrapper">
         <span className="field-label">{DICTIONARY[lang].price}</span>
 
-        <PriceField label={DICTIONARY[lang].hour} name="hour" value={price.hour} onChange={priceChangeHandler} />
+        {/* <PriceField label={DICTIONARY[lang].hour} name="hour" value={price.hour} onChange={priceChangeHandler} /> */}
         <PriceField label={DICTIONARY[lang].day} name="day" value={price.day} onChange={priceChangeHandler} />
         <PriceField label={DICTIONARY[lang].night} name="night" value={price.night} onChange={priceChangeHandler} />
         <PriceField label={DICTIONARY[lang].day_night} name="day_night" value={price.day_night} onChange={priceChangeHandler} />
