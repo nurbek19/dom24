@@ -8,7 +8,6 @@ import App from './App.jsx'
 import OwnerAdvertisementsList from './pages/OwnerAdvertisementsList.jsx'
 import CreateAdvertisement from './pages/CreateAdvertisement.jsx'
 import UserSearchPage from './pages/UserSearchPage.jsx';
-import SearchResultPage from './pages/SearchResultPage.jsx';
 
 WebApp.ready();
 
@@ -29,10 +28,6 @@ const router = createBrowserRouter([
       {
         path: "/dom24/search",
         element: <UserSearchPage />,
-      },
-      {
-        path: "/dom24/search/result",
-        element: <SearchResultPage />,
       }
     ],
   },

@@ -16,12 +16,19 @@ const SearchResultPage = ({ lang, data = [], loading, isData, itemIndex }) => {
     const [objIndex, setIndex] = useState(null);
 
     useEffect(() => {
-        const timeoutId = setTimeout(() => {
-            setIndex(itemIndex);
-        }, 2500);
+        let timeoutId;
+
+        if (itemIndex !== null) {
+            timeoutId = setTimeout(() => {
+                setIndex(itemIndex);
+            }, 2500);
+        } else {
+            clearTimeout(timeoutId);
+            setIndex(null);
+        }
 
         return () => clearTimeout(timeoutId);
-    }, [loading]);
+    }, [itemIndex]);
 
     if (loading) {
         return (

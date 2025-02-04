@@ -5,7 +5,7 @@ import '../App.css';
 
 
 function ImageSlider({ imageIds }) {
-    const [emblaRef] = useEmblaCarousel({ loop: true }, [Autoplay({ delay: 2000 })]);
+    const [emblaRef] = useEmblaCarousel({ loop: true }, [Autoplay({ delay: 2000, stopOnInteraction: false })]);
 
     return (
         <div className="card-image-contaner">

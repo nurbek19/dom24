@@ -42,33 +42,57 @@ const UserSearchPage = () => {
         }
       }, [city, rentType, room]);
 
-    const navigateHandler = useCallback(() => {
-        const id = searchParams.get('user_id');
-        
-        setLoading(true);
-        setIsDisabled(true);
 
-        axios.get(`https://ainur-khakimov.ru/dom24/houses?city=${city}&rent_type=${rentType}&room_count=${room}&chat_id=${id}`).then((res) => {
+      useEffect(() => {
+        console.log('i fire once');
+        const id = searchParams.get('user_id');
+        // setLoading(true);
+
+        axios.get(`https://ainur-khakimov.ru/dom24/houses?city=${city}&chat_id=${id}`).then((res) => {
             if (res.data) {
-                console.log(res.data);
-                const index = Math.floor(Math.random() * 3);
+                const index = Math.floor(Math.random() * 2);
+                console.log(index);
+                
                 setIndex(index);
 
-                if (res.data.length > 2) {
+                if (res.data.length >= 2) {
                     const copyObj = { ...res.data[index] };
                     copyObj.active = !copyObj.active;
-
-                    console.log(copyObj);
 
                     res.data[index] = copyObj;
                 }
 
 
+                setData(res.data);
+            } else {
+                setData([]);
+            }
+        })
+      }, []);
+
+    const navigateHandler = useCallback(() => {
+        const id = searchParams.get('user_id');
+        
+        setLoading(true);
+        setIsDisabled(true);
+        setIndex(null);
+
+        axios.get(`https://ainur-khakimov.ru/dom24/houses?city=${city}&rent_type=${rentType}&room_count=${room}&chat_id=${id}`).then((res) => {
+            if (res.data) {
+                // const index = Math.floor(Math.random() * 3);
+                // setIndex(index);
+
+                // if (res.data.length > 2) {
+                //     const copyObj = { ...res.data[index] };
+                //     copyObj.active = !copyObj.active;
+
+                //     res.data[index] = copyObj;
+                // }
+
+
                 setLoading(false);
                 setData(res.data);
                 setIsData(false);
-
-                console.log(res.data);
             } else {
                 setData([]);
                 setIsData(true);
