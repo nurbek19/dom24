@@ -1,5 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import WebApp from '@twa-dev/sdk';
+import { DayPicker } from "react-day-picker";
+import { format } from "date-fns";
+import "react-day-picker/style.css";
+import { ru } from "react-day-picker/locale";
 import { useIMask } from 'react-imask';
 import deepEqual from 'deep-equal';
 
@@ -18,6 +22,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
   const [price, setPrice] = useState({ ...doc.price });
   const [data, setData] = useState(null);
   const [name, setName] = useState(doc.name ? doc.name : '');
+  const [selected, setSelected] = useState(doc.book ?? []);
 
   const {
     ref,
@@ -131,7 +136,16 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       // WebApp.offEvent('mainButtonClicked', onSendData);
     };
 
-  }, [isFormValid])
+  }, [isFormValid]);
+
+
+  const bookedDays = useMemo(() => {
+    if (!item.book) {
+        return [];
+    }
+
+    return item.book.map((date) => new Date(date));
+}, [item.book]);
 
 
   return (
@@ -201,6 +215,22 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
         <PriceField label={DICTIONARY[lang].night} name="night" value={price.night} onChange={priceChangeHandler} />
         <PriceField label={DICTIONARY[lang].day_night} name="day_night" value={price.day_night} onChange={priceChangeHandler} />
       </div>
+
+      <div className='book-calendar'>
+                      <DayPicker
+                          locale={ru}
+                          mode="multiple"
+                          selected={selected}
+                          onSelect={setSelected}
+                          disabled={[{ before: new Date() }, ...bookedDays]}
+                          modifiers={{
+                              booked: bookedDays
+                          }}
+                          modifiersClassNames={{
+                              booked: "my-booked-class"
+                          }}
+                      />
+                      </div>
     </div>
   )
 }

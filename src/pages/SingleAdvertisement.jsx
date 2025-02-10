@@ -4,7 +4,7 @@ import axios from 'axios';
 import { DayPicker } from "react-day-picker";
 import { format } from "date-fns";
 import "react-day-picker/style.css";
-import { ru, se } from "react-day-picker/locale";
+import { ru } from "react-day-picker/locale";
 import { useSearchParams } from 'react-router-dom';
 import { useIMask } from 'react-imask';
 import ImageSlider from "../components/ImageSlider";
@@ -91,7 +91,6 @@ const SingleAdvertisement = ({ item, lang, onBackHandler }) => {
     }, [isValid]);
 
 
-    console.log(isValid, phone);
     return (
         <div className='search-container'>
             <div className="back-button" onClick={onBackHandler}>« {DICTIONARY[lang].back}</div>
