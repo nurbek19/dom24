@@ -72,7 +72,7 @@ const SingleAdvertisement = ({ item, lang, onBackHandler }) => {
     }, [phone, selected]);
 
     const isValid = useMemo(() => {
-        return Boolean(phone && selected.length);
+        return phone.length === 15 && selected.length;
     }, [selected, phone]);
 
     useEffect(() => {
@@ -89,6 +89,8 @@ const SingleAdvertisement = ({ item, lang, onBackHandler }) => {
             WebApp.MainButton.hide();
         };
     }, [isValid]);
+
+    console.log(phone);
 
 
     return (
@@ -161,8 +163,6 @@ const SingleAdvertisement = ({ item, lang, onBackHandler }) => {
 
                         <input type="tel" pattern="[0-9]*" noValidate id="phone" className="text-field" ref={ref} />
                     </div>
-
-                {isValid && <button onClick={onSendData}>send</button>}
             </div>
         </div>
     )
