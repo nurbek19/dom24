@@ -626,7 +626,7 @@ input[type=number] {
   font-size: medium;
 }
 
-.rdp-selected .rdp-day_button {
+.rdp-day.rdp-selected .rdp-day_button {
   border-radius: 0;
   border-color: var(--tg-theme-button-color);
   /* border-color: blue; */
