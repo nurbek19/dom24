@@ -1,24 +1,36 @@
-import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useMemo, useState, useEffect } from 'react';
+import WebApp from '@twa-dev/sdk';
 import axios from 'axios';
-import { emojiObj } from './OwnerAdvertisementsList';
+import { DayPicker } from "react-day-picker";
+import { format } from "date-fns";
+import "react-day-picker/style.css";
+import { ru, se } from "react-day-picker/locale";
+import { useSearchParams } from 'react-router-dom';
+import { useIMask } from 'react-imask';
 import ImageSlider from "../components/ImageSlider";
 import '../App.css';
 
 import { DICTIONARY } from './CreateAdvertisement';
+import clsx from 'clsx';
 
 const SingleAdvertisement = ({ item, lang, onBackHandler }) => {
     const [show, setShow] = useState(false);
     const [showText, setShowText] = useState(false);
-    const { state } = useLocation();
+    const [selected, setSelected] = useState(item.book ?? []);
+    const [searchParams] = useSearchParams();
+
+    const {
+        ref,
+        value: phone,
+    } = useIMask({ mask: '+{996}(000)000-000' });
 
     const callHandler = () => {
-        const { chat_id } = state;
+        const id = searchParams.get('user_id');
         const { _id, owner_id, phone } = item;
 
         setShow(true);
 
-        axios.post('https://ainur-khakimov.ru/dom24/houses/call', { house_id: _id, owner_id, phone, caller_id: parseInt(chat_id) });
+        axios.post('https://ainur-khakimov.ru/dom24/houses/call', { house_id: _id, owner_id, phone, caller_id: parseInt(id) });
     }
 
     const copyHandler = () => {
@@ -26,7 +38,60 @@ const SingleAdvertisement = ({ item, lang, onBackHandler }) => {
         setShowText(true);
     }
 
+    const bookedDays = useMemo(() => {
+        if (!item.book) {
+            return [];
+        }
 
+        return item.book.map((date) => new Date(date));
+    }, [item.book]);
+
+    const onSendData = () => {
+        const book = selected.map((date) => format(date, 'dd/mm/yyyy'));
+
+        console.log({
+            house_id : item._id,
+            book,
+            contact_phone: phone
+          });
+        
+
+        WebApp.sendData(JSON.stringify({
+            house_id : item._id,
+            book,
+            contact_phone: phone
+          }));
+    }
+
+    useEffect(() => {
+        WebApp.onEvent('mainButtonClicked', onSendData);
+
+        return () => {
+            WebApp.offEvent('mainButtonClicked', onSendData);
+        };
+    }, [phone, selected]);
+
+    const isValid = useMemo(() => {
+        return Boolean(phone && selected.length);
+    }, [selected, phone]);
+
+    useEffect(() => {
+        WebApp.MainButton.text = 'Забронировать';
+
+        if (isValid) {
+            WebApp.MainButton.show();
+
+        } else {
+            WebApp.MainButton.hide();
+        }
+
+        return () => {
+            WebApp.MainButton.hide();
+        };
+    }, [isValid]);
+
+
+    console.log(isValid, phone);
     return (
         <div className='search-container'>
             <div className="back-button" onClick={onBackHandler}>« {DICTIONARY[lang].back}</div>
@@ -75,6 +140,30 @@ const SingleAdvertisement = ({ item, lang, onBackHandler }) => {
                         </div>
                     </div>
                 </div>
+
+                <div className='book-calendar'>
+                <DayPicker
+                    locale={ru}
+                    mode="multiple"
+                    selected={selected}
+                    onSelect={setSelected}
+                    disabled={[{ before: new Date() }, ...bookedDays]}
+                    modifiers={{
+                        booked: bookedDays
+                    }}
+                    modifiersClassNames={{
+                        booked: "my-booked-class"
+                    }}
+                />
+                </div>
+
+                    <div className={clsx('field-wrapper phone-field', { 'show-number': selected.length })}>
+                        <label htmlFor="phone" className="field-label">{DICTIONARY[lang].phone}</label>
+
+                        <input type="tel" pattern="[0-9]*" noValidate id="phone" className="text-field" ref={ref} />
+                    </div>
+
+                {isValid && <button onClick={onSendData}>send</button>}
             </div>
         </div>
     )

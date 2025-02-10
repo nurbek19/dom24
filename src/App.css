@@ -601,3 +601,60 @@ input[type=number] {
   padding-top: 20px;
   padding-bottom: 20px;
 }
+
+.rdp-caption_label {
+  text-transform: capitalize;
+}
+
+.rdp-root {
+  display: flex;
+  justify-content: center;
+}
+
+.rdp-disabled.my-booked-class {
+  opacity: 1;
+}
+
+.my-booked-class .rdp-day_button {
+  border: 0;
+  border-radius: 0;
+  /* background-color: var(--tg-theme-button-color); */
+  background-color: blue;
+  /* color: var(--tg-theme-button-text-color); */
+  color: #fff;
+  font-weight: normal;
+  font-size: medium;
+}
+
+.rdp-selected .rdp-day_button {
+  border-radius: 0;
+  /* border-color: var(--tg-theme-button-color); */
+  border-color: blue;
+  /* color: var(--tg-theme-button-color); */
+  color: blue;
+  font-weight: normal;
+  font-size: medium;
+}
+
+.rdp-week .rdp-today:not(.rdp-outside) {
+  color: var(--tg-theme-button-color);
+}
+
+.rdp-button_next .rdp-chevron, .rdp-button_previous .rdp-chevron {
+  fill: var(--tg-theme-button-color);
+}
+
+.book-calendar {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.phone-field {
+  opacity: 0;
+  height: 0;
+}
+
+.show-number {
+  opacity: 1;
+  height: auto;
+}
