@@ -657,5 +657,8 @@ input[type=number] {
 .show-number {
   opacity: 1;
   height: auto;
+}
+
+.show-number input {
   background-color: var(--tg-theme-bg-color);
 }
