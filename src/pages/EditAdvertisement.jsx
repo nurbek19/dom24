@@ -140,12 +140,12 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
 
 
   const bookedDays = useMemo(() => {
-    if (!item.book) {
+    if (!doc.book) {
         return [];
     }
 
-    return item.book.map((date) => new Date(date));
-}, [item.book]);
+    return doc.book.map((date) => new Date(date));
+}, [doc.book]);
 
 
   return (
