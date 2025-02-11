@@ -662,3 +662,21 @@ input[type=number] {
 .show-number input {
   background-color: var(--tg-theme-bg-color);
 }
+
+.days-container {
+  display: grid;
+    grid-template-columns: max-content max-content;
+    gap: 5px 10px;
+}
+
+.day-badge {
+  background-color: var(--tg-theme-button-color);
+    /* background-color: blue; */
+
+    font-size: 14px;
+    color: var(--tg-theme-button-text-color);
+    text-align: center;
+    
+    padding: 4px 8px;
+    border-radius: 8px;
+}

@@ -9,6 +9,7 @@ import SingleAdvertisement from './SingleAdvertisement';
 import notFoundImage from '../images/image.png';
 
 import { DICTIONARY } from './CreateAdvertisement';
+import RecentDays from '../components/RecentDays';
 
 
 const SearchResultPage = ({ lang, data = [], loading, isData, itemIndex }) => {
@@ -90,7 +91,9 @@ const SearchResultPage = ({ lang, data = [], loading, isData, itemIndex }) => {
                                     </div>
 
                                     <div className='card-status'>
-                                        {(objIndex !== null && index === objIndex) ? (
+                                        <p><span>Ближайшие свободные даты:</span></p>
+                                        <RecentDays books={item.books} />
+                                        {/* {(objIndex !== null && index === objIndex) ? (
                                             <div className={clsx(!item.active ? 'free' : 'busy', { 'animation': index === objIndex })}>
                                                 {!item.active ? DICTIONARY[lang].free : DICTIONARY[lang].busy}
                                             </div>
@@ -98,7 +101,7 @@ const SearchResultPage = ({ lang, data = [], loading, isData, itemIndex }) => {
                                             item.active ?
                                                 <div className={clsx('free')}>{DICTIONARY[lang].free}</div>
                                                 : <div className={clsx('busy')}>{DICTIONARY[lang].busy}</div>
-                                        )}
+                                        )} */}
                                     </div>
                                 </div>
                             </div>

@@ -16,7 +16,7 @@ import clsx from 'clsx';
 const SingleAdvertisement = ({ item, lang, onBackHandler }) => {
     const [show, setShow] = useState(false);
     const [showText, setShowText] = useState(false);
-    const [selected, setSelected] = useState(item.book ?? []);
+    const [selected, setSelected] = useState(item.books ?? []);
     const [searchParams] = useSearchParams();
 
     const {
@@ -39,12 +39,12 @@ const SingleAdvertisement = ({ item, lang, onBackHandler }) => {
     }
 
     const bookedDays = useMemo(() => {
-        if (!item.book) {
+        if (!item.books) {
             return [];
         }
 
-        return item.book.map((date) => new Date(date));
-    }, [item.book]);
+        return item.books.map((date) => new Date(date));
+    }, [item.books]);
 
     const onSendData = () => {
         const book = selected.map((date) => format(date, 'dd/mm/yyyy'));
@@ -90,9 +90,6 @@ const SingleAdvertisement = ({ item, lang, onBackHandler }) => {
         };
     }, [isValid]);
 
-    console.log(phone);
-
-
     return (
         <div className='search-container'>
             <div className="back-button" onClick={onBackHandler}>« {DICTIONARY[lang].back}</div>
@@ -119,9 +116,9 @@ const SingleAdvertisement = ({ item, lang, onBackHandler }) => {
                                 })}
                             </div>
 
-                            <div className='card-status'>
+                            {/* <div className='card-status'>
                                 {item.active ? <div className='free'>{DICTIONARY[lang].free}</div> : <div className='busy'>{DICTIONARY[lang].busy}</div>}
-                            </div>
+                            </div> */}
 
                             {show ? (
                                 <div>

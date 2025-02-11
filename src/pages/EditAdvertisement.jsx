@@ -22,7 +22,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
   const [price, setPrice] = useState({ ...doc.price });
   const [data, setData] = useState(null);
   const [name, setName] = useState(doc.name ? doc.name : '');
-  const [selected, setSelected] = useState(doc.book ?? []);
+  const [selected, setSelected] = useState(doc.books ?? []);
 
   const {
     ref,
@@ -140,12 +140,12 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
 
 
   const bookedDays = useMemo(() => {
-    if (!doc.book) {
+    if (!doc.books) {
         return [];
     }
 
-    return doc.book.map((date) => new Date(date));
-}, [doc.book]);
+    return doc.books.map((date) => new Date(date));
+}, [doc.books]);
 
 
   return (
