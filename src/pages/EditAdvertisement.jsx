@@ -143,7 +143,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
     return () => {
       WebApp.offEvent('mainButtonClicked', onSendData);
     };
-  }, [city, address, room, phone, price, doc])
+  }, [city, address, room, phone, price, selected, doc])
 
   useEffect(() => {
     WebApp.MainButton.text = 'Применить изменения';
