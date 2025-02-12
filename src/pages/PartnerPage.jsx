@@ -4,6 +4,7 @@ import axios from "axios";
 
 import ImageSlider from "../components/ImageSlider";
 import SingleAdvertisement from './SingleAdvertisement';
+import RecentDays from "../components/RecentDays";
 import { DICTIONARY } from './CreateAdvertisement';
 
 import '../App.css';
