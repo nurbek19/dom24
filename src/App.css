@@ -618,7 +618,7 @@ input[type=number] {
 .my-booked-class .rdp-day_button {
   border: 0;
   border-radius: 0;
-  background-color: #EE4E4E;;
+  background-color: #EE4E4E;
   /* background-color: blue; */
   color: var(--tg-theme-button-text-color);
   /* color: #fff; */

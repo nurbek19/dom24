@@ -92,7 +92,7 @@ const SearchResultPage = ({ lang, data = [], loading, isData, itemIndex }) => {
 
                                     <div className='card-status'>
                                         <p><span>{DICTIONARY[lang].recentDays}:</span></p>
-                                        <RecentDays books={item.books} />
+                                        <RecentDays books={item.books} id={item._id}/>
                                         {/* {(objIndex !== null && index === objIndex) ? (
                                             <div className={clsx(!item.active ? 'free' : 'busy', { 'animation': index === objIndex })}>
                                                 {!item.active ? DICTIONARY[lang].free : DICTIONARY[lang].busy}

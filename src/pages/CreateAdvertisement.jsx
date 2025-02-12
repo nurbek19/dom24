@@ -14,10 +14,11 @@ export const DICTIONARY = {
     phone: 'Номер телефона',
     roomCount: 'Количество комнат / мест',
     price: 'Цена',
-    day: 'День',
+    day: 'Будние дни',
     night: 'Ночь',
     hour: 'Час',
     day_night: 'Сутки',
+    day_off: 'Выходные дни',
     shortRoomCount: 'Кол-во комнат / мест',
     back: 'Назад',
     find: 'Найти',
@@ -45,6 +46,7 @@ export const DICTIONARY = {
     night: 'Түн',
     hour: 'Саат',
     day_night: 'Күн',
+    day_off: 'Иш эмес күндөр',
     shortRoomCount: 'Комната саны / орун',
     back: 'Артка кайтуу',
     find: 'Издөө',
@@ -74,6 +76,7 @@ function CreateAdvertisement() {
   const [price, setPrice] = useState({
     hour: '',
     day: '',
+    day_off: '',
     night: '',
     day_night: ''
   });
@@ -262,8 +265,8 @@ function CreateAdvertisement() {
 
         {/* <PriceField label={DICTIONARY[lang].hour} name="hour" value={price.hour} onChange={priceChangeHandler} /> */}
         <PriceField label={DICTIONARY[lang].day} name="day" value={price.day} onChange={priceChangeHandler} />
-        <PriceField label={DICTIONARY[lang].night} name="night" value={price.night} onChange={priceChangeHandler} />
-        <PriceField label={DICTIONARY[lang].day_night} name="day_night" value={price.day_night} onChange={priceChangeHandler} />
+        <PriceField label={DICTIONARY[lang].day_off} name="day_off" value={price.day_off} onChange={priceChangeHandler} />
+        {/* <PriceField label={DICTIONARY[lang].day_night} name="day_night" value={price.day_night} onChange={priceChangeHandler} /> */}
       </div>
     </div>
   )

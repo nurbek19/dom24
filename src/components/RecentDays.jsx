@@ -4,7 +4,7 @@ import '../App.css';
 import { useMemo } from "react";
 
 
-function RecentDays({ books }) {
+function RecentDays({ books, id }) {
     const availableDates = useMemo(() => {
         if (!books) {
             return [];
@@ -18,16 +18,12 @@ function RecentDays({ books }) {
                 break;
             }
 
-            const bookedDay = books[i];
+            const day = format(addDays(new Date(), i), 'MM/dd/yyyy');
+                const isExist = books.includes(day);
 
-            if (bookedDay) {
-                const day = format(addDays(new Date(), i), 'MM/dd/yyyy');
-                const isSame = isEqual(new Date(day), new Date(bookedDay));
-
-                if (!isSame) {
+                if (!isExist) {
                     freeDays.push(day);
                 }
-            }
         }
 
         return freeDays;
@@ -47,7 +43,7 @@ function RecentDays({ books }) {
     return (
         <div className="days-container">
             {availableDates.map((date) => (
-                <div className="day-badge">{format(new Date(date), 'd MMM', { locale: ru })}</div>
+                <div key={date} className="day-badge">{format(new Date(date), 'd MMM', { locale: ru })}</div>
             ))}
         </div>
     )

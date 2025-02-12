@@ -139,9 +139,9 @@ function OwnerAdvertisementsList() {
     return (
         <div>
             {editDoc ? (
-                <div className="edit-modal">
+                // <div className="edit-modal">
                     <EditAdvertisement doc={editDoc} lang={lang} onBackHandler={() => setEditDoc(null)} />
-                </div>
+                // </div>
             ) : (
                 <div>
                     {data.map((item) => (
