@@ -382,8 +382,8 @@ input[type=number] {
 }
 
 .edit-button svg {
-  /* stroke: var(--tg-theme-button-color); */
-  stroke: blue;
+  stroke: var(--tg-theme-button-color);
+  /* stroke: blue; */
   width: 30px;
   height: 30px;
 }
