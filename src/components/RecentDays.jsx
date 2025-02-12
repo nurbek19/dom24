@@ -38,8 +38,8 @@ function RecentDays({ books }) {
     if (!books) {
         return (
             <div className="days-container">
-                <div className="day-badge">{format(new Date(), 'do MMM', { locale: ru })}</div>
-                <div className="day-badge">{format(addDays(new Date(), 1), 'do MMM', { locale: ru })}</div>
+                <div className="day-badge">{format(new Date(), 'd-MMM', { locale: ru })}</div>
+                <div className="day-badge">{format(addDays(new Date(), 1), 'd-MMM', { locale: ru })}</div>
             </div>
         )
     }
@@ -47,7 +47,7 @@ function RecentDays({ books }) {
     return (
         <div className="days-container">
             {availableDates.map((date) => (
-                <div className="day-badge">{format(new Date(date), 'do MMM', { locale: ru })}</div>
+                <div className="day-badge">{format(new Date(date), 'd MMM', { locale: ru })}</div>
             ))}
         </div>
     )

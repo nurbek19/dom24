@@ -1,60 +1,44 @@
-
-import { useEffect, useState } from 'react';
-import '../App.css';
-import clsx from 'clsx';
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import axios from "axios";
 
 import ImageSlider from "../components/ImageSlider";
 import SingleAdvertisement from './SingleAdvertisement';
-
-import notFoundImage from '../images/image.png';
-
 import { DICTIONARY } from './CreateAdvertisement';
-import RecentDays from '../components/RecentDays';
 
+import '../App.css';
 
-const SearchResultPage = ({ lang, data = [], loading, isData, itemIndex }) => {
+const PartnerPage = () => {
+    const [searchParams] = useSearchParams();
+    const [data, setData] = useState([]);
     const [activeDoc, setActiveDoc] = useState(null);
-    const [objIndex, setIndex] = useState(null);
+    const [lang, setLang] = useState('ru');
+
+
+    const fetchData = () => {
+        const id = searchParams.get('owner_id');
+
+        axios.get(`https://ainur-khakimov.ru/dom24/houses?owner_id=${id}`).then((res) => {
+            if (res.data) {
+                setData(res.data);
+
+                console.log(res.data);
+            }
+        })
+    };
 
     useEffect(() => {
-        let timeoutId;
+        fetchData();
+    }, []);
 
-        if (itemIndex !== null) {
-            timeoutId = setTimeout(() => {
-                setIndex(itemIndex);
-            }, 2500);
-        } else {
-            clearTimeout(timeoutId);
-            setIndex(null);
+    useEffect(() => {
+        const language = searchParams.get('lang');
+    
+        if (language) {
+          setLang(language);
         }
-
-        return () => clearTimeout(timeoutId);
-    }, [itemIndex]);
-
-    if (loading) {
-        return (
-            <div className='loading-container'>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
-                    <circle fill="#FF156D" stroke="#FF156D" stroke-width="15" r="15" cx="40" cy="65">
-                        <animate attributeName="cy" calcMode="spline" dur="2" values="65;135;65;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.4"></animate>
-                    </circle>
-                    <circle fill="#FF156D" stroke="#FF156D" stroke-width="15" r="15" cx="100" cy="65"><animate attributeName="cy" calcMode="spline" dur="2" values="65;135;65;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.2"></animate></circle>
-                    <circle fill="#FF156D" stroke="#FF156D" stroke-width="15" r="15" cx="160" cy="65"><animate attributeName="cy" calcMode="spline" dur="2" values="65;135;65;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="0"></animate></circle>
-                </svg>
-            </div>
-        )
-    }
-
-    if (isData) {
-        return (
-            <div className='not-found-container'>
-                <div className="not-found-info">
-                    <img src={notFoundImage} alt="not found" />
-                    <p className='info-text'>{DICTIONARY[lang].notFound}</p>
-                </div>
-            </div>
-        )
-    }
+        
+      }, []);
 
     return (
         <div>
@@ -91,7 +75,7 @@ const SearchResultPage = ({ lang, data = [], loading, isData, itemIndex }) => {
                                     </div>
 
                                     <div className='card-status'>
-                                        <p><span>{DICTIONARY[lang].recentDays}:</span></p>
+                                        <p><span>Ближайшие свободные даты:</span></p>
                                         <RecentDays books={item.books} />
                                         {/* {(objIndex !== null && index === objIndex) ? (
                                             <div className={clsx(!item.active ? 'free' : 'busy', { 'animation': index === objIndex })}>
@@ -111,6 +95,6 @@ const SearchResultPage = ({ lang, data = [], loading, isData, itemIndex }) => {
             )}
         </div>
     )
-}
+};
 
-export default SearchResultPage;
+export default PartnerPage;

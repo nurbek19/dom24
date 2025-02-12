@@ -76,7 +76,7 @@ const SingleAdvertisement = ({ item, lang, onBackHandler }) => {
     }, [selected, phone]);
 
     useEffect(() => {
-        WebApp.MainButton.text = 'Забронировать';
+        WebApp.MainButton.text = DICTIONARY[lang].book;
 
         if (isValid) {
             WebApp.MainButton.show();
@@ -140,6 +140,7 @@ const SingleAdvertisement = ({ item, lang, onBackHandler }) => {
                 </div>
 
                 <div className='book-calendar'>
+                <p>{DICTIONARY[lang].bookLabel}:</p>
                 <DayPicker
                     locale={ru}
                     mode="multiple"
@@ -156,7 +157,7 @@ const SingleAdvertisement = ({ item, lang, onBackHandler }) => {
                 </div>
 
                     <div className={clsx('field-wrapper phone-field', { 'show-number': selected.length })}>
-                        <label htmlFor="phone" className="field-label">{DICTIONARY[lang].phone}</label>
+                        <label htmlFor="phone" className="field-label">{DICTIONARY[lang].bookPhone}</label>
 
                         <input type="tel" pattern="[0-9]*" noValidate id="phone" className="text-field" ref={ref} />
                     </div>

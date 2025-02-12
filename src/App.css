@@ -649,6 +649,15 @@ input[type=number] {
   padding-bottom: 10px;
 }
 
+.book-calendar > p {
+  margin: 0;
+    padding-bottom: 5px;
+
+    font-size: 14px;
+    color: var(--tg-theme-text-color);
+    font-weight: 600;
+}
+
 .phone-field {
   opacity: 0;
   height: 0;
