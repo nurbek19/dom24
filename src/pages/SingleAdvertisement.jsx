@@ -16,7 +16,7 @@ import clsx from 'clsx';
 const SingleAdvertisement = ({ item, lang, onBackHandler }) => {
     const [show, setShow] = useState(false);
     const [showText, setShowText] = useState(false);
-    const [selected, setSelected] = useState(item.books ?? []);
+    const [selected, setSelected] = useState([]);
     const [searchParams] = useSearchParams();
 
     const {

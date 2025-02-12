@@ -618,7 +618,7 @@ input[type=number] {
 .my-booked-class .rdp-day_button {
   border: 0;
   border-radius: 0;
-  background-color: var(--tg-theme-button-color);
+  background-color: #EE4E4E;;
   /* background-color: blue; */
   color: var(--tg-theme-button-text-color);
   /* color: #fff; */
@@ -627,11 +627,12 @@ input[type=number] {
 }
 
 .rdp-day.rdp-selected .rdp-day_button {
+  border: 0;
   border-radius: 0;
-  border-color: var(--tg-theme-button-color);
-  /* border-color: blue; */
-  color: var(--tg-theme-button-color);
-  /* color: blue; */
+  background-color: #799351;
+  /* background-color: blue; */
+  color: var(--tg-theme-button-text-color);
+  /* color: #fff; */
   font-weight: normal;
   font-size: medium;
 }
