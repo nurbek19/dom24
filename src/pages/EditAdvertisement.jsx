@@ -72,10 +72,10 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
 
     if (selected) {
       const selectedDays = selected.map((date) => {
-        return format(date, 'dd/MM/yyyy');
+        return format(date, 'MM/dd/yyyy');
       });
 
-      payload.books = [...payload.books, ...selectedDays];
+      payload.books = selectedDays;
     }
 
     console.log(payload);
@@ -86,6 +86,12 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
   useEffect(() => {
     WebApp.expand();
     setValue(doc.phone);
+
+    if (doc.books) {
+      const dates = doc.books.map((date) => new Date(date))
+      setSelected(dates);
+    }
+
   }, []);
 
   const isFormValid = useMemo(() => {
@@ -103,15 +109,12 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       }
     }
 
-    let selectedDays = [];
-
-    if (doc.books) {
-      selectedDays = [ ...doc.books ];
-    }
+    const selectedDays = [];
 
     if (selected.length) {
+      console.log(selected);
       selected.forEach((date) => {
-        const formattedDate = format(date, 'dd/MM/yyyy');
+        const formattedDate = format(date, 'MM/dd/yyyy');
 
         selectedDays.push(formattedDate);
       })
@@ -136,9 +139,6 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       name: doc.name ? doc.name : '',
       books: doc.books ? doc.books : []
     }
-
-    console.log('Price', price, doc.price, pricesObj);
-    console.log(payload, docObj);
 
     const isObjectChanged = deepEqual(payload, docObj);
 
@@ -170,6 +170,12 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
     };
 
   }, [isFormValid]);
+
+  const handleSelect = (days) => {
+    console.log(days);
+
+    setSelected(days);
+  };
 
 
   return (
@@ -245,14 +251,14 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
           locale={ru}
           mode="multiple"
           selected={selected}
-          onSelect={setSelected}
-          disabled={[{ before: new Date() }, ...bookedDays]}
-          modifiers={{
-            booked: bookedDays
-          }}
-          modifiersClassNames={{
-            booked: "my-booked-class"
-          }}
+          onSelect={handleSelect}
+          disabled={[{ before: new Date() }]}
+          // modifiers={{
+          //   booked: bookedDays
+          // }}
+          // modifiersClassNames={{
+          //   booked: "my-booked-class"
+          // }}
         />
       </div>
     </div>

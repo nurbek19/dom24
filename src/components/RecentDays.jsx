@@ -21,7 +21,7 @@ function RecentDays({ books }) {
             const bookedDay = books[i];
 
             if (bookedDay) {
-                const day = format(addDays(new Date(), i), 'dd/MM/yyyy');
+                const day = format(addDays(new Date(), i), 'MM/dd/yyyy');
                 const isSame = isEqual(new Date(day), new Date(bookedDay));
 
                 if (!isSame) {

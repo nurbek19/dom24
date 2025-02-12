@@ -47,7 +47,7 @@ const SingleAdvertisement = ({ item, lang, onBackHandler }) => {
     }, [item.books]);
 
     const onSendData = () => {
-        const books = selected.map((date) => format(date, 'dd/MM/yyyy'));
+        const books = selected.map((date) => format(date, 'MM/dd/yyyy'));
 
         console.log({
             house_id : item._id,
