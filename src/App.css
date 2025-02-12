@@ -689,3 +689,14 @@ input[type=number] {
     padding: 4px 8px;
     border-radius: 8px;
 }
+
+.partner-calendar .rdp-day.rdp-selected .rdp-day_button {
+  border: 0;
+  border-radius: 0;
+  background-color: #EE4E4E;
+  /* background-color: blue; */
+  color: var(--tg-theme-button-text-color);
+  /* color: #fff; */
+  font-weight: normal;
+  font-size: medium;
+}

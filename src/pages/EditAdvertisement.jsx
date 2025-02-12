@@ -246,7 +246,8 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
         <PriceField label={DICTIONARY[lang].day_night} name="day_night" value={price.day_night} onChange={priceChangeHandler} />
       </div>
 
-      <div className='book-calendar'>
+      <div className='book-calendar partner-calendar'>
+      <p>{DICTIONARY[lang].notBookLabel}:</p>
         <DayPicker
           locale={ru}
           mode="multiple"
