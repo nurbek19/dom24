@@ -72,7 +72,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
 
     if (selected) {
       const selectedDays = selected.map((date) => {
-        return format(date, 'dd/mm/yyyy');
+        return format(date, 'dd/MM/yyyy');
       });
 
       payload.books = [...payload.books, ...selectedDays];
@@ -111,7 +111,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
 
     if (selected.length) {
       selected.forEach((date) => {
-        const formattedDate = format(date, 'dd/mm/yyyy');
+        const formattedDate = format(date, 'dd/MM/yyyy');
 
         selectedDays.push(formattedDate);
       })
@@ -255,6 +255,8 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
           }}
         />
       </div>
+
+      <button onClick={onSendData}>Btn</button>
     </div>
   )
 }
