@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
+import WebApp from '@twa-dev/sdk';
 
 import ImageSlider from "../components/ImageSlider";
 import SingleAdvertisement from './SingleAdvertisement';
@@ -29,6 +30,7 @@ const PartnerPage = () => {
     };
 
     useEffect(() => {
+        WebApp.expand();
         fetchData();
     }, []);
 
