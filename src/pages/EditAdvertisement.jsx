@@ -22,7 +22,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
   const [price, setPrice] = useState({ ...doc.price });
   const [data, setData] = useState(null);
   const [name, setName] = useState(doc.name ? doc.name : '');
-  const [selected, setSelected] = useState(doc.books ?? []);
+  const [selected, setSelected] = useState([]);
 
   const {
     ref,
@@ -54,11 +54,20 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       address,
       phone,
       room_count: parseInt(room),
-      price: pricesObj
+      price: pricesObj,
+      books: doc.books ? doc.books : []
     };
 
     if (name) {
       payload.name = name;
+    }
+
+    if (selected) {
+      const selectedDays = selected.forEach((date) => {
+        return format(date, 'dd/mm/yyyy');
+      });
+
+      payload.books = [...payload.books, ...selectedDays];
     }
 
     console.log(payload);
@@ -86,6 +95,20 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       }
     }
 
+    let selectedDays = [];
+
+    if (doc.books) {
+      selectedDays = [ ...doc.books ];
+    }
+
+    if (selected.length) {
+      selected.forEach((date) => {
+        const formattedDate = format(date, 'dd/mm/yyyy');
+
+        selectedDays.push(formattedDate);
+      })
+    }
+
     const payload = {
       city,
       address,
@@ -93,6 +116,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       room_count: parseInt(room),
       price: pricesObj,
       name,
+      books: selectedDays
     };
 
     const docObj = {
@@ -102,6 +126,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       room_count: parseInt(doc.room_count),
       price: doc.price,
       name: doc.name ? doc.name : '',
+      books: doc.books ? doc.books : []
     }
 
     console.log('Price', price, doc.price, pricesObj);
@@ -110,7 +135,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
     const isObjectChanged = deepEqual(payload, docObj);
 
     return city && address && room && phone && name && isSomeprice && !isObjectChanged;
-  }, [city, address, room, phone, price, name, doc]);
+  }, [city, address, room, phone, price, name, selected, doc]);
 
   useEffect(() => {
     WebApp.onEvent('mainButtonClicked', onSendData);
@@ -141,11 +166,11 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
 
   const bookedDays = useMemo(() => {
     if (!doc.books) {
-        return [];
+      return [];
     }
 
     return doc.books.map((date) => new Date(date));
-}, [doc.books]);
+  }, [doc.books]);
 
 
   return (
@@ -217,20 +242,20 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       </div>
 
       <div className='book-calendar'>
-                      <DayPicker
-                          locale={ru}
-                          mode="multiple"
-                          selected={selected}
-                          onSelect={setSelected}
-                          disabled={[{ before: new Date() }, ...bookedDays]}
-                          modifiers={{
-                              booked: bookedDays
-                          }}
-                          modifiersClassNames={{
-                              booked: "my-booked-class"
-                          }}
-                      />
-                      </div>
+        <DayPicker
+          locale={ru}
+          mode="multiple"
+          selected={selected}
+          onSelect={setSelected}
+          disabled={[{ before: new Date() }, ...bookedDays]}
+          modifiers={{
+            booked: bookedDays
+          }}
+          modifiersClassNames={{
+            booked: "my-booked-class"
+          }}
+        />
+      </div>
     </div>
   )
 }
