@@ -147,7 +147,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
 
   useEffect(() => {
     WebApp.MainButton.text = 'Применить изменения';
-    // WebApp.onEvent('mainButtonClicked', onSendData);
+    WebApp.onEvent('mainButtonClicked', onSendData);
 
     if (isFormValid) {
       WebApp.MainButton.show();
@@ -158,7 +158,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
 
     return () => {
       WebApp.MainButton.hide();
-      // WebApp.offEvent('mainButtonClicked', onSendData);
+      WebApp.offEvent('mainButtonClicked', onSendData);
     };
 
   }, [isFormValid]);

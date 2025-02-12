@@ -155,10 +155,10 @@ function OwnerAdvertisementsList() {
                                     <p><span>📍</span> {item.city}, {item.address}</p>
                                     <div className="card-actions-wrapper">
                                         <div className="card-actions">
-                                            <label className="switch">
+                                            {/* <label className="switch">
                                                 <input type="checkbox" checked={docStatuses[item._id]} onChange={(e) => statusChangeHandler(e, item._id)} />
                                                 <span className="slider round"></span>
-                                            </label>
+                                            </label> */}
 
                                             <div className="edit-button" onClick={() => setEditDoc(item)}>
                                                 <svg className="feather feather-edit"
