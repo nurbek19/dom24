@@ -30,6 +30,14 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
     setValue,
   } = useIMask({ mask: '+{996}(000)000-000' });
 
+  const bookedDays = useMemo(() => {
+    if (!doc.books) {
+      return [];
+    }
+
+    return doc.books.map((date) => new Date(date));
+  }, [doc.books]);
+
 
   const priceChangeHandler = (name, value) => {
     const copyObj = { ...price };
@@ -63,7 +71,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
     }
 
     if (selected) {
-      const selectedDays = selected.forEach((date) => {
+      const selectedDays = selected.map((date) => {
         return format(date, 'dd/mm/yyyy');
       });
 
@@ -143,11 +151,11 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
     return () => {
       WebApp.offEvent('mainButtonClicked', onSendData);
     };
-  }, [city, address, room, phone, price, selected, doc])
+  }, [city, address, room, phone, price, selected, doc]);
 
   useEffect(() => {
     WebApp.MainButton.text = 'Применить изменения';
-    WebApp.onEvent('mainButtonClicked', onSendData);
+    // WebApp.onEvent('mainButtonClicked', onSendData);
 
     if (isFormValid) {
       WebApp.MainButton.show();
@@ -158,19 +166,10 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
 
     return () => {
       WebApp.MainButton.hide();
-      WebApp.offEvent('mainButtonClicked', onSendData);
+      // WebApp.offEvent('mainButtonClicked', onSendData);
     };
 
   }, [isFormValid]);
-
-
-  const bookedDays = useMemo(() => {
-    if (!doc.books) {
-      return [];
-    }
-
-    return doc.books.map((date) => new Date(date));
-  }, [doc.books]);
 
 
   return (
