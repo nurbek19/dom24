@@ -75,82 +75,66 @@ function OwnerAdvertisementsList() {
         setDocStatus(copy);
     }
 
-    const onSendData = () => {
-        const changedDocs = [];
+    // const onSendData = () => {
+    //     const changedDocs = [];
 
-        data.forEach((item) => {
-            if ((item.active !== docStatuses[item._id])) {
-                changedDocs.push({ _id: item._id, active: docStatuses[item._id] })
-            }
-        });
+    //     data.forEach((item) => {
+    //         if ((item.active !== docStatuses[item._id])) {
+    //             changedDocs.push({ _id: item._id, active: docStatuses[item._id] })
+    //         }
+    //     });
 
-        console.log(...changedDocs);
+    //     console.log(...changedDocs);
 
-        // if (payload) {
-        WebApp.sendData(JSON.stringify(changedDocs));
-        // }
-    }
+    //     WebApp.sendData(JSON.stringify(changedDocs));
+    // }
 
-    const hasChanged = useMemo(() => {
-        const valid = data.some((item) => item.active !== docStatuses[item._id]);
+    // const hasChanged = useMemo(() => {
+    //     const valid = data.some((item) => item.active !== docStatuses[item._id]);
 
-        // if (valid) {
-        //     const changedDocs = [];
+    //     return valid;
 
-        //     data.forEach((item) => {
-        //         if ((item.active !== docStatuses[item._id])) {
-        //             changedDocs.push({ _id: item._id, active: docStatuses[item._id] })
-        //         }
-        //     });
+    // }, [docStatuses, data])
 
-        //     setPayload(changedDocs);
-        // } else {
-        //     setPayload(null);
-        // }
+    // useEffect(() => {
+    //     const valid = data.some((item) => item.active !== docStatuses[item._id]);
 
-        return valid;
+    //     if (valid) {
+    //         const changedDocs = [];
 
-    }, [docStatuses, data])
+    //         data.forEach((item) => {
+    //             if ((item.active !== docStatuses[item._id])) {
+    //                 changedDocs.push({ _id: item._id, active: docStatuses[item._id] })
+    //             }
+    //         });
 
-    useEffect(() => {
-        const valid = data.some((item) => item.active !== docStatuses[item._id]);
+    //         setPayload(changedDocs);
+    //         WebApp.onEvent('mainButtonClicked', onSendData);
+    //     } else {
+    //         setPayload(null);
+    //     }
 
-        if (valid) {
-            const changedDocs = [];
+    //     return () => {
+    //         WebApp.offEvent('mainButtonClicked', onSendData);
+    //     };
+    // }, [docStatuses, data])
 
-            data.forEach((item) => {
-                if ((item.active !== docStatuses[item._id])) {
-                    changedDocs.push({ _id: item._id, active: docStatuses[item._id] })
-                }
-            });
+    // useEffect(() => {
+    //     WebApp.MainButton.text = 'Обновить статусы';
+    //     // WebApp.onEvent('mainButtonClicked', onSendData);
 
-            setPayload(changedDocs);
-            WebApp.onEvent('mainButtonClicked', onSendData);
-        } else {
-            setPayload(null);
-        }
+    //     if (hasChanged) {
+    //         WebApp.MainButton.show();
 
-        return () => {
-            WebApp.offEvent('mainButtonClicked', onSendData);
-        };
-    }, [docStatuses, data])
+    //     } else {
+    //         WebApp.MainButton.hide();
+    //     }
 
-    useEffect(() => {
-        WebApp.MainButton.text = 'Обновить статусы';
-        // WebApp.onEvent('mainButtonClicked', onSendData);
-
-        if (hasChanged) {
-            WebApp.MainButton.show();
-
-        } else {
-            WebApp.MainButton.hide();
-        }
-
-        return () => {
-            WebApp.MainButton.hide();
-            // WebApp.offEvent('mainButtonClicked', onSendData);
-        };
-    }, [hasChanged]);
+    //     return () => {
+    //         WebApp.MainButton.hide();
+    //         // WebApp.offEvent('mainButtonClicked', onSendData);
+    //     };
+    // }, [hasChanged]);
 
     return (
         <div>
@@ -171,10 +155,10 @@ function OwnerAdvertisementsList() {
                                     <p><span>📍</span> {item.city}, {item.address}</p>
                                     <div className="card-actions-wrapper">
                                         <div className="card-actions">
-                                            {/* <label className="switch">
+                                            <label className="switch">
                                                 <input type="checkbox" checked={docStatuses[item._id]} onChange={(e) => statusChangeHandler(e, item._id)} />
                                                 <span className="slider round"></span>
-                                            </label> */}
+                                            </label>
 
                                             <div className="edit-button" onClick={() => setEditDoc(item)}>
                                                 <svg className="feather feather-edit"
