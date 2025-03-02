@@ -24,6 +24,10 @@ const PartnerPage = () => {
             if (res.data) {
                 setData(res.data);
 
+                if (res.data.length === 1) {
+                    setActiveDoc(res.data[0])
+                }
+ 
                 console.log(res.data);
             }
         })
@@ -47,7 +51,7 @@ const PartnerPage = () => {
         <div>
             {activeDoc ? (
                 <div className="edit-modal">
-                    <SingleAdvertisement item={activeDoc} lang={lang} onBackHandler={() => setActiveDoc(null)} />
+                    <SingleAdvertisement item={activeDoc} lang={lang} onBackHandler={() => setActiveDoc(null)} hideButton={data.length === 1} />
                 </div>
             ) : (
                 <div className='card-list'>

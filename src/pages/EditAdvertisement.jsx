@@ -148,15 +148,28 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       }
     }
 
-    const selectedDays = [];
+    const selectedDays = {};
+
+    // if (selected.length) {
+    //   console.log(selected);
+    //   selected.forEach((date) => {
+    //     const formattedDate = format(date, 'MM/dd/yyyy');
+
+    //     selectedDays.push(formattedDate);
+    //   })
+    // }
 
     if (selected.length) {
-      console.log(selected);
-      selected.forEach((date) => {
-        const formattedDate = format(date, 'MM/dd/yyyy');
+      const booksCopy = { ...doc.books };
 
-        selectedDays.push(formattedDate);
-      })
+      const selectedDates = selected.map((date) => format(date, 'MM/dd/yyyy'));
+
+      houses.forEach((value) => {
+        booksCopy[value] = selectedDates;
+      });
+
+
+      selectedDays = booksCopy;
     }
 
     const payload = {
@@ -181,8 +194,8 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
 
     const isObjectChanged = deepEqual(payload, docObj);
 
-    return city && address && count && phone && name && isSomeprice && !isObjectChanged;
-  }, [city, address, count, phone, price, name, selected, doc]);
+    return city && address && phone && name && isSomeprice && !isObjectChanged;
+  }, [city, address, phone, price, name, selected, doc]);
 
   useEffect(() => {
     WebApp.onEvent('mainButtonClicked', onSendData);
