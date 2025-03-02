@@ -133,6 +133,12 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
 
   }, [houses]);
 
+  useEffect(() => {
+    if (doc.count === 1) {
+        setHouses([1]);
+    }
+}, [])
+
   const isFormValid = useMemo(() => {
     const isSomeprice = Object.values(price).some((value) => value);
 
@@ -271,15 +277,16 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
         {/* <PriceField label={DICTIONARY[lang].day_night} name="day_night" value={price.day_night} onChange={priceChangeHandler} /> */}
       </div>
 
-
-      <div className='houses-container'>
-        <p>Выберите номер дома для бронирования:</p>
-        <div className='houses-list'>
-          {housesList.map((obj) => (
-            <HouseItem key={obj.number} number={obj.number} disabled={obj.disabled} setHouses={setHouses} />
-          ))}
-        </div>
-      </div>
+      {housesList.length !== 1 && (
+                    <div className='houses-container'>
+                    <p>Выберите номер дома для бронирования:</p>
+                    <div className='houses-list'>
+                        {housesList.map((obj) => (
+                            <HouseItem key={obj.number} number={obj.number} disabled={obj.disabled} setHouses={setHouses} />
+                        ))}
+                    </div>
+                    </div>
+                )}
 
       <div className='book-calendar partner-calendar'>
         <p>{DICTIONARY[lang].notBookLabel}:</p>
@@ -297,6 +304,8 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
         // }}
         />
       </div>
+
+      {/* <button onClick={onSendData}>btn</button> */}
     </div>
   )
 }

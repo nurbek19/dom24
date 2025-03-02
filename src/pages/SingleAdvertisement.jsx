@@ -117,6 +117,12 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
     }
 
     useEffect(() => {
+        if (item.count === 1) {
+            setHouses([1]);
+        }
+    }, [])
+
+    useEffect(() => {
         WebApp.onEvent('mainButtonClicked', onSendData);
 
         return () => {
@@ -147,6 +153,7 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
 
         setSelected(newSelected);
       };
+
 
     return (
         <div className='search-container'>
@@ -218,14 +225,16 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
                     />
                 </div>
 
-                <div className='houses-container'>
-                <p>Выберите номер дома для бронирования:</p>
-                <div className='houses-list'>
-                    {housesList.map((obj) => (
-                        <HouseItem number={obj.number} disabled={obj.disabled} setHouses={setHouses} />
-                    ))}
-                </div>
-                </div>
+                {housesList.length !== 1 && (
+                    <div className='houses-container'>
+                    <p>Выберите номер дома для бронирования:</p>
+                    <div className='houses-list'>
+                        {housesList.map((obj) => (
+                            <HouseItem key={obj.number} number={obj.number} disabled={obj.disabled} setHouses={setHouses} />
+                        ))}
+                    </div>
+                    </div>
+                )}
 
                 {/* <div className="field-wrapper">
                     <span className="field-label">Имя</span>
@@ -238,6 +247,8 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
 
                     <input type="tel" pattern="[0-9]*" noValidate id="phone" className="text-field" ref={ref} />
                 </div>
+
+                {/* <button onClick={onSendData}>btn</button> */}
             </div>
         </div>
     )
