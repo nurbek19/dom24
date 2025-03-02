@@ -746,3 +746,8 @@ input[type=number] {
     color: var(--tg-theme-text-color);
     font-weight: 600;
 }
+
+.card-detail .bold-title {
+  font-size: 18px;
+  font-weight: 600;
+}
