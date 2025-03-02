@@ -50,14 +50,21 @@ const SingleAdvertisement = ({ item, lang, onBackHandler }) => {
     }, [item.books]);
 
     const onSendData = () => {
-        const books = selected.map((date) => format(date, 'MM/dd/yyyy'));
+        const selectedDates = selected.map((date) => format(date, 'MM/dd/yyyy'));
+
+        const books = houses.reduce((acc, value) => {
+            console.log(acc, value);    
+
+            acc[value] = selectedDates;
+
+            return acc;
+        }, {});
 
         console.log({
             house_id: item._id,
             books,
             contact_phone: phone
         });
-
 
         WebApp.sendData(JSON.stringify({
             house_id: item._id,
@@ -92,8 +99,6 @@ const SingleAdvertisement = ({ item, lang, onBackHandler }) => {
             WebApp.MainButton.hide();
         };
     }, [isValid]);
-
-    console.log('Avtandilov', houses);
 
     return (
         <div className='search-container'>
@@ -178,6 +183,8 @@ const SingleAdvertisement = ({ item, lang, onBackHandler }) => {
 
                     <input type="tel" pattern="[0-9]*" noValidate id="phone" className="text-field" ref={ref} />
                 </div>
+
+                <button onClick={onSendData}>btn</button>
             </div>
         </div>
     )
