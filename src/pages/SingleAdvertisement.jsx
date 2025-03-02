@@ -42,12 +42,54 @@ const SingleAdvertisement = ({ item, lang, onBackHandler }) => {
     }
 
     const bookedDays = useMemo(() => {
-        // if (!item.books) {
+        if (!item.books) {
             return [];
-        // }
+        }
 
-        // return item.books.map((date) => new Date(date));
-    }, [item.books]);
+        if (houses.length) {
+            const housesBookedDays = houses.reduce((acc, value) => {
+                const booksByHouseNumber = item.books[value];
+                acc.push(...booksByHouseNumber);
+
+                return acc;
+            }, []);
+
+            const setFromArr = new Set(housesBookedDays);
+
+            return Array.from(setFromArr).map((d) => new Date(d));
+        }
+
+        const commonDates = Object.values(item.books);
+
+        if (commonDates.length === 0) {
+            return 0;
+        }
+
+        return commonDates.reduce((acc, arr) => acc.filter(el => arr.includes(el))).map(date => new Date(date));
+
+    }, [item.books, houses]);
+
+
+    const housesList = useMemo(() => {
+        if (!item.books) {
+            return [];
+        }
+
+        if (selected.length) {
+            const arr = [];
+            const selectedDates = selected.map((date) => format(date, 'MM/dd/yyyy'));
+
+            Object.keys(item.books).forEach((key) => {
+                const disabled = selectedDates.some((d) => item.books[key].includes(d));
+
+                arr.push({ number: key, disabled });
+            });
+
+            return arr;
+        }
+
+        return Object.keys(item.books).map((v) => ({ number: v, disabled: false }));
+    }, [item.books, selected])
 
     const onSendData = () => {
         const selectedDates = selected.map((date) => format(date, 'MM/dd/yyyy'));
@@ -100,6 +142,11 @@ const SingleAdvertisement = ({ item, lang, onBackHandler }) => {
         };
     }, [isValid]);
 
+    const handleSelect = (newSelected) => {
+
+        setSelected(newSelected);
+      };
+
     return (
         <div className='search-container'>
             <div className="back-button" onClick={onBackHandler}>« {DICTIONARY[lang].back}</div>
@@ -149,10 +196,13 @@ const SingleAdvertisement = ({ item, lang, onBackHandler }) => {
                     </div>
                 </div>
 
+                <div className='houses-container'>
+                <p>Выберите номер дома для бронирования:</p>
                 <div className='houses-list'>
-                    {[1, 2, 3].map((v) => (
-                        <HouseItem number={v} setHouses={setHouses} />
+                    {housesList.map((obj) => (
+                        <HouseItem number={obj.number} disabled={obj.disabled} setHouses={setHouses} />
                     ))}
+                </div>
                 </div>
 
                 <div className='book-calendar'>
@@ -161,7 +211,7 @@ const SingleAdvertisement = ({ item, lang, onBackHandler }) => {
                         locale={ru}
                         mode="multiple"
                         selected={selected}
-                        onSelect={setSelected}
+                        onSelect={handleSelect}
                         disabled={[{ before: new Date() }, ...bookedDays]}
                         modifiers={{
                             booked: bookedDays
@@ -172,19 +222,17 @@ const SingleAdvertisement = ({ item, lang, onBackHandler }) => {
                     />
                 </div>
 
-                <div className="field-wrapper">
+                {/* <div className="field-wrapper">
                     <span className="field-label">Имя</span>
 
                     <input type="text" id="name" className="text-field" value={name} onChange={(e) => setName(e.target.value)} />
-                </div>
+                </div> */}
 
                 <div className={clsx('field-wrapper phone-field', { 'show-number': selected.length })}>
                     <label htmlFor="phone" className="field-label">{DICTIONARY[lang].bookPhone}</label>
 
                     <input type="tel" pattern="[0-9]*" noValidate id="phone" className="text-field" ref={ref} />
                 </div>
-
-                <button onClick={onSendData}>btn</button>
             </div>
         </div>
     )

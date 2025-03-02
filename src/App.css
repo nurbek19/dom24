@@ -724,3 +724,21 @@ input[type=number] {
 .house-active svg {
   fill: #799351;
 }
+
+.house-disabled svg {
+  fill: #EE4E4E;
+}
+
+.houses-container {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.houses-container > p {
+  margin: 0;
+    padding-bottom: 10px;
+
+    font-size: 14px;
+    color: var(--tg-theme-text-color);
+    font-weight: 600;
+}
