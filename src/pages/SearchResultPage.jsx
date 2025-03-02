@@ -9,7 +9,7 @@ import SingleAdvertisement from './SingleAdvertisement';
 import notFoundImage from '../images/image.png';
 
 import { DICTIONARY } from './CreateAdvertisement';
-import RecentDays from '../components/RecentDays';
+// import RecentDays from '../components/RecentDays';
 
 
 const SearchResultPage = ({ lang, data = [], loading, isData, itemIndex }) => {
@@ -90,9 +90,9 @@ const SearchResultPage = ({ lang, data = [], loading, isData, itemIndex }) => {
                                         })}
                                     </div>
 
-                                    <div className='card-status'>
+                                    {/* <div className='card-status'>
                                         <p><span>{DICTIONARY[lang].recentDays}:</span></p>
-                                        <RecentDays books={item.books} id={item._id}/>
+                                        <RecentDays books={item.books} id={item._id}/> */}
                                         {/* {(objIndex !== null && index === objIndex) ? (
                                             <div className={clsx(!item.active ? 'free' : 'busy', { 'animation': index === objIndex })}>
                                                 {!item.active ? DICTIONARY[lang].free : DICTIONARY[lang].busy}
@@ -102,7 +102,7 @@ const SearchResultPage = ({ lang, data = [], loading, isData, itemIndex }) => {
                                                 <div className={clsx('free')}>{DICTIONARY[lang].free}</div>
                                                 : <div className={clsx('busy')}>{DICTIONARY[lang].busy}</div>
                                         )} */}
-                                    </div>
+                                    {/* </div> */}
                                 </div>
                             </div>
                         </div>

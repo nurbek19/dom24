@@ -62,7 +62,7 @@ const PartnerPage = () => {
                                     <p>
                                         <a href={`https://2gis.kg/search/${encodeURIComponent(item.city + ' ' + item.address)}`} target='_blank'><span>📍</span> {item.city}, {item.address}</a>
                                     </p>
-                                    <p><span>{DICTIONARY[lang].shortRoomCount}:</span> {item.room_count}</p>
+                                    {/* <p><span>{DICTIONARY[lang].shortRoomCount}:</span> {item.count}</p> */}
                                     {/* <p><span>📞</span> {item.phone}</p> */}
 
                                     <div className="card-prices">
@@ -77,8 +77,8 @@ const PartnerPage = () => {
                                         })}
                                     </div>
 
-                                    <div className='card-status'>
-                                        <p><span>Ближайшие свободные даты:</span></p>
+                                    {/* <div className='card-status'> */}
+                                        {/* <p><span>Ближайшие свободные даты:</span></p> */}
                                         {/* <RecentDays books={item.books} /> */}
                                         {/* {(objIndex !== null && index === objIndex) ? (
                                             <div className={clsx(!item.active ? 'free' : 'busy', { 'animation': index === objIndex })}>
@@ -89,7 +89,7 @@ const PartnerPage = () => {
                                                 <div className={clsx('free')}>{DICTIONARY[lang].free}</div>
                                                 : <div className={clsx('busy')}>{DICTIONARY[lang].busy}</div>
                                         )} */}
-                                    </div>
+                                    {/* </div> */}
                                 </div>
                             </div>
                         </div>
