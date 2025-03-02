@@ -33,21 +33,72 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
     setValue,
   } = useIMask({ mask: '+{996}(000)000-000' });
 
+  // const bookedDays = useMemo(() => {
+  //   if (!doc.books) {
+  //     return [];
+  //   }
+
+  //   return [];
+  // }, [doc.books]);
+
   const bookedDays = useMemo(() => {
     if (!doc.books) {
-      return [];
+        return [];
     }
 
-    return [];
-  }, [doc.books]);
+    // if (selected.length) {
+    //   setHouses([]);
+
+    //   return [];
+    // }
+
+    if (houses.length) {
+        const housesBookedDays = houses.reduce((acc, value) => {
+            const booksByHouseNumber = doc.books[value];
+            acc.push(...booksByHouseNumber);
+
+            return acc;
+        }, []);
+
+        const setFromArr = new Set(housesBookedDays);
+
+        // return Array.from(setFromArr).map((d) => new Date(d));
+        setSelected([...Array.from(setFromArr).map((d) => new Date(d))]);
+        return [];
+    } else {
+      setSelected([]);
+    }
+
+    const commonDates = Object.values(doc.books);
+
+    if (commonDates.length === 0) {
+        return;
+    }
+
+    return commonDates.reduce((acc, arr) => acc.filter(el => arr.includes(el))).map(date => new Date(date));
+
+}, [doc.books, houses]);
 
   const housesList = useMemo(() => {
     if (!doc.books) {
       return [];
     }
 
+  //   if (selected.length) {
+  //     const arr = [];
+  //     const selectedDates = selected.map((date) => format(date, 'MM/dd/yyyy'));
+
+  //     Object.keys(doc.books).forEach((key) => {
+  //         const disabled = selectedDates.some((d) => doc.books[key].includes(d));
+
+  //         arr.push({ number: key, disabled });
+  //     });
+
+  //     return arr;
+  // }
+
     return Object.keys(doc.books).map((v) => ({ number: v, disabled: false }));
-  }, [doc.books]);
+  }, [doc.books, selected]);
 
 
   const priceChangeHandler = (name, value) => {
@@ -99,39 +150,28 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
     WebApp.sendData(JSON.stringify(payload));
   };
 
-  useEffect(() => {
-    WebApp.expand();
-    setValue(doc.phone);
-
-    // if (doc.books) {
-    //   const dates = Object.values(doc.books).flat().map((d) => new Date(d));
-    //   setSelected(dates);
-
-    //   console.log(Object.values(doc.books));
-    // }
-
-  }, []);
+  
 
 
-  useEffect(() => {
-    if (houses.length) {
-      const housesBookedDays = houses.reduce((acc, value) => {
-        const booksByHouseNumber = doc.books[value];
-        acc.push(...booksByHouseNumber);
+  // useEffect(() => {
+  //   if (houses.length) {
+  //     const housesBookedDays = houses.reduce((acc, value) => {
+  //       const booksByHouseNumber = doc.books[value];
+  //       acc.push(...booksByHouseNumber);
 
-        return acc;
-      }, []);
+  //       return acc;
+  //     }, []);
 
-      const setFromArr = new Set(housesBookedDays);
+  //     const setFromArr = new Set(housesBookedDays);
 
-      const uniqueValues = Array.from(setFromArr).map((d) => new Date(d));
+  //     const uniqueValues = Array.from(setFromArr).map((d) => new Date(d));
 
-      setSelected(uniqueValues);
-    } else {
-      setSelected([]);
-    }
+  //     setSelected(uniqueValues);
+  //   } else {
+  //     setSelected([]);
+  //   }
 
-  }, [houses]);
+  // }, [houses]);
 
   useEffect(() => {
     if (doc.count === 1) {
@@ -230,10 +270,32 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
   }, [isFormValid]);
 
   const handleSelect = (days) => {
-    console.log(days);
-
     setSelected(days);
   };
+
+
+  useEffect(() => {
+    WebApp.expand();
+    setValue(doc.phone);
+
+    // if (doc.books) {
+    //   const commonDates = Object.values(doc.books);
+
+    //     if (commonDates.length === 0) {
+    //         return;
+    //     }
+
+    //   const sameDates = commonDates.reduce((acc, arr) => acc.filter(el => arr.includes(el))).map(date => new Date(date));
+
+    //   console.log('Avtandilov', sameDates);
+
+    //   handleSelect(sameDates);
+    // }
+
+  }, []);
+
+
+  console.log(selected);
 
 
   return (
@@ -295,13 +357,13 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
           mode="multiple"
           selected={selected}
           onSelect={handleSelect}
-          disabled={houses.length ? { before: new Date() } : true}
-        // modifiers={{
-        //   booked: bookedDays
-        // }}
-        // modifiersClassNames={{
-        //   booked: "my-booked-class"
-        // }}
+          disabled={[{ before: new Date() }, ...bookedDays]}
+        modifiers={{
+          booked: bookedDays
+        }}
+        modifiersClassNames={{
+          booked: "my-booked-class"
+        }}
         />
       </div>
 

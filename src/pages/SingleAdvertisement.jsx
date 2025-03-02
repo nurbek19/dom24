@@ -63,7 +63,7 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
         const commonDates = Object.values(item.books);
 
         if (commonDates.length === 0) {
-            return 0;
+            return [];
         }
 
         return commonDates.reduce((acc, arr) => acc.filter(el => arr.includes(el))).map(date => new Date(date));
