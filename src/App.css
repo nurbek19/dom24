@@ -528,6 +528,10 @@ input[type=number] {
     padding: 10px;
 }
 
+.single-result-card.card-padding {
+  padding-bottom: 400px;
+}
+
 .info-text {
   margin: 0;
     padding: 10px;

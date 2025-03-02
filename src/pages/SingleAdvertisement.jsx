@@ -150,7 +150,7 @@ const SingleAdvertisement = ({ item, lang, onBackHandler }) => {
     return (
         <div className='search-container'>
             <div className="back-button" onClick={onBackHandler}>« {DICTIONARY[lang].back}</div>
-            <div className='single-result-card'>
+            <div className={clsx('single-result-card', { 'card-padding': selected.length && houses.length })}>
                 <div className="">
                     <div className="single-card">
                         {item.photo_ids && (
@@ -228,7 +228,7 @@ const SingleAdvertisement = ({ item, lang, onBackHandler }) => {
                     <input type="text" id="name" className="text-field" value={name} onChange={(e) => setName(e.target.value)} />
                 </div> */}
 
-                <div className={clsx('field-wrapper phone-field', { 'show-number': selected.length })}>
+                <div className={clsx('field-wrapper phone-field', { 'show-number': selected.length && houses.length })}>
                     <label htmlFor="phone" className="field-label">{DICTIONARY[lang].bookPhone}</label>
 
                     <input type="tel" pattern="[0-9]*" noValidate id="phone" className="text-field" ref={ref} />
