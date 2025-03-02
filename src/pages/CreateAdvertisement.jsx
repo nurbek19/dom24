@@ -72,7 +72,7 @@ export const CITIES = ['Бишкек', 'Нарын', 'Каракол', 'Ош'];
 function CreateAdvertisement() {
   const [city, setCity] = useState(CITIES[0]);
   const [address, setAddress] = useState('');
-  const [room, setRoom] = useState(null);
+  const [count, setCount] = useState('');
   const [price, setPrice] = useState({
     hour: '',
     day: '',
@@ -112,7 +112,7 @@ function CreateAdvertisement() {
       city,
       address,
       phone,
-      room_count: parseInt(room),
+      count: parseInt(count),
       price: pricesObj
     };
 
@@ -125,7 +125,7 @@ function CreateAdvertisement() {
     // if (data) {
       WebApp.sendData(JSON.stringify(payload));
     // }
-  }, [city, address, room, phone, price, name]);
+  }, [city, address, count, phone, price, name]);
 
   useEffect(() => {
     WebApp.expand();
@@ -143,16 +143,16 @@ function CreateAdvertisement() {
   const isFormValid = useMemo(() => {
     const isSomeprice = Object.values(price).some((value) => value);
 
-    const valid = city && address && room && phone && isSomeprice;
+    const valid = city && address && count && phone && isSomeprice;
 
     return valid;
 
-  }, [city, address, room, phone, price]);
+  }, [city, address, count, phone, price]);
 
   useEffect(() => {
     const isSomeprice = Object.values(price).some((value) => value);
 
-    if (city && address && room && phone && isSomeprice) {
+    if (city && address && count && phone && isSomeprice) {
       let pricesObj = {};
 
       for (let key in price) {
@@ -165,7 +165,7 @@ function CreateAdvertisement() {
         city,
         address,
         phone,
-        room_count: parseInt(room),
+        count: parseInt(count),
         price: pricesObj
       };
 
@@ -181,7 +181,7 @@ function CreateAdvertisement() {
       // WebApp.MainButton.hide();
       WebApp.offEvent('mainButtonClicked', onSendData);
     };
-  }, [city, address, room, phone, price, name, setData]);
+  }, [city, address, count, phone, price, name, setData]);
 
   useEffect(() => {
     WebApp.MainButton.text = 'Создать объявление';
@@ -200,7 +200,6 @@ function CreateAdvertisement() {
     };
 
   }, [isFormValid])
-
 
   return (
     <div>
@@ -234,6 +233,12 @@ function CreateAdvertisement() {
       </div>
 
       <div className="field-wrapper">
+        <span className="field-label">Количество домов</span>
+
+        <input type="number" id="count" className="text-field" value={count} onChange={(e) => setCount(e.target.value)} />
+      </div>
+
+      {/* <div className="field-wrapper">
         <span className="field-label">{DICTIONARY[lang].roomCount}</span>
 
         <div className="room-buttons">
@@ -258,7 +263,7 @@ function CreateAdvertisement() {
             <span className="radio-input-text">5</span>
           </label>
         </div>
-      </div>
+      </div> */}
 
       <div className="field-wrapper">
         <span className="field-label">Цена</span>

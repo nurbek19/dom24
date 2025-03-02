@@ -5,7 +5,7 @@ import WebApp from '@twa-dev/sdk';
 
 import ImageSlider from "../components/ImageSlider";
 import SingleAdvertisement from './SingleAdvertisement';
-import RecentDays from "../components/RecentDays";
+// import RecentDays from "../components/RecentDays";
 import { DICTIONARY } from './CreateAdvertisement';
 
 import '../App.css';
@@ -79,7 +79,7 @@ const PartnerPage = () => {
 
                                     <div className='card-status'>
                                         <p><span>Ближайшие свободные даты:</span></p>
-                                        <RecentDays books={item.books} />
+                                        {/* <RecentDays books={item.books} /> */}
                                         {/* {(objIndex !== null && index === objIndex) ? (
                                             <div className={clsx(!item.active ? 'free' : 'busy', { 'animation': index === objIndex })}>
                                                 {!item.active ? DICTIONARY[lang].free : DICTIONARY[lang].busy}

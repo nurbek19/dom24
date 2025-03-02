@@ -12,12 +12,15 @@ import '../App.css';
 
 import { DICTIONARY } from './CreateAdvertisement';
 import clsx from 'clsx';
+import HouseItem from '../components/HouseItem';
 
 const SingleAdvertisement = ({ item, lang, onBackHandler }) => {
     const [show, setShow] = useState(false);
     const [showText, setShowText] = useState(false);
     const [selected, setSelected] = useState([]);
     const [searchParams] = useSearchParams();
+    const [name, setName] = useState('');
+    const [houses, setHouses] = useState([]);
 
     const {
         ref,
@@ -39,28 +42,28 @@ const SingleAdvertisement = ({ item, lang, onBackHandler }) => {
     }
 
     const bookedDays = useMemo(() => {
-        if (!item.books) {
+        // if (!item.books) {
             return [];
-        }
+        // }
 
-        return item.books.map((date) => new Date(date));
+        // return item.books.map((date) => new Date(date));
     }, [item.books]);
 
     const onSendData = () => {
         const books = selected.map((date) => format(date, 'MM/dd/yyyy'));
 
         console.log({
-            house_id : item._id,
+            house_id: item._id,
             books,
             contact_phone: phone
-          });
-        
+        });
+
 
         WebApp.sendData(JSON.stringify({
-            house_id : item._id,
+            house_id: item._id,
             books,
             contact_phone: phone
-          }));
+        }));
     }
 
     useEffect(() => {
@@ -89,6 +92,8 @@ const SingleAdvertisement = ({ item, lang, onBackHandler }) => {
             WebApp.MainButton.hide();
         };
     }, [isValid]);
+
+    console.log('Avtandilov', houses);
 
     return (
         <div className='search-container'>
@@ -139,28 +144,40 @@ const SingleAdvertisement = ({ item, lang, onBackHandler }) => {
                     </div>
                 </div>
 
-                <div className='book-calendar'>
-                <p>{DICTIONARY[lang].bookLabel}:</p>
-                <DayPicker
-                    locale={ru}
-                    mode="multiple"
-                    selected={selected}
-                    onSelect={setSelected}
-                    disabled={[{ before: new Date() }, ...bookedDays]}
-                    modifiers={{
-                        booked: bookedDays
-                    }}
-                    modifiersClassNames={{
-                        booked: "my-booked-class"
-                    }}
-                />
+                <div className='houses-list'>
+                    {[1, 2, 3].map((v) => (
+                        <HouseItem number={v} setHouses={setHouses} />
+                    ))}
                 </div>
 
-                    <div className={clsx('field-wrapper phone-field', { 'show-number': selected.length })}>
-                        <label htmlFor="phone" className="field-label">{DICTIONARY[lang].bookPhone}</label>
+                <div className='book-calendar'>
+                    <p>{DICTIONARY[lang].bookLabel}:</p>
+                    <DayPicker
+                        locale={ru}
+                        mode="multiple"
+                        selected={selected}
+                        onSelect={setSelected}
+                        disabled={[{ before: new Date() }, ...bookedDays]}
+                        modifiers={{
+                            booked: bookedDays
+                        }}
+                        modifiersClassNames={{
+                            booked: "my-booked-class"
+                        }}
+                    />
+                </div>
 
-                        <input type="tel" pattern="[0-9]*" noValidate id="phone" className="text-field" ref={ref} />
-                    </div>
+                <div className="field-wrapper">
+                    <span className="field-label">Имя</span>
+
+                    <input type="text" id="name" className="text-field" value={name} onChange={(e) => setName(e.target.value)} />
+                </div>
+
+                <div className={clsx('field-wrapper phone-field', { 'show-number': selected.length })}>
+                    <label htmlFor="phone" className="field-label">{DICTIONARY[lang].bookPhone}</label>
+
+                    <input type="tel" pattern="[0-9]*" noValidate id="phone" className="text-field" ref={ref} />
+                </div>
             </div>
         </div>
     )
