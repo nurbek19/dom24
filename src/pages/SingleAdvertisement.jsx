@@ -14,7 +14,7 @@ import { DICTIONARY } from './CreateAdvertisement';
 import clsx from 'clsx';
 import HouseItem from '../components/HouseItem';
 
-const SingleAdvertisement = ({ item, lang, onBackHandler }) => {
+const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
     const [show, setShow] = useState(false);
     const [showText, setShowText] = useState(false);
     const [selected, setSelected] = useState([]);
@@ -150,7 +150,7 @@ const SingleAdvertisement = ({ item, lang, onBackHandler }) => {
 
     return (
         <div className='search-container'>
-            <div className="back-button" onClick={onBackHandler}>« {DICTIONARY[lang].back}</div>
+            {!hideButton && (<div className="back-button" onClick={onBackHandler}>« {DICTIONARY[lang].back}</div>)}
             <div className={clsx('single-result-card', { 'card-padding': selected.length && houses.length })}>
                 <div className="">
                     <div className="single-card">
