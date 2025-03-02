@@ -148,7 +148,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       }
     }
 
-    const selectedDays = {};
+    let selectedDays = {};
 
     // if (selected.length) {
     //   console.log(selected);
