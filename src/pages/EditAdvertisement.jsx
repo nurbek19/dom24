@@ -8,6 +8,7 @@ import { useIMask } from 'react-imask';
 import deepEqual from 'deep-equal';
 
 import PriceField from '../components/PriceField';
+import HouseItem from '../components/HouseItem';
 import '../App.css';
 
 import { DICTIONARY } from './CreateAdvertisement';
@@ -18,11 +19,13 @@ const CITIES = ['Бишкек', 'Нарын', 'Каракол', 'Ош'];
 function EditAdvertisement({ doc, lang, onBackHandler }) {
   const [city, setCity] = useState(doc.city);
   const [address, setAddress] = useState(doc.address);
-  const [room, setRoom] = useState(doc.room_count.toString());
+  const [room, setRoom] = useState(doc.count.toString());
   const [price, setPrice] = useState({ ...doc.price });
   const [data, setData] = useState(null);
   const [name, setName] = useState(doc.name ? doc.name : '');
   const [selected, setSelected] = useState([]);
+  const [houses, setHouses] = useState([]);
+  const [count, setCount] = useState('');
 
   const {
     ref,
@@ -35,7 +38,15 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       return [];
     }
 
-    return doc.books.map((date) => new Date(date));
+    return [];
+  }, [doc.books]);
+
+  const housesList = useMemo(() => {
+    if (!doc.books) {
+      return [];
+    }
+
+    return Object.keys(doc.books).map((v) => ({ number: v, disabled: false }));
   }, [doc.books]);
 
 
@@ -61,7 +72,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       city,
       address,
       phone,
-      room_count: parseInt(room),
+      count: parseInt(count),
       price: pricesObj,
       books: doc.books ? doc.books : []
     };
@@ -70,12 +81,17 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       payload.name = name;
     }
 
-    if (selected) {
-      const selectedDays = selected.map((date) => {
-        return format(date, 'MM/dd/yyyy');
+    if (selected.length) {
+      const booksCopy = { ...doc.books };
+
+      const selectedDates = selected.map((date) => format(date, 'MM/dd/yyyy'));
+
+      houses.forEach((value) => {
+        booksCopy[value] = selectedDates;
       });
 
-      payload.books = selectedDays;
+
+      payload.books = booksCopy;
     }
 
     console.log(payload);
@@ -87,12 +103,35 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
     WebApp.expand();
     setValue(doc.phone);
 
-    if (doc.books) {
-      const dates = doc.books.map((date) => new Date(date))
-      setSelected(dates);
-    }
+    // if (doc.books) {
+    //   const dates = Object.values(doc.books).flat().map((d) => new Date(d));
+    //   setSelected(dates);
+
+    //   console.log(Object.values(doc.books));
+    // }
 
   }, []);
+
+
+  useEffect(() => {
+    if (houses.length) {
+      const housesBookedDays = houses.reduce((acc, value) => {
+        const booksByHouseNumber = doc.books[value];
+        acc.push(...booksByHouseNumber);
+
+        return acc;
+      }, []);
+
+      const setFromArr = new Set(housesBookedDays);
+
+      const uniqueValues = Array.from(setFromArr).map((d) => new Date(d));
+
+      setSelected(uniqueValues);
+    } else {
+      setSelected([]);
+    }
+
+  }, [houses]);
 
   const isFormValid = useMemo(() => {
     const isSomeprice = Object.values(price).some((value) => value);
@@ -124,7 +163,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       city,
       address,
       phone,
-      room_count: parseInt(room),
+      count: parseInt(count),
       price: pricesObj,
       name,
       books: selectedDays
@@ -134,7 +173,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       city: doc.city,
       address: doc.address,
       phone: doc.phone,
-      room_count: parseInt(doc.room_count),
+      count: parseInt(doc.count),
       price: doc.price,
       name: doc.name ? doc.name : '',
       books: doc.books ? doc.books : []
@@ -142,8 +181,8 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
 
     const isObjectChanged = deepEqual(payload, docObj);
 
-    return city && address && room && phone && name && isSomeprice && !isObjectChanged;
-  }, [city, address, room, phone, price, name, selected, doc]);
+    return city && address && count && phone && name && isSomeprice && !isObjectChanged;
+  }, [city, address, count, phone, price, name, selected, doc]);
 
   useEffect(() => {
     WebApp.onEvent('mainButtonClicked', onSendData);
@@ -151,7 +190,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
     return () => {
       WebApp.offEvent('mainButtonClicked', onSendData);
     };
-  }, [city, address, room, phone, price, selected, doc]);
+  }, [city, address, count, phone, price, selected, doc]);
 
   useEffect(() => {
     WebApp.MainButton.text = 'Применить изменения';
@@ -211,33 +250,6 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       </div>
 
       <div className="field-wrapper">
-        <span className="field-label">{DICTIONARY[lang].room}</span>
-
-        <div className="room-buttons">
-          <label className="radio-input-label">
-            <input type="radio" name="room" value="1" className="radio-input" checked={room === '1'} onChange={(e) => setRoom(e.target.value)} />
-            <span className="radio-input-text">1</span>
-          </label>
-          <label className="radio-input-label">
-            <input type="radio" name="room" value="2" className="radio-input" checked={room === '2'} onChange={(e) => setRoom(e.target.value)} />
-            <span className="radio-input-text">2</span>
-          </label>
-          <label className="radio-input-label">
-            <input type="radio" name="room" value="3" className="radio-input" checked={room === '3'} onChange={(e) => setRoom(e.target.value)} />
-            <span className="radio-input-text">3</span>
-          </label>
-          <label className="radio-input-label">
-            <input type="radio" name="room" value="4" className="radio-input" checked={room === '4'} onChange={(e) => setRoom(e.target.value)} />
-            <span className="radio-input-text">4</span>
-          </label>
-          <label className="radio-input-label">
-            <input type="radio" name="room" value="5" className="radio-input" checked={room === '5'} onChange={(e) => setRoom(e.target.value)} />
-            <span className="radio-input-text">5</span>
-          </label>
-        </div>
-      </div>
-
-      <div className="field-wrapper">
         <span className="field-label">{DICTIONARY[lang].price}</span>
 
         {/* <PriceField label={DICTIONARY[lang].hour} name="hour" value={price.hour} onChange={priceChangeHandler} /> */}
@@ -246,20 +258,30 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
         {/* <PriceField label={DICTIONARY[lang].day_night} name="day_night" value={price.day_night} onChange={priceChangeHandler} /> */}
       </div>
 
+
+      <div className='houses-container'>
+        <p>Выберите номер дома для бронирования:</p>
+        <div className='houses-list'>
+          {housesList.map((obj) => (
+            <HouseItem key={obj.number} number={obj.number} disabled={obj.disabled} setHouses={setHouses} />
+          ))}
+        </div>
+      </div>
+
       <div className='book-calendar partner-calendar'>
-      <p>{DICTIONARY[lang].notBookLabel}:</p>
+        <p>{DICTIONARY[lang].notBookLabel}:</p>
         <DayPicker
           locale={ru}
           mode="multiple"
           selected={selected}
           onSelect={handleSelect}
-          disabled={[{ before: new Date() }]}
-          // modifiers={{
-          //   booked: bookedDays
-          // }}
-          // modifiersClassNames={{
-          //   booked: "my-booked-class"
-          // }}
+          disabled={houses.length ? { before: new Date() } : true}
+        // modifiers={{
+        //   booked: bookedDays
+        // }}
+        // modifiersClassNames={{
+        //   booked: "my-booked-class"
+        // }}
         />
       </div>
     </div>
