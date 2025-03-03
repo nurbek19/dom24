@@ -12,6 +12,7 @@ import HouseItem from '../components/HouseItem';
 import '../App.css';
 
 import { DICTIONARY } from './CreateAdvertisement';
+import clsx from 'clsx';
 
 
 const CITIES = ['Бишкек', 'Нарын', 'Каракол', 'Ош'];
@@ -19,12 +20,11 @@ const CITIES = ['Бишкек', 'Нарын', 'Каракол', 'Ош'];
 function EditAdvertisement({ doc, lang, onBackHandler }) {
   const [city, setCity] = useState(doc.city);
   const [address, setAddress] = useState(doc.address);
-  const [room, setRoom] = useState(doc.count.toString());
   const [price, setPrice] = useState({ ...doc.price });
-  const [data, setData] = useState(null);
   const [name, setName] = useState(doc.name ? doc.name : '');
   const [selected, setSelected] = useState([]);
   const [houses, setHouses] = useState([]);
+  const [calendarType, setCalendarType] = useState('book');
   const [count, setCount] = useState('');
 
   const {
@@ -32,73 +32,6 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
     value: phone,
     setValue,
   } = useIMask({ mask: '+{996}(000)000-000' });
-
-  // const bookedDays = useMemo(() => {
-  //   if (!doc.books) {
-  //     return [];
-  //   }
-
-  //   return [];
-  // }, [doc.books]);
-
-  const bookedDays = useMemo(() => {
-    if (!doc.books) {
-        return [];
-    }
-
-    // if (selected.length) {
-    //   setHouses([]);
-
-    //   return [];
-    // }
-
-    if (houses.length) {
-        const housesBookedDays = houses.reduce((acc, value) => {
-            const booksByHouseNumber = doc.books[value];
-            acc.push(...booksByHouseNumber);
-
-            return acc;
-        }, []);
-
-        const setFromArr = new Set(housesBookedDays);
-
-        // return Array.from(setFromArr).map((d) => new Date(d));
-        setSelected([...Array.from(setFromArr).map((d) => new Date(d))]);
-        return [];
-    } else {
-      setSelected([]);
-    }
-
-    const commonDates = Object.values(doc.books);
-
-    if (commonDates.length === 0) {
-        return;
-    }
-
-    return commonDates.reduce((acc, arr) => acc.filter(el => arr.includes(el))).map(date => new Date(date));
-
-}, [doc.books, houses]);
-
-  const housesList = useMemo(() => {
-    if (!doc.books) {
-      return [];
-    }
-
-  //   if (selected.length) {
-  //     const arr = [];
-  //     const selectedDates = selected.map((date) => format(date, 'MM/dd/yyyy'));
-
-  //     Object.keys(doc.books).forEach((key) => {
-  //         const disabled = selectedDates.some((d) => doc.books[key].includes(d));
-
-  //         arr.push({ number: key, disabled });
-  //     });
-
-  //     return arr;
-  // }
-
-    return Object.keys(doc.books).map((v) => ({ number: v, disabled: false }));
-  }, [doc.books, selected]);
 
 
   const priceChangeHandler = (name, value) => {
@@ -123,7 +56,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       city,
       address,
       phone,
-      count: parseInt(count),
+      count: doc.count,
       price: pricesObj,
       books: doc.books ? doc.books : []
     };
@@ -132,13 +65,24 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       payload.name = name;
     }
 
-    if (selected.length) {
+    if (selected.length && calendarType === 'book') {
       const booksCopy = { ...doc.books };
 
       const selectedDates = selected.map((date) => format(date, 'MM/dd/yyyy'));
 
       houses.forEach((value) => {
-        booksCopy[value] = selectedDates;
+        booksCopy[value] = [...booksCopy[value], ...selectedDates];
+      });
+
+
+      payload.books = booksCopy;
+    } else if (calendarType === 'delete') {
+      const booksCopy = { ...doc.books };
+
+      const selectedDates = selected.map((date) => format(date, 'MM/dd/yyyy'));
+
+      houses.forEach((value) => {
+        booksCopy[value] = [...selectedDates];
       });
 
 
@@ -150,34 +94,13 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
     WebApp.sendData(JSON.stringify(payload));
   };
 
-  
-
-
-  // useEffect(() => {
-  //   if (houses.length) {
-  //     const housesBookedDays = houses.reduce((acc, value) => {
-  //       const booksByHouseNumber = doc.books[value];
-  //       acc.push(...booksByHouseNumber);
-
-  //       return acc;
-  //     }, []);
-
-  //     const setFromArr = new Set(housesBookedDays);
-
-  //     const uniqueValues = Array.from(setFromArr).map((d) => new Date(d));
-
-  //     setSelected(uniqueValues);
-  //   } else {
-  //     setSelected([]);
-  //   }
-
-  // }, [houses]);
-
   useEffect(() => {
     if (doc.count === 1) {
-        setHouses([1]);
+      setHouses([1]);
     }
-}, [])
+  }, []);
+
+
 
   const isFormValid = useMemo(() => {
     const isSomeprice = Object.values(price).some((value) => value);
@@ -186,22 +109,14 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       day: 0,
       day_off: 0,
     };
+
     for (let key in price) {
       if (price[key] || price[key] === 0) {
         pricesObj[key] = parseInt(price[key]);
       }
     }
 
-    let selectedDays = {};
-
-    // if (selected.length) {
-    //   console.log(selected);
-    //   selected.forEach((date) => {
-    //     const formattedDate = format(date, 'MM/dd/yyyy');
-
-    //     selectedDays.push(formattedDate);
-    //   })
-    // }
+    let selectedDays = doc.books;
 
     if (selected.length) {
       const booksCopy = { ...doc.books };
@@ -209,7 +124,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       const selectedDates = selected.map((date) => format(date, 'MM/dd/yyyy'));
 
       houses.forEach((value) => {
-        booksCopy[value] = selectedDates;
+        booksCopy[value] = [...booksCopy[value], ...selectedDates];
       });
 
 
@@ -220,7 +135,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       city,
       address,
       phone,
-      count: parseInt(count),
+      // count: parseInt(count),
       price: pricesObj,
       name,
       books: selectedDays
@@ -230,10 +145,10 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       city: doc.city,
       address: doc.address,
       phone: doc.phone,
-      count: parseInt(doc.count),
+      // count: parseInt(doc.count),
       price: doc.price,
       name: doc.name ? doc.name : '',
-      books: doc.books ? doc.books : []
+      books: doc.books ? doc.books : {}
     }
 
     const isObjectChanged = deepEqual(payload, docObj);
@@ -267,33 +182,95 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
 
   }, [isFormValid]);
 
+  useEffect(() => {
+    WebApp.expand();
+    setValue(doc.phone);
+  }, []);
+
   const handleSelect = (days) => {
     setSelected(days);
   };
 
+  const bookedDays = useMemo(() => {
+    if (!doc.books) {
+      return [];
+    }
+
+    if (calendarType === 'delete') {
+      return [];
+    }
+
+    if (houses.length) {
+      const housesBookedDays = houses.reduce((acc, value) => {
+        const booksByHouseNumber = doc.books[value];
+        acc.push(...booksByHouseNumber);
+
+        return acc;
+      }, []);
+
+      const setFromArr = new Set(housesBookedDays);
+
+      return Array.from(setFromArr).map((d) => new Date(d));
+    }
+
+    const commonDates = Object.values(doc.books);
+
+    if (commonDates.length === 0) {
+      return [];
+    }
+
+    return commonDates.reduce((acc, arr) => acc.filter(el => arr.includes(el))).map(date => new Date(date));
+
+  }, [doc.books, houses, calendarType]);
+
+
+  const housesList = useMemo(() => {
+    if (!doc.books) {
+      return [];
+    }
+
+    if (calendarType === 'delete') {
+      return Object.keys(doc.books).map((v) => ({ number: v, disabled: false }));
+    }
+
+    if (selected.length) {
+      const arr = [];
+      const selectedDates = selected.map((date) => format(date, 'MM/dd/yyyy'));
+
+      Object.keys(doc.books).forEach((key) => {
+        const disabled = selectedDates.some((d) => doc.books[key].includes(d));
+
+        arr.push({ number: key, disabled });
+      });
+
+      return arr;
+    }
+
+    return Object.keys(doc.books).map((v) => ({ number: v, disabled: false }));
+  }, [doc.books, selected]);
+
 
   useEffect(() => {
-    WebApp.expand();
-    setValue(doc.phone);
+    if (calendarType === 'delete' && houses.length) {
+      const housesBookedDays = houses.reduce((acc, value) => {
+        const booksByHouseNumber = doc.books[value];
+        acc.push(...booksByHouseNumber);
 
-    // if (doc.books) {
-    //   const commonDates = Object.values(doc.books);
+        return acc;
+      }, []);
 
-    //     if (commonDates.length === 0) {
-    //         return;
-    //     }
+      const setFromArr = new Set(housesBookedDays);
 
-    //   const sameDates = commonDates.reduce((acc, arr) => acc.filter(el => arr.includes(el))).map(date => new Date(date));
+      const arr = Array.from(setFromArr).map((d) => new Date(d));
+      handleSelect(arr);
+    }
 
-    //   console.log('Avtandilov', sameDates);
+  }, [houses, calendarType]);
 
-    //   handleSelect(sameDates);
-    // }
-
-  }, []);
-
-
-  console.log(selected);
+  useEffect(() => {
+    setHouses([]);
+    handleSelect([]);
+  }, [calendarType])
 
 
   return (
@@ -331,41 +308,54 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       <div className="field-wrapper">
         <span className="field-label">{DICTIONARY[lang].price}</span>
 
-        {/* <PriceField label={DICTIONARY[lang].hour} name="hour" value={price.hour} onChange={priceChangeHandler} /> */}
         <PriceField label={DICTIONARY[lang].day} name="day" value={price.day} onChange={priceChangeHandler} />
         <PriceField label={DICTIONARY[lang].day_off} name="day_off" value={price.day_off} onChange={priceChangeHandler} />
-        {/* <PriceField label={DICTIONARY[lang].day_night} name="day_night" value={price.day_night} onChange={priceChangeHandler} /> */}
+      </div>
+
+      <div className="field-wrapper">
+        <span className="field-label">Выберите подходящий календарь для:</span>
+
+        <div className="calendar-type-buttons">
+          <label className="radio-input-label">
+            <input type="radio" name="calendarType" value="book" className="radio-input" checked={calendarType === 'book'} onChange={(e) => setCalendarType(e.target.value)} />
+            <span className="radio-input-text">бронирования</span>
+          </label>
+          <label className="radio-input-label">
+            <input type="radio" name="calendarType" value="delete" className="radio-input" checked={calendarType === 'delete'} onChange={(e) => setCalendarType(e.target.value)} />
+            <span className="radio-input-text">отмены</span>
+          </label>
+        </div>
       </div>
 
       {housesList.length !== 1 && (
-                    <div className='houses-container'>
-                    <p>Выберите номер дома для бронирования:</p>
-                    <div className='houses-list'>
-                        {housesList.map((obj) => (
-                            <HouseItem key={obj.number} number={obj.number} disabled={obj.disabled} setHouses={setHouses} />
-                        ))}
-                    </div>
-                    </div>
-                )}
+        <div className='houses-container'>
+          <p>Выберите номер дома для бронирования:</p>
+          <div className='houses-list'>
+            {housesList.map((obj) => (
+              <HouseItem key={obj.number} number={obj.number} disabled={obj.disabled} setHouses={setHouses} calendarType={calendarType} />
+            ))}
+          </div>
+        </div>
+      )}
 
-      <div className='book-calendar partner-calendar'>
+      <div className={clsx('book-calendar', { 'partner-calendar': calendarType === 'delete' })}>
         <p>{DICTIONARY[lang].notBookLabel}:</p>
         <DayPicker
           locale={ru}
           mode="multiple"
           selected={selected}
           onSelect={handleSelect}
-          disabled={[{ before: new Date() }, ...bookedDays]}
-        modifiers={{
-          booked: bookedDays
-        }}
-        modifiersClassNames={{
-          booked: "my-booked-class"
-        }}
+          disabled={calendarType === 'book' ? [{ before: new Date() }, ...bookedDays] : true}
+          modifiers={{
+            booked: bookedDays
+          }}
+          modifiersClassNames={{
+            booked: "my-booked-class"
+          }}
         />
       </div>
 
-      {/* <button onClick={onSendData}>btn</button> */}
+      <button onClick={onSendData}>btn</button>
     </div>
   )
 }

@@ -701,9 +701,7 @@ input[type=number] {
   border: 0;
   border-radius: 0;
   background-color: #EE4E4E;
-  /* background-color: blue; */
   color: var(--tg-theme-button-text-color);
-  /* color: #fff; */
   font-weight: normal;
   font-size: medium;
 }
@@ -750,4 +748,9 @@ input[type=number] {
 .card-detail .bold-title {
   font-size: 18px;
   font-weight: 600;
+}
+
+.calendar-type-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }

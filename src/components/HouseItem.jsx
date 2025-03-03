@@ -1,10 +1,15 @@
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../App.css';
 import clsx from 'clsx';
 
-const HouseItem = ({ number, setHouses, disabled }) => {
+const HouseItem = ({ number, setHouses, disabled, calendarType, activeHouse, setHouseNumber }) => {
     const [active, setActive] = useState(false);
+
+
+    useEffect(() => {
+        setActive(false);
+    }, [calendarType]);
 
     const clickHandler = () => {
         if (disabled) {
