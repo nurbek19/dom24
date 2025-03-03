@@ -263,6 +263,8 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
 
       const arr = Array.from(setFromArr).map((d) => new Date(d));
       handleSelect(arr);
+    } else if (calendarType === 'delete' && !houses.length) {
+      handleSelect([]);
     }
 
   }, [houses, calendarType]);
