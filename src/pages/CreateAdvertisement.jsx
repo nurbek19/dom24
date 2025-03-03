@@ -67,18 +67,15 @@ export const DICTIONARY = {
 }
 
 
-export const CITIES = ['Бишкек', 'Нарын', 'Каракол', 'Ош'];
+export const CITIES = ['Бишкек', 'Нарын', 'Каракол', 'Ош', 'Иссык - Куль'];
 
 function CreateAdvertisement() {
   const [city, setCity] = useState(CITIES[0]);
   const [address, setAddress] = useState('');
   const [count, setCount] = useState('');
   const [price, setPrice] = useState({
-    hour: '',
     day: '',
     day_off: '',
-    night: '',
-    day_night: ''
   });
   const [data, setData] = useState(null);
   const [searchParams] = useSearchParams();

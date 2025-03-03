@@ -183,10 +183,8 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
     const isSomeprice = Object.values(price).some((value) => value);
 
     let pricesObj = {
-      hour: 0,
       day: 0,
-      night: 0,
-      day_night: 0
+      day_off: 0,
     };
     for (let key in price) {
       if (price[key] || price[key] === 0) {
