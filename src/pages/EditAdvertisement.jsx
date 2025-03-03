@@ -153,8 +153,8 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
 
     const isObjectChanged = deepEqual(payload, docObj);
 
-    return city && address && phone && name && isSomeprice && !isObjectChanged;
-  }, [city, address, phone, price, name, selected, doc]);
+    return (city && address && phone && name && isSomeprice && !isObjectChanged) || (houses.length && selected.length);
+  }, [city, address, phone, price, name, selected, doc, houses]);
 
   useEffect(() => {
     WebApp.onEvent('mainButtonClicked', onSendData);

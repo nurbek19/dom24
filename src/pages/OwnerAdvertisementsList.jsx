@@ -145,7 +145,7 @@ function OwnerAdvertisementsList() {
             ) : (
                 <div>
                     {data.map((item) => (
-                        <div key={item._id} className="card-container">
+                        <div key={item._id} className="card-container" onClick={() => setEditDoc(item)}>
                             <div className="card">
                                 {item.photo_ids && (
                                     <ImageSlider imageIds={item.photo_ids} />
@@ -160,7 +160,7 @@ function OwnerAdvertisementsList() {
                                                 <span className="slider round"></span>
                                             </label> */}
 
-                                            <div className="edit-button" onClick={() => setEditDoc(item)}>
+                                            {/* <div className="edit-button" onClick={() => setEditDoc(item)}>
                                                 <svg className="feather feather-edit"
                                                     fill="none"
                                                     height="24"
@@ -172,7 +172,7 @@ function OwnerAdvertisementsList() {
                                                     width="24" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                                                 </svg>
-                                            </div>
+                                            </div> */}
                                         </div>
 
                                         <p><span>{DICTIONARY[lang].shortRoomCount}:</span> {item.room_count}</p>
