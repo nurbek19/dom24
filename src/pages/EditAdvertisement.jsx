@@ -355,7 +355,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
         />
       </div>
 
-      <button onClick={onSendData}>btn</button>
+      {/* <button onClick={onSendData}>btn</button> */}
     </div>
   )
 }
