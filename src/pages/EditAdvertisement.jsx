@@ -345,7 +345,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
           mode="multiple"
           selected={selected}
           onSelect={handleSelect}
-          disabled={calendarType === 'book' ? [{ before: new Date() }, ...bookedDays] : true}
+          disabled={[{ before: new Date() }, ...bookedDays]}
           modifiers={{
             booked: bookedDays
           }}
