@@ -95,12 +95,6 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
     WebApp.sendData(JSON.stringify(payload));
   };
 
-  useEffect(() => {
-    if (doc.count === 1) {
-      setHouses([1]);
-    }
-  }, []);
-
 
 
   const isFormValid = useMemo(() => {
@@ -153,6 +147,8 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
     }
 
     const isObjectChanged = deepEqual(payload, docObj);
+
+    console.log(houses.length, selected.length);
 
     return (city && address && phone && name && isSomeprice && !isObjectChanged) || (houses.length && selected.length);
   }, [city, address, phone, price, name, selected, doc, houses]);
@@ -271,9 +267,13 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
   }, [houses, calendarType]);
 
   useEffect(() => {
-    setHouses([]);
+    if (doc.count === 1) {
+      setHouses([1]);
+    } else {
+      setHouses([]);
+    }
     handleSelect([]);
-  }, [calendarType])
+  }, [calendarType]);
 
 
   return (
