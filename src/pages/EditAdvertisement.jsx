@@ -89,7 +89,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       payload.books = booksCopy;
     }
 
-    console.log(payload);
+    console.log(JSON.stringify(payload));
 
     WebApp.sendData(JSON.stringify(payload));
   };
