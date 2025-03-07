@@ -661,8 +661,8 @@ input[type=number] {
     padding-bottom: 5px;
 
     font-size: 14px;
-    color: var(--tg-theme-text-color);
-    font-weight: 600;
+    /* color: var(--tg-theme-text-color);
+    font-weight: 600; */
 }
 
 .phone-field {
@@ -741,8 +741,8 @@ input[type=number] {
     padding-bottom: 10px;
 
     font-size: 14px;
-    color: var(--tg-theme-text-color);
-    font-weight: 600;
+    /* color: var(--tg-theme-text-color); */
+    /* font-weight: 600; */
 }
 
 .card-detail .bold-title {
@@ -753,4 +753,8 @@ input[type=number] {
 .calendar-type-buttons {
   display: grid;
   grid-template-columns: 1fr 1fr;
+}
+
+.rdp-caption_label {
+  font-weight: normal;
 }
