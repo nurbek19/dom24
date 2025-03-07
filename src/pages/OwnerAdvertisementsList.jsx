@@ -175,7 +175,7 @@ function OwnerAdvertisementsList() {
                                             </div> */}
                                         </div>
 
-                                        <p><span>{DICTIONARY[lang].shortRoomCount}:</span> {item.room_count}</p>
+                                        {/* <p><span>{DICTIONARY[lang].shortRoomCount}:</span> {item.room_count}</p> */}
                                         <p><span>📞</span> {item.phone}</p>
 
                                         <div className="card-prices">
