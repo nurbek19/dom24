@@ -76,6 +76,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
 
 
       payload.books = booksCopy;
+      console.log(JSON.stringify(booksCopy), 'inside', houses);
     } else if (calendarType === 'delete') {
       const booksCopy = { ...doc.books };
 
@@ -357,7 +358,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
         />
       </div>
 
-      {/* <button onClick={onSendData}>btn</button> */}
+      <button onClick={onSendData}>btn</button>
     </div>
   )
 }
