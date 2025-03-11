@@ -81,6 +81,8 @@ function CreateAdvertisement() {
   const [searchParams] = useSearchParams();
   const [lang, setLang] = useState('ru');
   const [name, setName] = useState('');
+  const [prepayment, setPrepayment] = useState('');
+  const [paymentLink, setPaymentLink] = useState('');
 
   const {
     ref,
@@ -110,6 +112,8 @@ function CreateAdvertisement() {
       address,
       phone,
       count: parseInt(count),
+      prepayment,
+      paymentLink,
       price: pricesObj
     };
 
@@ -122,7 +126,7 @@ function CreateAdvertisement() {
     // if (data) {
       WebApp.sendData(JSON.stringify(payload));
     // }
-  }, [city, address, count, phone, price, name]);
+  }, [city, address, count, phone, price, name, prepayment, paymentLink]);
 
   useEffect(() => {
     WebApp.expand();
@@ -140,11 +144,11 @@ function CreateAdvertisement() {
   const isFormValid = useMemo(() => {
     const isSomeprice = Object.values(price).some((value) => value);
 
-    const valid = city && address && count && phone && isSomeprice;
+    const valid = city && address && count && phone && isSomeprice && prepayment && paymentLink;
 
     return valid;
 
-  }, [city, address, count, phone, price]);
+  }, [city, address, count, phone, price, prepayment, paymentLink]);
 
   useEffect(() => {
     const isSomeprice = Object.values(price).some((value) => value);
@@ -178,7 +182,7 @@ function CreateAdvertisement() {
       // WebApp.MainButton.hide();
       WebApp.offEvent('mainButtonClicked', onSendData);
     };
-  }, [city, address, count, phone, price, name, setData]);
+  }, [city, address, count, phone, price, name, setData, prepayment, paymentLink]);
 
   useEffect(() => {
     WebApp.MainButton.text = 'Создать объявление';
@@ -235,6 +239,18 @@ function CreateAdvertisement() {
         <input type="number" id="count" className="text-field" value={count} onChange={(e) => setCount(e.target.value)} />
       </div>
 
+      <div className="field-wrapper">
+        <label htmlFor="prepayment" className="field-label">Минимальная сумма предоплаты</label>
+
+        <input type="number" id="prepayment" pattern="[0-9]*" inputMode="numeric" className="text-field" value={prepayment} onChange={(e) => setPrepayment(e.target.value)} />
+      </div>
+
+      <div className="field-wrapper">
+        <label htmlFor="payment-link" className="field-label">Ссылка для предоплаты</label>
+
+        <input type="text" id="payment-link" className="text-field" value={paymentLink} onChange={(e) => setPaymentLink(e.target.value)} />
+      </div>
+
       {/* <div className="field-wrapper">
         <span className="field-label">{DICTIONARY[lang].roomCount}</span>
 
@@ -270,6 +286,8 @@ function CreateAdvertisement() {
         <PriceField label={DICTIONARY[lang].day_off} name="day_off" value={price.day_off} onChange={priceChangeHandler} />
         {/* <PriceField label={DICTIONARY[lang].day_night} name="day_night" value={price.day_night} onChange={priceChangeHandler} /> */}
       </div>
+
+      {/* <button onClick={onSendData}>btn</button> */}
     </div>
   )
 }
