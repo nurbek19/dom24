@@ -529,7 +529,7 @@ input[type=number] {
 }
 
 .single-result-card.card-padding {
-  padding-bottom: 200px;
+  padding-bottom: 300px;
 }
 
 .info-text {
@@ -764,7 +764,7 @@ input[type=number] {
 }
 
 .show-name-field {
-  display: block;
+  display: flex;
 }
 
 .rdp-root .rdp-months {
@@ -781,4 +781,8 @@ input[type=number] {
 
 .rdp-day .rdp-day_button {
   width: 100%;
+}
+
+.hide-name-field input {
+  background-color: var(--tg-theme-bg-color);
 }

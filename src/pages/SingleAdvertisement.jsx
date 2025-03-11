@@ -238,8 +238,8 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
                     </div>
                 )}
 
-                <div className={clsx('field-wrapper name hide-name-field', { 'show-name-field': selected.length && houses.length })}>
-                    <span className="field-label">Введите ваше имя</span>
+                <div className={clsx('field-wrapper hide-name-field', { 'show-name-field': selected.length && houses.length })}>
+                    <label htmlFor="name" className="field-label">Введите ваше имя</label>
 
                     <input type="text" id="name" className="text-field" value={name} onChange={(e) => setName(e.target.value)} />
                 </div>

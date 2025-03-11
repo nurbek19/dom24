@@ -26,6 +26,8 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
   const [houses, setHouses] = useState([]);
   const [calendarType, setCalendarType] = useState('book');
   const [count, setCount] = useState('');
+  const [prepayment, setPrepayment] = useState(doc.prepayment_sum);
+  const [paymentLink, setPaymentLink] = useState(doc.mbank_link);
 
   const {
     ref,
@@ -58,6 +60,8 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       phone,
       count: doc.count,
       price: pricesObj,
+      prepayment_sum: prepayment,
+      mbank_link: paymentLink,
       books: doc.books ? doc.books : []
     };
 
@@ -150,8 +154,8 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
 
     console.log(houses.length, selected.length);
 
-    return (city && address && phone && name && isSomeprice && !isObjectChanged) || (houses.length && selected.length);
-  }, [city, address, phone, price, name, selected, doc, houses]);
+    return (city && address && phone && name && isSomeprice && prepayment && paymentLink && !isObjectChanged) || (houses.length && selected.length);
+  }, [city, address, phone, price, name, selected, doc, houses, prepayment, paymentLink]);
 
   useEffect(() => {
     WebApp.onEvent('mainButtonClicked', onSendData);
@@ -159,7 +163,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
     return () => {
       WebApp.offEvent('mainButtonClicked', onSendData);
     };
-  }, [city, address, count, phone, price, selected, houses, doc]);
+  }, [city, address, count, phone, price, selected, houses, prepayment, paymentLink, doc]);
 
   useEffect(() => {
     WebApp.MainButton.text = 'Применить изменения';
@@ -306,6 +310,18 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
         <label htmlFor="phone" className="field-label">{DICTIONARY[lang].phone}</label>
 
         <input type="tel" pattern="[0-9]*" noValidate id="phone" className="text-field" ref={ref} />
+      </div>
+
+      <div className="field-wrapper">
+        <label htmlFor="prepayment" className="field-label">Минимальная сумма предоплаты</label>
+
+        <input type="number" id="prepayment" pattern="[0-9]*" inputMode="numeric" className="text-field" value={prepayment} onChange={(e) => setPrepayment(e.target.value)} />
+      </div>
+
+      <div className="field-wrapper">
+        <label htmlFor="payment-link" className="field-label">Ссылка для предоплаты</label>
+
+        <input type="text" id="payment-link" className="text-field" value={paymentLink} onChange={(e) => setPaymentLink(e.target.value)} />
       </div>
 
       <div className="field-wrapper">
