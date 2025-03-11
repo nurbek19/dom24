@@ -256,8 +256,7 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
 
 
             <div className="footer">
-                <p>Хотите такой же календарь для бронирования?</p>
-                <p>Переходите по ссылке внизу 👇</p>
+                <p>Хотите такой же календарь для бронирования? 👇</p>
                 <a href="https://booklink.pro/" target="_blank">
                 <img src={logo} alt="logotype" />
                 </a>
