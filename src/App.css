@@ -525,6 +525,8 @@ input[type=number] {
   background-color: var(--tg-theme-secondary-bg-color);
     /* background-color: #eee; */
     border-radius: 8px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
     padding: 10px;
 }
 
