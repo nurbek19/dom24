@@ -135,6 +135,8 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       address,
       phone,
       // count: parseInt(count),
+      prepayment_sum: prepayment,
+      mbank_link: paymentLink,
       price: pricesObj,
       name,
       books: selectedDays
@@ -144,6 +146,8 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       city: doc.city,
       address: doc.address,
       phone: doc.phone,
+      prepayment_sum: prepayment,
+      mbank_link: paymentLink,
       // count: parseInt(doc.count),
       price: doc.price,
       name: doc.name ? doc.name : '',
