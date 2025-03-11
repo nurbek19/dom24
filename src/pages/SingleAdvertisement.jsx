@@ -13,6 +13,7 @@ import '../App.css';
 import { DICTIONARY } from './CreateAdvertisement';
 import clsx from 'clsx';
 import HouseItem from '../components/HouseItem';
+import logo from '../images/booklink.png';
 
 const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
     const [show, setShow] = useState(false);
@@ -251,6 +252,14 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
                 </div>
 
                 {/* <button onClick={onSendData}>btn</button> */}
+            </div>
+
+
+            <div className="footer">
+                <p>Хотите такой же календарь для бронирования?</p>
+                <a href="https://booklink.pro/" target="_blank">
+                <img src={logo} alt="logotype" />
+                </a>
             </div>
         </div>
     )

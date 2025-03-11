@@ -8,6 +8,7 @@ import SingleAdvertisement from './SingleAdvertisement';
 // import RecentDays from "../components/RecentDays";
 import { DICTIONARY } from './CreateAdvertisement';
 
+
 import '../App.css';
 
 const PartnerPage = () => {
