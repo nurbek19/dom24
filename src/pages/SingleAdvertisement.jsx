@@ -106,12 +106,14 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
         console.log({
             house_id: item._id,
             books,
+            comment: `${name} ${phone}`,
             contact_phone: phone
         });
 
         WebApp.sendData(JSON.stringify({
             house_id: item._id,
             books,
+            comment: `${name} ${phone}`,
             contact_phone: phone
         }));
     }
@@ -131,8 +133,8 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
     }, [phone, selected]);
 
     const isValid = useMemo(() => {
-        return phone.length === 16 && selected.length;
-    }, [selected, phone]);
+        return phone.length === 16 && selected.length && name;
+    }, [selected, phone, name]);
 
     useEffect(() => {
         WebApp.MainButton.text = DICTIONARY[lang].book;
@@ -236,11 +238,11 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
                     </div>
                 )}
 
-                {/* <div className="field-wrapper">
-                    <span className="field-label">Имя</span>
+                <div className={clsx('field-wrapper name hide-name-field', { 'show-name-field': selected.length && houses.length })}>
+                    <span className="field-label">Введите ваше имя</span>
 
                     <input type="text" id="name" className="text-field" value={name} onChange={(e) => setName(e.target.value)} />
-                </div> */}
+                </div>
 
                 <div className={clsx('field-wrapper phone-field', { 'show-number': selected.length && houses.length })}>
                     <label htmlFor="phone" className="field-label">{DICTIONARY[lang].bookPhone}</label>

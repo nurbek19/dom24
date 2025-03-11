@@ -758,3 +758,11 @@ input[type=number] {
 .rdp-caption_label {
   font-weight: normal;
 }
+
+.hide-name-field {
+  display: none;
+}
+
+.show-name-field {
+  display: block;
+}
