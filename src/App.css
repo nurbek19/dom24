@@ -612,10 +612,10 @@ input[type=number] {
   text-transform: capitalize;
 }
 
-.rdp-root {
+/* .rdp-root {
   display: flex;
   justify-content: center;
-}
+} */
 
 .rdp-disabled.my-booked-class {
   opacity: 1;
@@ -765,4 +765,20 @@ input[type=number] {
 
 .show-name-field {
   display: block;
+}
+
+.rdp-root .rdp-months {
+  max-width: 100%;
+}
+
+.rdp-month {
+  width: 100%;
+}
+
+.rdp-month_grid {
+  width: 100%;
+}
+
+.rdp-day .rdp-day_button {
+  width: 100%;
 }
