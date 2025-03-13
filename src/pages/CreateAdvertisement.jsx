@@ -112,7 +112,7 @@ function CreateAdvertisement() {
       address,
       phone,
       count: parseInt(count),
-      prepayment_sum: prepayment,
+      prepayment_sum: parseInt(prepayment),
       mbank_link: paymentLink,
       price: pricesObj
     };

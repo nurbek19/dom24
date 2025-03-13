@@ -60,7 +60,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       phone,
       count: doc.count,
       price: pricesObj,
-      prepayment_sum: prepayment,
+      prepayment_sum: parseInt(prepayment),
       mbank_link: paymentLink,
       books: doc.books ? doc.books : []
     };
