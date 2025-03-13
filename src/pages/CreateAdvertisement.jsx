@@ -203,7 +203,7 @@ function CreateAdvertisement() {
   }, [isFormValid])
 
   return (
-    <div>
+    <div className='container-padding'>
 
       <div className="field-wrapper select-wrapper">
         <label htmlFor="city" className="field-label">{DICTIONARY[lang].city}</label>

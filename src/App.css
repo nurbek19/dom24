@@ -530,7 +530,8 @@ input[type=number] {
     padding: 10px;
 }
 
-.single-result-card.card-padding {
+.single-result-card.card-padding,
+.container-padding {
   padding-bottom: 300px;
 }
 
