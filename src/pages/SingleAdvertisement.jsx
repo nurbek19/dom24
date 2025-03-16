@@ -50,7 +50,7 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
 
         if (houses.length) {
             const housesBookedDays = houses.reduce((acc, value) => {
-                const booksByHouseNumber = item.books[value];
+                const booksByHouseNumber = item.books[value].map((entity) => entity.book_date);
                 acc.push(...booksByHouseNumber);
 
                 return acc;
@@ -61,7 +61,8 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
             return Array.from(setFromArr).map((d) => new Date(d));
         }
 
-        const commonDates = Object.values(item.books);
+
+        const commonDates = Object.values(item.books).map((arr) => (arr.map((el) => el.book_date)));
 
         if (commonDates.length === 0) {
             return [];
@@ -82,7 +83,7 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
             const selectedDates = selected.map((date) => format(date, 'MM/dd/yyyy'));
 
             Object.keys(item.books).forEach((key) => {
-                const disabled = selectedDates.some((d) => item.books[key].includes(d));
+                const disabled = selectedDates.some((d) => item.books[key].map((obj) => (obj.book_date)).includes(d));
 
                 arr.push({ number: key, disabled });
             });
@@ -107,15 +108,13 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
         console.log({
             house_id: item._id,
             books,
-            comment: `${name} ${phone}`,
-            contact_phone: phone
+            comment: `${name} ${phone}`
         });
 
         WebApp.sendData(JSON.stringify({
             house_id: item._id,
             books,
-            comment: `${name} ${phone}`,
-            contact_phone: phone
+            comment: `${name} ${phone}`
         }));
     }
 

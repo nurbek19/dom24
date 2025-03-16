@@ -28,6 +28,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
   const [count, setCount] = useState('');
   const [prepayment, setPrepayment] = useState(doc.prepayment_sum);
   const [paymentLink, setPaymentLink] = useState(doc.mbank_link);
+  const [note, setNote] = useState('');
 
   const {
     ref,
@@ -72,7 +73,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
     if (selected.length && calendarType === 'book') {
       const booksCopy = { ...doc.books };
 
-      const selectedDates = selected.map((date) => format(date, 'MM/dd/yyyy'));
+      const selectedDates = selected.map((date) => ({ book_date: format(date, 'MM/dd/yyyy'), book_comment: note }));
 
       houses.forEach((value) => {
         booksCopy[value] = [...booksCopy[value], ...selectedDates];
@@ -80,14 +81,21 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
 
 
       payload.books = booksCopy;
-      console.log(JSON.stringify(booksCopy), 'inside', houses);
     } else if (calendarType === 'delete') {
       const booksCopy = { ...doc.books };
 
       const selectedDates = selected.map((date) => format(date, 'MM/dd/yyyy'));
 
       houses.forEach((value) => {
-        booksCopy[value] = [...selectedDates];
+        // booksCopy[value] = [...selectedDates];
+
+        booksCopy[value] = [...booksCopy[value]].reduce((acc, obj) => {
+          if (selectedDates.includes(obj.book_date)) {
+            acc.push(obj);
+          }
+
+          return acc;
+        }, []);
       });
 
 
@@ -95,6 +103,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
     }
 
     console.log(JSON.stringify(payload));
+    console.log(payload);
 
     WebApp.sendData(JSON.stringify(payload));
   };
@@ -167,7 +176,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
     return () => {
       WebApp.offEvent('mainButtonClicked', onSendData);
     };
-  }, [city, address, count, phone, price, selected, houses, prepayment, paymentLink, doc]);
+  }, [city, address, count, phone, price, selected, houses, prepayment, paymentLink, note, doc]);
 
   useEffect(() => {
     WebApp.MainButton.text = 'Применить изменения';
@@ -207,7 +216,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
 
     if (houses.length) {
       const housesBookedDays = houses.reduce((acc, value) => {
-        const booksByHouseNumber = doc.books[value];
+        const booksByHouseNumber = doc.books[value].map((entity) => entity.book_date);
         acc.push(...booksByHouseNumber);
 
         return acc;
@@ -218,7 +227,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       return Array.from(setFromArr).map((d) => new Date(d));
     }
 
-    const commonDates = Object.values(doc.books);
+    const commonDates = Object.values(doc.books).map((arr) => (arr.map((el) => el.book_date)));;
 
     if (commonDates.length === 0) {
       return [];
@@ -243,7 +252,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       const selectedDates = selected.map((date) => format(date, 'MM/dd/yyyy'));
 
       Object.keys(doc.books).forEach((key) => {
-        const disabled = selectedDates.some((d) => doc.books[key].includes(d));
+        const disabled = selectedDates.some((d) => doc.books[key].map((obj) => (obj.book_date)).includes(d));
 
         arr.push({ number: key, disabled });
       });
@@ -258,7 +267,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
   useEffect(() => {
     if (calendarType === 'delete' && houses.length) {
       const housesBookedDays = houses.reduce((acc, value) => {
-        const booksByHouseNumber = doc.books[value];
+        const booksByHouseNumber = doc.books[value].map((entity) => entity.book_date);
         acc.push(...booksByHouseNumber);
 
         return acc;
@@ -376,6 +385,12 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
             booked: "my-booked-class"
           }}
         />
+      </div>
+
+      <div className={clsx('field-wrapper hide-name-field', { 'show-name-field': selected.length && houses.length && calendarType === 'book' })}>
+        <label htmlFor="note" className="field-label">Введите заметку</label>
+
+        <input type="text" id="note" className="text-field" value={note} onChange={(e) => setNote(e.target.value)} />
       </div>
 
       {/* <button onClick={onSendData}>btn</button> */}
