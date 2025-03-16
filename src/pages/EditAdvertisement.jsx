@@ -63,7 +63,8 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       price: pricesObj,
       prepayment_sum: parseInt(prepayment),
       mbank_link: paymentLink,
-      books: doc.books ? doc.books : []
+      books: doc.books ? doc.books : [],
+      delete_books: false
     };
 
     if (name) {
@@ -71,26 +72,26 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
     }
 
     if (selected.length && calendarType === 'book') {
-      const booksCopy = { ...doc.books };
+      const booksCopy = {};
 
       const selectedDates = selected.map((date) => ({ book_date: format(date, 'MM/dd/yyyy'), book_comment: note }));
 
       houses.forEach((value) => {
-        booksCopy[value] = [...booksCopy[value], ...selectedDates];
+        booksCopy[value] = [...selectedDates];
       });
 
 
       payload.books = booksCopy;
     } else if (calendarType === 'delete') {
-      const booksCopy = { ...doc.books };
+      const booksCopy = {};
 
       const selectedDates = selected.map((date) => format(date, 'MM/dd/yyyy'));
 
       houses.forEach((value) => {
         // booksCopy[value] = [...selectedDates];
 
-        booksCopy[value] = [...booksCopy[value]].reduce((acc, obj) => {
-          if (selectedDates.includes(obj.book_date)) {
+        booksCopy[value] = [...doc.books[value]].reduce((acc, obj) => {
+          if (!selectedDates.includes(obj.book_date)) {
             acc.push(obj);
           }
 
@@ -100,6 +101,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
 
 
       payload.books = booksCopy;
+      payload.delete_books = true;
     }
 
     console.log(JSON.stringify(payload));
@@ -393,7 +395,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
         <input type="text" id="note" className="text-field" value={note} onChange={(e) => setNote(e.target.value)} />
       </div>
 
-      {/* <button onClick={onSendData}>btn</button> */}
+      <button onClick={onSendData}>btn</button>
     </div>
   )
 }
