@@ -387,7 +387,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
         />
       </div>
 
-      <div className={clsx('field-wrapper hide-name-field', { 'show-name-field': selected.length && houses.length && calendarType === 'book' })}>
+      <div className={clsx('field-wrapper hide-name-field note-field', { 'show-name-field': selected.length && houses.length && calendarType === 'book' })}>
         <label htmlFor="note" className="field-label">Введите заметку</label>
 
         <input type="text" id="note" className="text-field" value={note} onChange={(e) => setNote(e.target.value)} />
