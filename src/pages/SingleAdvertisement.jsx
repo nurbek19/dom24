@@ -2,7 +2,7 @@ import { useMemo, useState, useEffect } from 'react';
 import WebApp from '@twa-dev/sdk';
 import axios from 'axios';
 import { DayPicker } from "react-day-picker";
-import { format } from "date-fns";
+import { format, isAfter } from "date-fns";
 import "react-day-picker/style.css";
 import { ru } from "react-day-picker/locale";
 import { useSearchParams } from 'react-router-dom';
@@ -217,9 +217,9 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
                         mode="multiple"
                         selected={selected}
                         onSelect={handleSelect}
-                        disabled={[{ before: new Date() }, ...bookedDays]}
+                        disabled={[{ before: new Date() }, ...bookedDays.filter((el) => (isAfter(el, new Date())))]}
                         modifiers={{
-                            booked: bookedDays
+                            booked: bookedDays.filter((el) => (isAfter(el, new Date())))
                         }}
                         modifiersClassNames={{
                             booked: "my-booked-class"

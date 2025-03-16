@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import WebApp from '@twa-dev/sdk';
 import { DayPicker } from "react-day-picker";
-import { format } from "date-fns";
+import { format, isAfter } from "date-fns";
 import "react-day-picker/style.css";
 import { ru } from "react-day-picker/locale";
 import { useIMask } from 'react-imask';
@@ -379,9 +379,9 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
           mode="multiple"
           selected={selected}
           onSelect={handleSelect}
-          disabled={[{ before: new Date() }, ...bookedDays]}
+          disabled={[{ before: new Date() }, ...bookedDays.filter((el) => (isAfter(el, new Date())))]}
           modifiers={{
-            booked: bookedDays
+            booked: bookedDays.filter((el) => (isAfter(el, new Date())))
           }}
           modifiersClassNames={{
             booked: "my-booked-class"
@@ -395,7 +395,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
         <input type="text" id="note" className="text-field" value={note} onChange={(e) => setNote(e.target.value)} />
       </div>
 
-      <button onClick={onSendData}>btn</button>
+      {/* <button onClick={onSendData}>btn</button> */}
     </div>
   )
 }
