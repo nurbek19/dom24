@@ -816,6 +816,6 @@ input[type=number] {
   padding-bottom: 10px;
 }
 
-.hide-name-field.note-field {
+.hide-name-field.note-field .text-field {
   background-color: var(--tg-theme-secondary-bg-color);
 }
