@@ -202,16 +202,29 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
     setValue(doc.phone);
   }, []);
 
-  const handleSelect = (days, triggerDate, modifiers) => {
+  const handleSelect = (days) => {
+
+    setSelected(days);
+  };
+
+  const selectNote = (days, triggerDate, modifiers) => {
     if (modifiers?.booked && triggerDate) {
       const formattedDate = format(triggerDate, 'MM/dd/yyyy');
       setNoteDate(formattedDate);
 
       return;
     }
-
-    setSelected(days);
   };
+
+  const notesDates = useMemo(() => {
+    const housesBookedDays = Object.entries(doc.books).map(([key, values]) => {
+      return values.map((v) => v.book_date);
+    }).flat();
+
+    const setFromArr = new Set(housesBookedDays);
+
+    return Array.from(setFromArr).map((d) => new Date(d));
+  }, [doc.books, calendarType]);
 
   const bookedDays = useMemo(() => {
     if (!doc.books) {
@@ -300,22 +313,20 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
     handleSelect([]);
   }, [calendarType]);
 
+  useEffect(() => {
+    if (noteDate) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'relative';
+    } else {
+      document.body.style.overflow = 'unset';
+      document.body.style.position = 'static';
+    }
+
+  }, [noteDate])
+
   const notes = useMemo(() => {
     const map = {};
 
-    if (houses.length) {
-      Object.entries(doc.books).forEach(([key, values]) => {
-        if (houses.includes(key)) {
-          map[key] = [];
-
-          values.forEach((v) => {
-            if (v.book_date === noteDate) {
-              map[key].push(v);
-            }
-          })
-        }
-      });
-    } else {
       Object.entries(doc.books).forEach(([key, values]) => {
         map[key] = [];
 
@@ -325,14 +336,13 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
           }
         })
       });
-    }
 
     return map;
 
   }, [noteDate]);
 
   return (
-    <div className='edit-container'>
+    <div>
       <div className="back-button" onClick={onBackHandler}>« {DICTIONARY[lang].back}</div>
 
       <div className="field-wrapper select-wrapper">
@@ -394,42 +404,71 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
             <input type="radio" name="calendarType" value="delete" className="radio-input" checked={calendarType === 'delete'} onChange={(e) => setCalendarType(e.target.value)} />
             <span className="radio-input-text">отмены</span>
           </label>
+          <label className="radio-input-label">
+            <input type="radio" name="calendarType" value="notes" className="radio-input" checked={calendarType === 'notes'} onChange={(e) => setCalendarType(e.target.value)} />
+            <span className="radio-input-text">заметок</span>
+          </label>
         </div>
       </div>
 
-      {housesList.length !== 1 && (
-        <div className='houses-container'>
-          <p>Выберите номер дома для бронирования:</p>
-          <div className='houses-list'>
-            {housesList.map((obj) => (
-              <HouseItem key={obj.number} number={obj.number} disabled={obj.disabled} setHouses={setHouses} calendarType={calendarType} />
-            ))}
+      {calendarType === 'notes' ? (
+        <div>
+          {/* <div className={clsx('book-calendar', { 'partner-calendar': calendarType === 'delete' })}> */}
+            {/* <p>{DICTIONARY[lang].notBookLabel}:</p> */}
+            <DayPicker
+              locale={ru}
+              mode="multiple"
+              selected={selected}
+              onSelect={selectNote}
+              disabled={[{ before: new Date() }]}
+              modifiers={{
+                booked: notesDates.filter((el) => (isAfter(el, new Date())))
+              }}
+              modifiersClassNames={{
+                booked: "my-booked-class"
+              }}
+            />
+          {/* </div> */}
+        </div>
+      ) : (
+        <>
+          {housesList.length !== 1 && (
+            <div className='houses-container'>
+              <p>Выберите номер дома для бронирования:</p>
+              <div className='houses-list'>
+                {housesList.map((obj) => (
+                  <HouseItem key={obj.number} number={obj.number} disabled={obj.disabled} setHouses={setHouses} calendarType={calendarType} />
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div>
+          <div className={clsx('book-calendar', { 'partner-calendar': calendarType === 'delete' })}>
+            <p>{DICTIONARY[lang].notBookLabel}:</p>
+            <DayPicker
+              locale={ru}
+              mode="multiple"
+              selected={selected}
+              onSelect={handleSelect}
+              disabled={[{ before: new Date() }]}
+              modifiers={{
+                booked: bookedDays.filter((el) => (isAfter(el, new Date())))
+              }}
+              modifiersClassNames={{
+                booked: "my-booked-class"
+              }}
+            />
+            </div>
           </div>
-        </div>
+
+          <div className={clsx('field-wrapper hide-name-field note-field', { 'show-name-field': selected.length && houses.length && calendarType === 'book' })}>
+            <label htmlFor="note" className="field-label">Введите заметку</label>
+
+            <input type="text" id="note" className="text-field" value={note} onChange={(e) => setNote(e.target.value)} />
+          </div>
+        </>
       )}
-
-      <div className={clsx('book-calendar', { 'partner-calendar': calendarType === 'delete' })}>
-        <p>{DICTIONARY[lang].notBookLabel}:</p>
-        <DayPicker
-          locale={ru}
-          mode="multiple"
-          selected={selected}
-          onSelect={handleSelect}
-          disabled={[{ before: new Date() },]} //...bookedDays.filter((el) => (isAfter(el, new Date())))
-          modifiers={{
-            booked: bookedDays.filter((el) => (isAfter(el, new Date())))
-          }}
-          modifiersClassNames={{
-            booked: "my-booked-class"
-          }}
-        />
-      </div>
-
-      <div className={clsx('field-wrapper hide-name-field note-field', { 'show-name-field': selected.length && houses.length && calendarType === 'book' })}>
-        <label htmlFor="note" className="field-label">Введите заметку</label>
-
-        <input type="text" id="note" className="text-field" value={note} onChange={(e) => setNote(e.target.value)} />
-      </div>
 
 
       {noteDate && (

@@ -108,8 +108,8 @@ body {
     display: inline-flex;
     justify-content: center;
     box-sizing: border-box;
-    background-color: var(--tg-theme-secondary-bg-color);
-    /* background-color: #eee; */
+    /* background-color: var(--tg-theme-secondary-bg-color); */
+    background-color: #eee;
 
     width: 100%;
     padding: 10px;
@@ -755,7 +755,7 @@ input[type=number] {
 
 .calendar-type-buttons {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .rdp-caption_label {
@@ -823,10 +823,7 @@ input[type=number] {
 .note-modal {
   position: absolute;
   left: 0;
-  top: 0;
-  right: 0;
   bottom: 0;
-
   display: flex;
   justify-content: center;
   align-items: flex-end;
@@ -889,6 +886,6 @@ input[type=number] {
   stroke: var(--tg-theme-text-color);
 }
 
-.edit-container {
+/* .edit-container {
   position: relative;
-}
+} */
