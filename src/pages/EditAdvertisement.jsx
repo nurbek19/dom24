@@ -332,7 +332,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
   }, [noteDate]);
 
   return (
-    <div>
+    <div className='edit-container'>
       <div className="back-button" onClick={onBackHandler}>« {DICTIONARY[lang].back}</div>
 
       <div className="field-wrapper select-wrapper">
