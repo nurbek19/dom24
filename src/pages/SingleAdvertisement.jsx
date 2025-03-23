@@ -217,9 +217,9 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
                         mode="multiple"
                         selected={selected}
                         onSelect={handleSelect}
-                        disabled={[{ before: new Date() }, ...bookedDays.filter((el) => (isAfter(el, new Date())))]}
+                        disabled={[{ before: new Date() }, ...bookedDays.filter((el) => (isAfter(el, sub(new Date(), { days: 1 }))))]}
                         modifiers={{
-                            booked: bookedDays.filter((el) => (isAfter(el, new Date())))
+                            booked: bookedDays.filter((el) => (isAfter(el, sub(new Date(), { days: 1 }))))
                         }}
                         modifiersClassNames={{
                             booked: "my-booked-class"

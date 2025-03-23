@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import WebApp from '@twa-dev/sdk';
 import { DayPicker } from "react-day-picker";
-import { format, isAfter } from "date-fns";
+import { format, isAfter, sub } from "date-fns";
 import "react-day-picker/style.css";
 import { ru } from "react-day-picker/locale";
 import { useIMask } from 'react-imask';
@@ -393,12 +393,12 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       </div>
 
       <div className="field-wrapper">
-        <span className="field-label">Выберите подходящий календарь для:</span>
+        <span className="field-label">Выберите календарь:</span>
 
         <div className="calendar-type-buttons">
           <label className="radio-input-label">
             <input type="radio" name="calendarType" value="book" className="radio-input" checked={calendarType === 'book'} onChange={(e) => setCalendarType(e.target.value)} />
-            <span className="radio-input-text">бронирования</span>
+            <span className="radio-input-text">брони</span>
           </label>
           <label className="radio-input-label">
             <input type="radio" name="calendarType" value="delete" className="radio-input" checked={calendarType === 'delete'} onChange={(e) => setCalendarType(e.target.value)} />
@@ -422,7 +422,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
               onSelect={selectNote}
               disabled={[{ before: new Date() }]}
               modifiers={{
-                booked: notesDates.filter((el) => (isAfter(el, new Date())))
+                booked: notesDates.filter((el) => (isAfter(el, sub(new Date(), { days: 1 }))))
               }}
               modifiersClassNames={{
                 booked: "my-booked-class"
@@ -451,9 +451,9 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
               mode="multiple"
               selected={selected}
               onSelect={handleSelect}
-              disabled={[{ before: new Date() }]}
+              disabled={[{ before: new Date() }, ...bookedDays.filter((el) => (isAfter(el, sub(new Date(), { days: 1 }))))]}
               modifiers={{
-                booked: bookedDays.filter((el) => (isAfter(el, new Date())))
+                booked: bookedDays.filter((el) => (isAfter(el, sub(new Date(), { days: 1 }))))
               }}
               modifiersClassNames={{
                 booked: "my-booked-class"
