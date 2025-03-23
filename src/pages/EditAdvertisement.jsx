@@ -29,6 +29,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
   const [prepayment, setPrepayment] = useState(doc.prepayment_sum);
   const [paymentLink, setPaymentLink] = useState(doc.mbank_link);
   const [note, setNote] = useState('');
+  const [noteDate, setNoteDate] = useState('');
 
   const {
     ref,
@@ -167,8 +168,6 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
 
     const isObjectChanged = deepEqual(payload, docObj);
 
-    console.log(houses.length, selected.length);
-
     return (city && address && phone && name && isSomeprice && prepayment && paymentLink && !isObjectChanged) || (houses.length && selected.length);
   }, [city, address, phone, price, name, selected, doc, houses, prepayment, paymentLink]);
 
@@ -203,7 +202,14 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
     setValue(doc.phone);
   }, []);
 
-  const handleSelect = (days) => {
+  const handleSelect = (days, triggerDate, modifiers) => {
+    if (modifiers?.booked && triggerDate) {
+      const formattedDate = format(triggerDate, 'MM/dd/yyyy');
+      setNoteDate(formattedDate);
+
+      return;
+    }
+
     setSelected(days);
   };
 
@@ -294,6 +300,36 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
     handleSelect([]);
   }, [calendarType]);
 
+  const notes = useMemo(() => {
+    const map = {};
+
+    if (houses.length) {
+      Object.entries(doc.books).forEach(([key, values]) => {
+        if (houses.includes(key)) {
+          map[key] = [];
+
+          values.forEach((v) => {
+            if (v.book_date === noteDate) {
+              map[key].push(v);
+            }
+          })
+        }
+      });
+    } else {
+      Object.entries(doc.books).forEach(([key, values]) => {
+        map[key] = [];
+
+        values.forEach((v) => {
+          if (v.book_date === noteDate) {
+            map[key].push(v);
+          }
+        })
+      });
+    }
+
+    return map;
+
+  }, [noteDate]);
 
   return (
     <div>
@@ -379,7 +415,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
           mode="multiple"
           selected={selected}
           onSelect={handleSelect}
-          disabled={[{ before: new Date() }, ...bookedDays.filter((el) => (isAfter(el, new Date())))]}
+          disabled={[{ before: new Date() },]} //...bookedDays.filter((el) => (isAfter(el, new Date())))
           modifiers={{
             booked: bookedDays.filter((el) => (isAfter(el, new Date())))
           }}
@@ -394,6 +430,36 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
 
         <input type="text" id="note" className="text-field" value={note} onChange={(e) => setNote(e.target.value)} />
       </div>
+
+
+      {noteDate && (
+        <div className='note-modal' onClick={() => setNoteDate('')}>
+          <div className='note-modal-content'>
+            <div className='close-icon' onClick={() => setNoteDate('')}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </div>
+            <h4>Заметки</h4>
+
+            {Object.entries(notes).map(([key, values]) => {
+              if (!values.length) {
+                return null;
+              }
+
+              return (
+                <div key={key} className='note-card'>
+                  <p>🏠 {key}</p>
+
+                  {values.map((v) => (
+                    <div key={v.book_date}>
+                      <span>{format(new Date(v.book_date), 'd MMM', { locale: ru })}</span> {v.book_comment}
+                    </div>
+                  ))}
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
 
       {/* <button onClick={onSendData}>btn</button> */}
     </div>
