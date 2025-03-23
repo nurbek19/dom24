@@ -108,8 +108,8 @@ body {
     display: inline-flex;
     justify-content: center;
     box-sizing: border-box;
-    /* background-color: var(--tg-theme-secondary-bg-color); */
-    background-color: #eee;
+    background-color: var(--tg-theme-secondary-bg-color);
+    /* background-color: #eee; */
 
     width: 100%;
     padding: 10px;
@@ -754,8 +754,11 @@ input[type=number] {
 }
 
 .calendar-type-buttons {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  display: flex;
+}
+
+.calendar-type-buttons .radio-input-label {
+  flex-grow: 1;
 }
 
 .rdp-caption_label {
