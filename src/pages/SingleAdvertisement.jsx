@@ -2,7 +2,7 @@ import { useMemo, useState, useEffect } from 'react';
 import WebApp from '@twa-dev/sdk';
 import axios from 'axios';
 import { DayPicker } from "react-day-picker";
-import { format, isAfter } from "date-fns";
+import { format, isAfter, sub } from "date-fns";
 import "react-day-picker/style.css";
 import { ru } from "react-day-picker/locale";
 import { useSearchParams } from 'react-router-dom';
