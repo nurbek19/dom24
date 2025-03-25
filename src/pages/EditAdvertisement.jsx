@@ -327,15 +327,15 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
   const notes = useMemo(() => {
     const map = {};
 
-      Object.entries(doc.books).forEach(([key, values]) => {
-        map[key] = [];
+    Object.entries(doc.books).forEach(([key, values]) => {
+      map[key] = [];
 
-        values.forEach((v) => {
-          if (v.book_date === noteDate) {
-            map[key].push(v);
-          }
-        })
-      });
+      values.forEach((v) => {
+        if (v.book_date === noteDate) {
+          map[key].push(v);
+        }
+      })
+    });
 
     return map;
 
@@ -344,6 +344,84 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
   return (
     <div>
       <div className="back-button" onClick={onBackHandler}>« {DICTIONARY[lang].back}</div>
+
+      <div className="field-wrapper">
+        <span className="field-label">Выберите календарь:</span>
+
+        <div className="calendar-type-buttons">
+          <label className="radio-input-label">
+            <input type="radio" name="calendarType" value="book" className="radio-input" checked={calendarType === 'book'} onChange={(e) => setCalendarType(e.target.value)} />
+            <span className="radio-input-text">брони</span>
+          </label>
+          <label className="radio-input-label">
+            <input type="radio" name="calendarType" value="delete" className="radio-input" checked={calendarType === 'delete'} onChange={(e) => setCalendarType(e.target.value)} />
+            <span className="radio-input-text">отмены</span>
+          </label>
+          <label className="radio-input-label">
+            <input type="radio" name="calendarType" value="notes" className="radio-input" checked={calendarType === 'notes'} onChange={(e) => setCalendarType(e.target.value)} />
+            <span className="radio-input-text">заметок</span>
+          </label>
+        </div>
+      </div>
+
+      {calendarType === 'notes' ? (
+        <div className='edit-calendar-container'>
+          {/* <div className={clsx('book-calendar', { 'partner-calendar': calendarType === 'delete' })}> */}
+          {/* <p>{DICTIONARY[lang].notBookLabel}:</p> */}
+          <DayPicker
+            locale={ru}
+            mode="multiple"
+            selected={selected}
+            onSelect={selectNote}
+            disabled={[{ before: new Date() }]}
+            modifiers={{
+              booked: notesDates.filter((el) => (isAfter(el, sub(new Date(), { days: 1 }))))
+            }}
+            modifiersClassNames={{
+              booked: "my-booked-class"
+            }}
+          />
+          {/* </div> */}
+        </div>
+      ) : (
+        <div className='edit-calendar-container'>
+          {housesList.length !== 1 && (
+            <div className='houses-container'>
+              <p>Выберите номер дома для бронирования:</p>
+              <div className='houses-list'>
+                {housesList.map((obj) => (
+                  <HouseItem key={obj.number} number={obj.number} disabled={obj.disabled} setHouses={setHouses} calendarType={calendarType} />
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div>
+            <div className={clsx('book-calendar', { 'partner-calendar': calendarType === 'delete' })}>
+              <p>{DICTIONARY[lang].notBookLabel}:</p>
+              <DayPicker
+                locale={ru}
+                mode="multiple"
+                selected={selected}
+                onSelect={handleSelect}
+                disabled={[{ before: new Date() }, ...bookedDays.filter((el) => (isAfter(el, sub(new Date(), { days: 1 }))))]}
+                modifiers={{
+                  booked: bookedDays.filter((el) => (isAfter(el, sub(new Date(), { days: 1 }))))
+                }}
+                modifiersClassNames={{
+                  booked: "my-booked-class"
+                }}
+              />
+            </div>
+          </div>
+
+          <div className={clsx('field-wrapper hide-name-field note-field', { 'show-name-field': selected.length && houses.length && calendarType === 'book' })}>
+            <label htmlFor="note" className="field-label">Введите заметку</label>
+
+            <input type="text" id="note" className="text-field" value={note} onChange={(e) => setNote(e.target.value)} />
+          </div>
+        </div>
+      )}
 
       <div className="field-wrapper select-wrapper">
         <label htmlFor="city" className="field-label">{DICTIONARY[lang].city}</label>
@@ -392,90 +470,12 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
         <PriceField label={DICTIONARY[lang].day_off} name="day_off" value={price.day_off} onChange={priceChangeHandler} />
       </div>
 
-      <div className="field-wrapper">
-        <span className="field-label">Выберите календарь:</span>
-
-        <div className="calendar-type-buttons">
-          <label className="radio-input-label">
-            <input type="radio" name="calendarType" value="book" className="radio-input" checked={calendarType === 'book'} onChange={(e) => setCalendarType(e.target.value)} />
-            <span className="radio-input-text">брони</span>
-          </label>
-          <label className="radio-input-label">
-            <input type="radio" name="calendarType" value="delete" className="radio-input" checked={calendarType === 'delete'} onChange={(e) => setCalendarType(e.target.value)} />
-            <span className="radio-input-text">отмены</span>
-          </label>
-          <label className="radio-input-label">
-            <input type="radio" name="calendarType" value="notes" className="radio-input" checked={calendarType === 'notes'} onChange={(e) => setCalendarType(e.target.value)} />
-            <span className="radio-input-text">заметок</span>
-          </label>
-        </div>
-      </div>
-
-      {calendarType === 'notes' ? (
-        <div>
-          {/* <div className={clsx('book-calendar', { 'partner-calendar': calendarType === 'delete' })}> */}
-            {/* <p>{DICTIONARY[lang].notBookLabel}:</p> */}
-            <DayPicker
-              locale={ru}
-              mode="multiple"
-              selected={selected}
-              onSelect={selectNote}
-              disabled={[{ before: new Date() }]}
-              modifiers={{
-                booked: notesDates.filter((el) => (isAfter(el, sub(new Date(), { days: 1 }))))
-              }}
-              modifiersClassNames={{
-                booked: "my-booked-class"
-              }}
-            />
-          {/* </div> */}
-        </div>
-      ) : (
-        <>
-          {housesList.length !== 1 && (
-            <div className='houses-container'>
-              <p>Выберите номер дома для бронирования:</p>
-              <div className='houses-list'>
-                {housesList.map((obj) => (
-                  <HouseItem key={obj.number} number={obj.number} disabled={obj.disabled} setHouses={setHouses} calendarType={calendarType} />
-                ))}
-              </div>
-            </div>
-          )}
-
-          <div>
-          <div className={clsx('book-calendar', { 'partner-calendar': calendarType === 'delete' })}>
-            <p>{DICTIONARY[lang].notBookLabel}:</p>
-            <DayPicker
-              locale={ru}
-              mode="multiple"
-              selected={selected}
-              onSelect={handleSelect}
-              disabled={[{ before: new Date() }, ...bookedDays.filter((el) => (isAfter(el, sub(new Date(), { days: 1 }))))]}
-              modifiers={{
-                booked: bookedDays.filter((el) => (isAfter(el, sub(new Date(), { days: 1 }))))
-              }}
-              modifiersClassNames={{
-                booked: "my-booked-class"
-              }}
-            />
-            </div>
-          </div>
-
-          <div className={clsx('field-wrapper hide-name-field note-field', { 'show-name-field': selected.length && houses.length && calendarType === 'book' })}>
-            <label htmlFor="note" className="field-label">Введите заметку</label>
-
-            <input type="text" id="note" className="text-field" value={note} onChange={(e) => setNote(e.target.value)} />
-          </div>
-        </>
-      )}
-
 
       {noteDate && (
         <div className='note-modal' onClick={() => setNoteDate('')}>
-          <div className='note-modal-content'>
+          <div className='note-modal-content' onClick={(e) => { e.stopPropagation() }}>
             <div className='close-icon' onClick={() => setNoteDate('')}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
             </div>
             <h4>Заметки</h4>
 

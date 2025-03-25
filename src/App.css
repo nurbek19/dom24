@@ -826,10 +826,10 @@ input[type=number] {
 .note-modal {
   position: absolute;
   left: 0;
-  bottom: 0;
+  top: 0;
   display: flex;
   justify-content: center;
-  align-items: flex-end;
+  align-items: flex-start;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.7);
@@ -849,6 +849,7 @@ input[type=number] {
   overflow-y: auto;
   border-radius: 8px;
   box-sizing: border-box;
+  max-height: calc(100vh - 50px);
 }
 
 .note-card {
@@ -887,6 +888,10 @@ input[type=number] {
 
 .close-icon svg {
   stroke: var(--tg-theme-text-color);
+}
+
+.edit-calendar-container {
+  padding-bottom: 20px;
 }
 
 /* .edit-container {
