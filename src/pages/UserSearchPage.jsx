@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
 import { CITIES } from './CreateAdvertisement';
 import WebApp from '@twa-dev/sdk';
 import '../App.css';
@@ -7,6 +6,8 @@ import { useSearchParams } from 'react-router-dom';
 
 import { DICTIONARY } from './CreateAdvertisement';
 import SearchResultPage from './SearchResultPage';
+
+import { api } from '../api';
 
 // import logo from '../images/logo.svg';
 
@@ -48,7 +49,7 @@ const UserSearchPage = () => {
         const id = searchParams.get('user_id');
         // setLoading(true);
 
-        axios.get(`https://ainur-khakimov.ru/dom24/houses?city=${city}&chat_id=${id}`).then((res) => {
+        api.get(`/dom24/houses?city=${city}&chat_id=${id}`).then((res) => {
             if (res.data) {
                 const index = Math.floor(Math.random() * 2);
                 console.log(index);
@@ -77,7 +78,7 @@ const UserSearchPage = () => {
         setIsDisabled(true);
         setIndex(null);
 
-        axios.get(`https://ainur-khakimov.ru/dom24/houses?city=${city}&rent_type=${rentType}&room_count=${room}&chat_id=${id}`).then((res) => {
+        api.get(`/dom24/houses?city=${city}&rent_type=${rentType}&room_count=${room}&chat_id=${id}`).then((res) => {
             if (res.data) {
                 // const index = Math.floor(Math.random() * 3);
                 // setIndex(index);

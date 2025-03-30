@@ -1,9 +1,9 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
-import axios from "axios";
 import WebApp from '@twa-dev/sdk';
 import { useSearchParams, useParams } from "react-router-dom";
 
 import ImageSlider from "../components/ImageSlider";
+import { api } from "../api";
 
 import '../App.css';
 import EditAdvertisement from "./EditAdvertisement";
@@ -32,7 +32,7 @@ function OwnerAdvertisementsList() {
     const fetchData = () => {
         const id = searchParams.get('owner_id');
 
-        axios.get(`https://ainur-khakimov.ru/dom24/houses?owner_id=${id}`).then((res) => {
+        api.get(`/dom24/houses?owner_id=${id}`).then((res) => {
             if (res.data) {
                 setData(res.data);
 

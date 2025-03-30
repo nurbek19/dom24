@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import axios from "axios";
 import WebApp from '@twa-dev/sdk';
 
 import ImageSlider from "../components/ImageSlider";
 import SingleAdvertisement from './SingleAdvertisement';
 // import RecentDays from "../components/RecentDays";
+
+import { api } from "../api";
 import { DICTIONARY } from './CreateAdvertisement';
 
 
@@ -21,7 +22,7 @@ const PartnerPage = () => {
     const fetchData = () => {
         const id = searchParams.get('owner_id');
 
-        axios.get(`https://ainur-khakimov.ru/dom24/houses?owner_id=${id}`).then((res) => {
+        api.get(`/dom24/houses?owner_id=${id}`).then((res) => {
             if (res.data) {
                 setData(res.data);
 

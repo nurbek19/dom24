@@ -1,6 +1,5 @@
 import { useMemo, useState, useEffect } from 'react';
 import WebApp from '@twa-dev/sdk';
-import axios from 'axios';
 import { DayPicker } from "react-day-picker";
 import { format, isAfter, sub } from "date-fns";
 import "react-day-picker/style.css";
@@ -13,6 +12,7 @@ import '../App.css';
 import { DICTIONARY } from './CreateAdvertisement';
 import clsx from 'clsx';
 import HouseItem from '../components/HouseItem';
+import { api } from '../api';
 import logo from '../images/booklink.png';
 
 const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
@@ -36,7 +36,7 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
 
         setShow(true);
 
-        axios.post('https://ainur-khakimov.ru/dom24/houses/call', { house_id: _id, owner_id, phone, caller_id: parseInt(id) });
+        api.post('/dom24/houses/call', { house_id: _id, owner_id, phone, caller_id: parseInt(id) });
     }
 
     const copyHandler = () => {
