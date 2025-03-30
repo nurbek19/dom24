@@ -30,6 +30,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
   const [paymentLink, setPaymentLink] = useState(doc.mbank_link);
   const [note, setNote] = useState('');
   const [noteDate, setNoteDate] = useState('');
+  const [editData, setEditData] = useState(false);
 
   const {
     ref,
@@ -328,11 +329,11 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
     const map = {};
 
     Object.entries(doc.books).forEach(([key, values]) => {
-      map[key] = [];
+      map[key] = '';
 
       values.forEach((v) => {
         if (v.book_date === noteDate) {
-          map[key].push(v);
+          map[key] = v.book_comment;
         }
       })
     });
@@ -423,53 +424,60 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
         </div>
       )}
 
-      <div className="field-wrapper select-wrapper">
-        <label htmlFor="city" className="field-label">{DICTIONARY[lang].city}</label>
+      <button className='edit-data-button' onClick={() => setEditData(!editData)}>
+        {editData ? 'Скрыть данные' : 'Редактировать данные'}
+      </button>
 
-        <select name="city" id="city" value={city} onChange={(e) => setCity(e.target.value)} className="select-field">
-          {CITIES.map((v) => (
-            <option key={v} value={v}>{v}</option>
-          ))}
-        </select>
+      {editData && (
+        <div>
+        <div className="field-wrapper select-wrapper">
+          <label htmlFor="city" className="field-label">{DICTIONARY[lang].city}</label>
+
+          <select name="city" id="city" value={city} onChange={(e) => setCity(e.target.value)} className="select-field">
+            {CITIES.map((v) => (
+              <option key={v} value={v}>{v}</option>
+            ))}
+          </select>
+        </div>
+
+        <div className="field-wrapper">
+          <label htmlFor="name" className="field-label">{DICTIONARY[lang].name}</label>
+
+          <input type="text" id="name" className="text-field" value={name} onChange={(e) => setName(e.target.value)} />
+        </div>
+
+        <div className="field-wrapper">
+          <label htmlFor="address" className="field-label">{DICTIONARY[lang].address}</label>
+
+          <input type="text" id="address" className="text-field" maxLength={50} value={address} onChange={(e) => setAddress(e.target.value)} />
+        </div>
+
+        <div className="field-wrapper">
+          <label htmlFor="phone" className="field-label">{DICTIONARY[lang].phone}</label>
+
+          <input type="tel" pattern="[0-9]*" noValidate id="phone" className="text-field" ref={ref} />
+        </div>
+
+        <div className="field-wrapper">
+          <label htmlFor="prepayment" className="field-label">Минимальная сумма предоплаты</label>
+
+          <input type="number" id="prepayment" pattern="[0-9]*" inputMode="numeric" className="text-field" value={prepayment} onChange={(e) => setPrepayment(e.target.value)} />
+        </div>
+
+        <div className="field-wrapper">
+          <label htmlFor="payment-link" className="field-label">Ссылка для предоплаты</label>
+
+          <input type="text" id="payment-link" className="text-field" value={paymentLink} onChange={(e) => setPaymentLink(e.target.value)} />
+        </div>
+
+        <div className="field-wrapper">
+          <span className="field-label">{DICTIONARY[lang].price}</span>
+
+          <PriceField label={DICTIONARY[lang].day} name="day" value={price.day} onChange={priceChangeHandler} />
+          <PriceField label={DICTIONARY[lang].day_off} name="day_off" value={price.day_off} onChange={priceChangeHandler} />
+        </div>
       </div>
-
-      <div className="field-wrapper">
-        <label htmlFor="name" className="field-label">{DICTIONARY[lang].name}</label>
-
-        <input type="text" id="name" className="text-field" value={name} onChange={(e) => setName(e.target.value)} />
-      </div>
-
-      <div className="field-wrapper">
-        <label htmlFor="address" className="field-label">{DICTIONARY[lang].address}</label>
-
-        <input type="text" id="address" className="text-field" maxLength={50} value={address} onChange={(e) => setAddress(e.target.value)} />
-      </div>
-
-      <div className="field-wrapper">
-        <label htmlFor="phone" className="field-label">{DICTIONARY[lang].phone}</label>
-
-        <input type="tel" pattern="[0-9]*" noValidate id="phone" className="text-field" ref={ref} />
-      </div>
-
-      <div className="field-wrapper">
-        <label htmlFor="prepayment" className="field-label">Минимальная сумма предоплаты</label>
-
-        <input type="number" id="prepayment" pattern="[0-9]*" inputMode="numeric" className="text-field" value={prepayment} onChange={(e) => setPrepayment(e.target.value)} />
-      </div>
-
-      <div className="field-wrapper">
-        <label htmlFor="payment-link" className="field-label">Ссылка для предоплаты</label>
-
-        <input type="text" id="payment-link" className="text-field" value={paymentLink} onChange={(e) => setPaymentLink(e.target.value)} />
-      </div>
-
-      <div className="field-wrapper">
-        <span className="field-label">{DICTIONARY[lang].price}</span>
-
-        <PriceField label={DICTIONARY[lang].day} name="day" value={price.day} onChange={priceChangeHandler} />
-        <PriceField label={DICTIONARY[lang].day_off} name="day_off" value={price.day_off} onChange={priceChangeHandler} />
-      </div>
-
+      )}
 
       {noteDate && (
         <div className='note-modal' onClick={() => setNoteDate('')}>
@@ -477,22 +485,16 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
             <div className='close-icon' onClick={() => setNoteDate('')}>
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
             </div>
-            <h4>Заметки</h4>
+            <h4>{format(new Date(noteDate), 'd MMMM', { locale: ru })}</h4>
 
-            {Object.entries(notes).map(([key, values]) => {
-              if (!values.length) {
+            {Object.entries(notes).map(([key, value]) => {
+              if (!value) {
                 return null;
               }
 
               return (
                 <div key={key} className='note-card'>
-                  <p>🏠 {key}</p>
-
-                  {values.map((v) => (
-                    <div key={v.book_date}>
-                      <span>{format(new Date(v.book_date), 'd MMM', { locale: ru })}</span> {v.book_comment}
-                    </div>
-                  ))}
+                  <p><span>🏠 {key}</span> {value}</p>
                 </div>
               )
             })}

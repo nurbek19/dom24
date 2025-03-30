@@ -831,7 +831,7 @@ input[type=number] {
   justify-content: center;
   align-items: flex-start;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   background-color: rgba(0, 0, 0, 0.7);
   padding: 25px;
   box-sizing: border-box;
@@ -866,8 +866,7 @@ input[type=number] {
   padding-bottom: 10px;
 }
 
-.note-card p,
-.note-card div {
+.note-card p {
   margin: 0;
   padding-bottom: 5px;
 
@@ -875,8 +874,7 @@ input[type=number] {
   color: var(--tg-theme-text-color);
 }
 
-.note-card div span,
-.note-card p {
+.note-card p span {
   font-weight: 600;
 }
 
@@ -894,6 +892,14 @@ input[type=number] {
   padding-bottom: 20px;
 }
 
-/* .edit-container {
-  position: relative;
-} */
+.edit-data-button {
+  background-color: transparent;
+  color: var(--tg-theme-text-color);
+  font-size: 18px;
+
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid var(--tg-theme-button-color);
+  border-radius: 8px;
+}
