@@ -6,7 +6,7 @@ import { format, isAfter, sub } from "date-fns";
 import "react-day-picker/style.css";
 import { ru } from "react-day-picker/locale";
 import { useSearchParams } from 'react-router-dom';
-import { useIMask } from 'react-imask';
+// import { useIMask } from 'react-imask';
 import ImageSlider from "../components/ImageSlider";
 import '../App.css';
 
@@ -23,11 +23,12 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
     const [name, setName] = useState('');
     const [houses, setHouses] = useState([]);
     const byLink = searchParams.get('bylink');
+    const [phone, setPhone] = useState('');
 
-    const {
-        ref,
-        value: phone,
-    } = useIMask({ mask: '+{996}(000)000-000' });
+    // const {
+    //     ref,
+    //     value: phone,
+    // } = useIMask({ mask: '+{996}(000)000-000' });
 
     const callHandler = () => {
         const id = searchParams.get('user_id');
@@ -98,8 +99,6 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
         const selectedDates = selected.map((date) => format(date, 'MM/dd/yyyy'));
 
         const books = houses.reduce((acc, value) => {
-            console.log(acc, value);    
-
             acc[value] = selectedDates;
 
             return acc;
@@ -154,7 +153,7 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
     const handleSelect = (newSelected) => {
 
         setSelected(newSelected);
-      };
+    };
 
 
     return (
@@ -173,16 +172,16 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
                             {/* <p><span>{DICTIONARY[lang].roomCount}:</span> {item.count}</p> */}
                             {!byLink && (
                                 <div className="card-prices single-card-prices">
-                                {Object.entries(item.price).map(([key, value]) => {
-                                    if (!value) {
-                                        return null;
-                                    }
+                                    {Object.entries(item.price).map(([key, value]) => {
+                                        if (!value) {
+                                            return null;
+                                        }
 
-                                    return (
-                                        <div key={key}>{DICTIONARY[lang][key]} <br /> {value}</div>
-                                    );
-                                })}
-                            </div>
+                                        return (
+                                            <div key={key}>{DICTIONARY[lang][key]} <br /> {value}</div>
+                                        );
+                                    })}
+                                </div>
                             )}
 
                             {/* <div className='card-status'>
@@ -192,12 +191,12 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
                             {!byLink && (
                                 show ? (
                                     <div>
-    
+
                                         <div className='phone-number' onClick={copyHandler}>
                                             {item.phone}
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></svg>
                                         </div>
-    
+
                                         {showText && (<p className='copy-text'>{DICTIONARY[lang].numberCopied}</p>)}
                                     </div>
                                 ) : (
@@ -229,12 +228,12 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
 
                 {housesList.length !== 1 && (
                     <div className='houses-container'>
-                    <p>Выберите номер дома для бронирования:</p>
-                    <div className='houses-list'>
-                        {housesList.map((obj) => (
-                            <HouseItem key={obj.number} number={obj.number} disabled={obj.disabled} setHouses={setHouses} />
-                        ))}
-                    </div>
+                        <p>Выберите номер дома для бронирования:</p>
+                        <div className='houses-list'>
+                            {housesList.map((obj) => (
+                                <HouseItem key={obj.number} number={obj.number} disabled={obj.disabled} setHouses={setHouses} />
+                            ))}
+                        </div>
                     </div>
                 )}
 
@@ -247,7 +246,15 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
                 <div className={clsx('field-wrapper phone-field', { 'show-number': selected.length && houses.length })}>
                     <label htmlFor="phone" className="field-label">{DICTIONARY[lang].bookPhone}</label>
 
-                    <input type="tel" pattern="[0-9]*" noValidate id="phone" className="text-field" ref={ref} />
+                    <input
+                        type="tel"
+                        pattern="[0-9]*"
+                        noValidate id="phone"
+                        className="text-field"
+                        placeholder="0555 555 555"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        maxLength={10} />
                 </div>
 
                 {/* <button onClick={onSendData}>btn</button> */}
@@ -257,7 +264,7 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
             <div className="footer">
                 <p>Хотите такой же календарь для бронирования? 👇</p>
                 <a href="https://booklink.pro/" target="_blank">
-                <img src={logo} alt="logotype" />
+                    <img src={logo} alt="logotype" />
                 </a>
             </div>
         </div>
