@@ -132,7 +132,7 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
     }, [phone, selected]);
 
     const isValid = useMemo(() => {
-        return phone.length === 16 && selected.length && name;
+        return phone.length && selected.length && name;
     }, [selected, phone, name]);
 
     useEffect(() => {
