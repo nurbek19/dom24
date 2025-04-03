@@ -32,7 +32,7 @@ function OwnerAdvertisementsList() {
     const fetchData = () => {
         const id = searchParams.get('owner_id');
 
-        api.get(`/dom24/houses?owner_id=${id}`).then((res) => {
+        api.get(`/houses?owner_id=${id}`).then((res) => {
             if (res.data) {
                 setData(res.data);
 

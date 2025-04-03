@@ -36,7 +36,7 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
 
         setShow(true);
 
-        api.post('/dom24/houses/call', { house_id: _id, owner_id, phone, caller_id: parseInt(id) });
+        api.post('/houses/call', { house_id: _id, owner_id, phone, caller_id: parseInt(id) });
     }
 
     const copyHandler = () => {

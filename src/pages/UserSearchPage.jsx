@@ -49,7 +49,7 @@ const UserSearchPage = () => {
         const id = searchParams.get('user_id');
         // setLoading(true);
 
-        api.get(`/dom24/houses?city=${city}&chat_id=${id}`).then((res) => {
+        api.get(`/houses?city=${city}&chat_id=${id}`).then((res) => {
             if (res.data) {
                 const index = Math.floor(Math.random() * 2);
                 console.log(index);
@@ -78,7 +78,7 @@ const UserSearchPage = () => {
         setIsDisabled(true);
         setIndex(null);
 
-        api.get(`/dom24/houses?city=${city}&rent_type=${rentType}&room_count=${room}&chat_id=${id}`).then((res) => {
+        api.get(`/houses?city=${city}&rent_type=${rentType}&room_count=${room}&chat_id=${id}`).then((res) => {
             if (res.data) {
                 // const index = Math.floor(Math.random() * 3);
                 // setIndex(index);
