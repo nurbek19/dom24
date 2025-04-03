@@ -13,7 +13,7 @@ function ImageSlider({ imageIds }) {
                 <div className="embla__container">
                     {imageIds.map((id) => (
                         <div key={id} className="embla__slide">
-                            <img key={id} src={`https://ainur-khakimov.ru/dom24/houses/photo?id=${id}`} alt="house image" />
+                            <img key={id} src={`https://booklink.pro/bl/houses/photo?id=${id}`} alt="house image" />
                         </div>
                     ))}
 
