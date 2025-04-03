@@ -59,6 +59,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
     const payload = {
       _id: doc._id,
       city,
+      name,
       address,
       phone,
       count: doc.count,
@@ -68,9 +69,9 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       delete_books: false
     };
 
-    if (name) {
-      payload.name = name;
-    }
+    // if (name) {
+    //   payload.name = name;
+    // }
 
     if (selected.length && calendarType === 'book') {
       const booksCopy = {};
@@ -505,7 +506,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
         </div>
       )}
 
-      <button onClick={onSendData}>btn</button>
+      {/* <button onClick={onSendData}>btn</button> */}
     </div>
   )
 }
