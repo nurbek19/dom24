@@ -168,8 +168,12 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
 
     const isObjectChanged = deepEqual(payload, docObj);
 
+    if (calendarType === 'delete') {
+      return (city && address && phone && name && isSomeprice && prepayment && paymentLink && !isObjectChanged) || houses.length; // кейс когда одна бронь и пытаются удалить бронь
+    }
+
     return (city && address && phone && name && isSomeprice && prepayment && paymentLink && !isObjectChanged) || (houses.length && selected.length);
-  }, [city, address, phone, price, name, selected, doc, houses, prepayment, paymentLink]);
+  }, [city, address, phone, price, name, selected, doc, houses, prepayment, paymentLink, calendarType]);
 
   useEffect(() => {
     WebApp.onEvent('mainButtonClicked', onSendData);
