@@ -903,3 +903,12 @@ input[type=number] {
   border: 1px solid var(--tg-theme-button-color);
   border-radius: 8px;
 }
+
+.edit-data-container {
+  height: 0;
+  overflow: hidden;
+}
+
+.show-edit-data {
+  height: auto;
+}
