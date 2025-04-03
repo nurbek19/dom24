@@ -181,7 +181,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
     return () => {
       WebApp.offEvent('mainButtonClicked', onSendData);
     };
-  }, [city, address, count, phone, price, selected, houses, prepayment, paymentLink, note, doc]);
+  }, [city, address, count, phone, price, selected, houses, prepayment, paymentLink, note, name, doc]);
 
   useEffect(() => {
     WebApp.MainButton.text = 'Применить изменения';
@@ -505,7 +505,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
         </div>
       )}
 
-      {/* <button onClick={onSendData}>btn</button> */}
+      <button onClick={onSendData}>btn</button>
     </div>
   )
 }
