@@ -65,7 +65,6 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       price: pricesObj,
       prepayment_sum: parseInt(prepayment),
       mbank_link: paymentLink,
-      books: doc.books ? doc.books : [],
       delete_books: false
     };
 
