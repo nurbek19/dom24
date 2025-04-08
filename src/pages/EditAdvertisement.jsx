@@ -15,7 +15,7 @@ import { DICTIONARY } from './CreateAdvertisement';
 import clsx from 'clsx';
 
 
-const CITIES = ['Бишкек', 'Нарын', 'Каракол', 'Ош'];
+import { CITIES } from './CreateAdvertisement';
 
 function EditAdvertisement({ doc, lang, onBackHandler }) {
   const [city, setCity] = useState(doc.city);
