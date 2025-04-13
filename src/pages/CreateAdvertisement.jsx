@@ -68,6 +68,7 @@ export const DICTIONARY = {
 
 
 export const CITIES = ['Бишкек', 'Нарын', 'Каракол', 'Ош', 'Иссык - Куль'];
+export const HOUSE_TYPES = ['А - фрейм', 'Глемпинг', 'Коттедж', 'Юрта', 'Гостевой дом'];
 
 function CreateAdvertisement() {
   const [city, setCity] = useState(CITIES[0]);
@@ -83,6 +84,9 @@ function CreateAdvertisement() {
   const [name, setName] = useState('');
   const [prepayment, setPrepayment] = useState('');
   const [paymentLink, setPaymentLink] = useState('');
+  const [paymentId, setPaymentId] = useState('');
+  const [houseType, setHouseType] = useState(HOUSE_TYPES[0]);
+  const [description, setDescription] = useState('');
 
   const {
     ref,
@@ -114,7 +118,10 @@ function CreateAdvertisement() {
       count: parseInt(count),
       prepayment_sum: parseInt(prepayment),
       mbank_link: paymentLink,
-      price: pricesObj
+      price: pricesObj,
+      house_type: houseType,
+      finik_account_id: paymentId,
+      description,
     };
 
     if (name) {
@@ -124,9 +131,9 @@ function CreateAdvertisement() {
     console.log(payload);
 
     // if (data) {
-      WebApp.sendData(JSON.stringify(payload));
+    WebApp.sendData(JSON.stringify(payload));
     // }
-  }, [city, address, count, phone, price, name, prepayment, paymentLink]);
+  }, [city, address, count, phone, price, name, prepayment, paymentLink, houseType, paymentId, description]);
 
   useEffect(() => {
     WebApp.expand();
@@ -138,17 +145,17 @@ function CreateAdvertisement() {
     if (language) {
       setLang(language);
     }
-    
+
   }, []);
 
   const isFormValid = useMemo(() => {
     const isSomeprice = Object.values(price).some((value) => value);
 
-    const valid = city && address && count && phone && isSomeprice && prepayment && paymentLink;
+    const valid = city && address && count && phone && isSomeprice && prepayment && houseType;
 
     return valid;
 
-  }, [city, address, count, phone, price, prepayment, paymentLink]);
+  }, [city, address, count, phone, price, prepayment, paymentLink, houseType, paymentId, description]);
 
   useEffect(() => {
     const isSomeprice = Object.values(price).some((value) => value);
@@ -182,7 +189,7 @@ function CreateAdvertisement() {
       // WebApp.MainButton.hide();
       WebApp.offEvent('mainButtonClicked', onSendData);
     };
-  }, [city, address, count, phone, price, name, setData, prepayment, paymentLink]);
+  }, [city, address, count, phone, price, name, setData, prepayment, paymentLink, houseType, paymentId, description]);
 
   useEffect(() => {
     WebApp.MainButton.text = 'Создать объявление';
@@ -210,6 +217,16 @@ function CreateAdvertisement() {
 
         <select name="city" id="city" value={city} onChange={(e) => setCity(e.target.value)} className="select-field">
           {CITIES.map((v) => (
+            <option key={v} value={v}>{v}</option>
+          ))}
+        </select>
+      </div>
+
+      <div className="field-wrapper select-wrapper">
+        <label htmlFor="house-type" className="field-label">Выберите тип жилья</label>
+
+        <select name="house-type" id="house-type" value={houseType} onChange={(e) => setHouseType(e.target.value)} className="select-field">
+          {HOUSE_TYPES.map((v) => (
             <option key={v} value={v}>{v}</option>
           ))}
         </select>
@@ -251,6 +268,12 @@ function CreateAdvertisement() {
         <input type="text" id="payment-link" className="text-field" value={paymentLink} onChange={(e) => setPaymentLink(e.target.value)} />
       </div>
 
+      <div className="field-wrapper">
+        <label htmlFor="payment-id" className="field-label">Finik id</label>
+
+        <input type="text" id="payment-id" className="text-field" value={paymentId} onChange={(e) => setPaymentId(e.target.value)} />
+      </div>
+
       {/* <div className="field-wrapper">
         <span className="field-label">{DICTIONARY[lang].roomCount}</span>
 
@@ -281,10 +304,14 @@ function CreateAdvertisement() {
       <div className="field-wrapper">
         <span className="field-label">Цена</span>
 
-        {/* <PriceField label={DICTIONARY[lang].hour} name="hour" value={price.hour} onChange={priceChangeHandler} /> */}
         <PriceField label={DICTIONARY[lang].day} name="day" value={price.day} onChange={priceChangeHandler} />
         <PriceField label={DICTIONARY[lang].day_off} name="day_off" value={price.day_off} onChange={priceChangeHandler} />
-        {/* <PriceField label={DICTIONARY[lang].day_night} name="day_night" value={price.day_night} onChange={priceChangeHandler} /> */}
+      </div>
+
+      <div className="field-wrapper">
+        <label htmlFor="description" className="field-label">Описание</label>
+
+        <textarea id="description" rows="6" className="text-field" value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
       </div>
 
       {/* <button onClick={onSendData}>btn</button> */}

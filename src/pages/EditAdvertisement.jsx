@@ -15,7 +15,7 @@ import { DICTIONARY } from './CreateAdvertisement';
 import clsx from 'clsx';
 
 
-import { CITIES } from './CreateAdvertisement';
+import { CITIES, HOUSE_TYPES } from './CreateAdvertisement';
 
 function EditAdvertisement({ doc, lang, onBackHandler }) {
   const [city, setCity] = useState(doc.city);
@@ -31,6 +31,9 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
   const [note, setNote] = useState('');
   const [noteDate, setNoteDate] = useState('');
   const [editData, setEditData] = useState(false);
+  const [paymentId, setPaymentId] = useState(doc.finik_account_id);
+  const [houseType, setHouseType] = useState(doc.house_type);
+  const [description, setDescription] = useState('');
 
   const {
     ref,
@@ -66,6 +69,9 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       price: pricesObj,
       prepayment_sum: parseInt(prepayment),
       mbank_link: paymentLink,
+      house_type: houseType,
+      finik_account_id: paymentId,
+      description,
       delete_books: false
     };
 
@@ -152,6 +158,9 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       mbank_link: paymentLink,
       price: pricesObj,
       name,
+      house_type: houseType,
+      finik_account_id: paymentId,
+      description,
       books: selectedDays
     };
 
@@ -164,17 +173,20 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       // count: parseInt(doc.count),
       price: doc.price,
       name: doc.name ? doc.name : '',
+      house_type: doc.house_type,
+      finik_account_id: doc.finik_account_id,
+      description: doc.description,
       books: doc.books ? doc.books : {}
     }
 
     const isObjectChanged = deepEqual(payload, docObj);
 
     if (calendarType === 'delete') {
-      return (city && address && phone && name && isSomeprice && prepayment && paymentLink && !isObjectChanged) || houses.length; // кейс когда одна бронь и пытаются удалить бронь
+      return (city && address && phone && name && isSomeprice && prepayment && houseType && !isObjectChanged) || houses.length; // кейс когда одна бронь и пытаются удалить бронь
     }
 
-    return (city && address && phone && name && isSomeprice && prepayment && paymentLink && !isObjectChanged) || (houses.length && selected.length);
-  }, [city, address, phone, price, name, selected, doc, houses, prepayment, paymentLink, calendarType]);
+    return (city && address && phone && name && isSomeprice && prepayment && houseType && !isObjectChanged) || (houses.length && selected.length);
+  }, [city, address, phone, price, name, selected, doc, houses, prepayment, paymentLink, calendarType, houseType, paymentId, description]);
 
   useEffect(() => {
     WebApp.onEvent('mainButtonClicked', onSendData);
@@ -182,7 +194,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
     return () => {
       WebApp.offEvent('mainButtonClicked', onSendData);
     };
-  }, [city, address, count, phone, price, selected, houses, prepayment, paymentLink, note, name, doc]);
+  }, [city, address, count, phone, price, selected, houses, prepayment, paymentLink, note, name, houseType, paymentId, description, doc]);
 
   useEffect(() => {
     WebApp.MainButton.text = 'Применить изменения';
@@ -444,6 +456,16 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
             </select>
           </div>
 
+          <div className="field-wrapper select-wrapper">
+                  <label htmlFor="house-type" className="field-label">Выберите тип жилья</label>
+          
+                  <select name="house-type" id="house-type" value={houseType} onChange={(e) => setHouseType(e.target.value)} className="select-field">
+                    {HOUSE_TYPES.map((v) => (
+                      <option key={v} value={v}>{v}</option>
+                    ))}
+                  </select>
+                </div>
+
           <div className="field-wrapper">
             <label htmlFor="name" className="field-label">{DICTIONARY[lang].name}</label>
 
@@ -475,11 +497,23 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
           </div>
 
           <div className="field-wrapper">
+            <label htmlFor="payment-id" className="field-label">Finik id</label>
+
+            <input type="text" id="payment-id" className="text-field" value={paymentId} onChange={(e) => setPaymentId(e.target.value)} />
+          </div>
+
+          <div className="field-wrapper">
             <span className="field-label">{DICTIONARY[lang].price}</span>
 
             <PriceField label={DICTIONARY[lang].day} name="day" value={price.day} onChange={priceChangeHandler} />
             <PriceField label={DICTIONARY[lang].day_off} name="day_off" value={price.day_off} onChange={priceChangeHandler} />
           </div>
+
+          <div className="field-wrapper">
+        <label htmlFor="description" className="field-label">Описание</label>
+
+        <textarea id="description" rows="6" className="text-field" value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
+      </div>
         </div>
       {/* )} */}
 
