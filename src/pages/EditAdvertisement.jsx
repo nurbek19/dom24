@@ -33,7 +33,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
   const [editData, setEditData] = useState(false);
   const [paymentId, setPaymentId] = useState(doc.finik_account_id);
   const [houseType, setHouseType] = useState(doc.house_type);
-  const [description, setDescription] = useState('');
+  const [description, setDescription] = useState(doc.description);
 
   const {
     ref,
