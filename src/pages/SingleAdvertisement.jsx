@@ -188,6 +188,23 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
                                 {item.active ? <div className='free'>{DICTIONARY[lang].free}</div> : <div className='busy'>{DICTIONARY[lang].busy}</div>}
                             </div> */}
 
+                            {!byLink && item.description && (
+                                <p className='advertisement-description'><span>Описание:</span> <br /> {item.description}</p>
+                            )}
+
+                            {(!item.mbank_link && !item.finik_account_id) && (
+                                <div>
+                                    <h4>Спасибо за ваш интерес!</h4>
+
+                                    <p>На данный момент этот объект еще не зарегистрирован в нашей системе, поэтому забронировать его через Booklink, к сожалению, не получится.</p>
+                                    <p>Рекомендуем связаться с представителями объекта напрямую. Надеемся, что в ближайшее время он станет доступен на нашем сервисе.</p>
+
+                                    <a href={`https://wa.me/${item.phone.split('(').join('').split(')').join('').split('-').join('')}`} className='whatsapp-btn'>
+                                        Написать в WhatsApp
+                                    </a>
+                                </div>
+                            )}
+
                             {!byLink && (
                                 show ? (
                                     <div>
@@ -209,32 +226,36 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
                     </div>
                 </div>
 
-                <div className='book-calendar'>
-                    <p>{DICTIONARY[lang].bookLabel}:</p>
-                    <DayPicker
-                        locale={ru}
-                        mode="multiple"
-                        selected={selected}
-                        onSelect={handleSelect}
-                        disabled={[{ before: new Date() }, ...bookedDays.filter((el) => (isAfter(el, sub(new Date(), { days: 1 }))))]}
-                        modifiers={{
-                            booked: bookedDays.filter((el) => (isAfter(el, sub(new Date(), { days: 1 }))))
-                        }}
-                        modifiersClassNames={{
-                            booked: "my-booked-class"
-                        }}
-                    />
-                </div>
-
-                {housesList.length !== 1 && (
-                    <div className='houses-container'>
-                        <p>Выберите номер дома для бронирования:</p>
-                        <div className='houses-list'>
-                            {housesList.map((obj) => (
-                                <HouseItem key={obj.number} number={obj.number} disabled={obj.disabled} setHouses={setHouses} />
-                            ))}
+                {(item.mbank_link || item.finik_account_id) && (
+                    <>
+                        <div className='book-calendar'>
+                            <p>{DICTIONARY[lang].bookLabel}:</p>
+                            <DayPicker
+                                locale={ru}
+                                mode="multiple"
+                                selected={selected}
+                                onSelect={handleSelect}
+                                disabled={[{ before: new Date() }, ...bookedDays.filter((el) => (isAfter(el, sub(new Date(), { days: 1 }))))]}
+                                modifiers={{
+                                    booked: bookedDays.filter((el) => (isAfter(el, sub(new Date(), { days: 1 }))))
+                                }}
+                                modifiersClassNames={{
+                                    booked: "my-booked-class"
+                                }}
+                            />
                         </div>
-                    </div>
+
+                        {housesList.length !== 1 && (
+                            <div className='houses-container'>
+                                <p>Выберите номер дома для бронирования:</p>
+                                <div className='houses-list'>
+                                    {housesList.map((obj) => (
+                                        <HouseItem key={obj.number} number={obj.number} disabled={obj.disabled} setHouses={setHouses} />
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </>
                 )}
 
                 <div className={clsx('field-wrapper hide-name-field', { 'show-name-field': selected.length && houses.length })}>

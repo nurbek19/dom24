@@ -14,22 +14,22 @@ import { DICTIONARY } from './CreateAdvertisement';
 
 const SearchResultPage = ({ lang, data = [], loading, isData, itemIndex }) => {
     const [activeDoc, setActiveDoc] = useState(null);
-    const [objIndex, setIndex] = useState(null);
+    // const [objIndex, setIndex] = useState(null);
 
-    useEffect(() => {
-        let timeoutId;
+    // useEffect(() => {
+    //     let timeoutId;
 
-        if (itemIndex !== null) {
-            timeoutId = setTimeout(() => {
-                setIndex(itemIndex);
-            }, 2500);
-        } else {
-            clearTimeout(timeoutId);
-            setIndex(null);
-        }
+    //     if (itemIndex !== null) {
+    //         timeoutId = setTimeout(() => {
+    //             setIndex(itemIndex);
+    //         }, 2500);
+    //     } else {
+    //         clearTimeout(timeoutId);
+    //         setIndex(null);
+    //     }
 
-        return () => clearTimeout(timeoutId);
-    }, [itemIndex]);
+    //     return () => clearTimeout(timeoutId);
+    // }, [itemIndex]);
 
     if (loading) {
         return (

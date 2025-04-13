@@ -280,7 +280,7 @@ body {
     background-color: var(--tg-theme-button-color);
     /* background-color: blue; */
 
-    font-size: 14px;
+    font-size: 12px;
     color: var(--tg-theme-button-text-color);
     text-align: center;
     
@@ -501,6 +501,10 @@ input[type=number] {
   grid-template-columns: 1fr 1fr;
 }
 
+.single-card-prices div {
+  font-size: 14px;
+}
+
 .single-card-detail {
   padding-top: 15px;
 }
@@ -519,6 +523,24 @@ input[type=number] {
   border-radius: 8px;
   border: none;
   box-sizing: border-box;
+}
+
+.whatsapp-btn {
+  display: block;
+  background-color: #08f264;
+  /* background-color: blue; */
+
+  font-size: 18px;
+  color: var(--tg-theme-button-text-color);
+  text-align: center;
+  
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  box-sizing: border-box;
+  text-decoration: none;
 }
 
 .single-result-card {
@@ -911,4 +933,14 @@ input[type=number] {
 
 .show-edit-data {
   height: auto;
+}
+
+.advertisement-description {
+  padding-top: 10px;
+  white-space: pre-line;
+}
+
+.advertisement-description span {
+  display: inline-flex;
+  padding-bottom: 5px;
 }

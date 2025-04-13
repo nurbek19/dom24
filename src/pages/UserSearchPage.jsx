@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { CITIES } from './CreateAdvertisement';
+import { CITIES, HOUSE_TYPES } from './CreateAdvertisement';
 import WebApp from '@twa-dev/sdk';
 import '../App.css';
 import { useSearchParams } from 'react-router-dom';
@@ -9,12 +9,11 @@ import SearchResultPage from './SearchResultPage';
 
 import { api } from '../api';
 
-// import logo from '../images/logo.svg';
-
 const UserSearchPage = () => {
     const [city, setCity] = useState(CITIES[0]);
-    const [rentType, setRentType] = useState(null);
-    const [room, setRoom] = useState(null);
+    const [houseType, setHouseType] = useState(HOUSE_TYPES[0]);
+    // const [rentType, setRentType] = useState(null);
+    // const [room, setRoom] = useState(null);
     const [searchParams] = useSearchParams();
     const [lang, setLang] = useState('ru');
     const [data, setData] = useState([]);
@@ -22,63 +21,65 @@ const UserSearchPage = () => {
     const [isData, setIsData] = useState(false);
     const [itemIndex, setIndex] = useState(null);
     const [disabled, setIsDisabled] = useState(false);
+    const [searchText, setSearchText] = useState('');
 
     useEffect(() => {
         WebApp.expand();
-      }, []);
+    }, []);
 
-      useEffect(() => {
-        const language = searchParams.get('lang');
-    
-        if (language) {
-          setLang(language);
-        }
-        
-      }, []);
+    // useEffect(() => {
+    //     const language = searchParams.get('lang');
+
+    //     if (language) {
+    //         setLang(language);
+    //     }
+
+    // }, []);
 
 
-      useEffect(() => {
+    useEffect(() => {
         if (disabled) {
             setIsDisabled(false);
         }
-      }, [city, rentType, room]);
+    }, [city, houseType]);
 
 
-      useEffect(() => {
+    useEffect(() => {
         console.log('i fire once');
         const id = searchParams.get('user_id');
         // setLoading(true);
 
         api.get(`/houses?city=${city}&chat_id=${id}`).then((res) => {
             if (res.data) {
-                const index = Math.floor(Math.random() * 2);
-                console.log(index);
-                
-                setIndex(index);
+                // const index = Math.floor(Math.random() * 2);
+                // console.log(index);
 
-                if (res.data.length >= 2) {
-                    const copyObj = { ...res.data[index] };
-                    copyObj.active = !copyObj.active;
+                // setIndex(index);
 
-                    res.data[index] = copyObj;
-                }
+                // if (res.data.length >= 2) {
+                //     const copyObj = { ...res.data[index] };
+                //     copyObj.active = !copyObj.active;
+
+                //     res.data[index] = copyObj;
+                // }
 
 
                 setData(res.data);
             } else {
                 setData([]);
             }
+        }).catch((err) => {
         })
-      }, []);
+    }, []);
 
     const navigateHandler = useCallback(() => {
         const id = searchParams.get('user_id');
-        
+
         setLoading(true);
         setIsDisabled(true);
-        setIndex(null);
+        // setIndex(null);
 
-        api.get(`/houses?city=${city}&rent_type=${rentType}&room_count=${room}&chat_id=${id}`).then((res) => {
+        api.get(`/houses?city=${city}&house_type${houseType}&chat_id=${id}`).then((res) => {
             if (res.data) {
                 // const index = Math.floor(Math.random() * 3);
                 // setIndex(index);
@@ -99,14 +100,25 @@ const UserSearchPage = () => {
                 setIsData(true);
                 setLoading(false);
             }
+        }).catch((err) => {
+            console.log(err);
+        }).finally((err) => {
+            setLoading(false);
         })
-    }, [city, rentType, room]);
+    }, [city, houseType]);
 
 
     return (
         <div>
-            {/* <div className="logo-container">
-                <img src={logo} alt="logotype" />
+            {/* <div>
+
+                <div>
+                    <input type="text" className="text-field" value={searchText} onChange={(e) => setSearchText(e.target.value)} />
+                </div>
+
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-sliders-horizontal-icon lucide-sliders-horizontal"><line x1="21" x2="14" y1="4" y2="4" /><line x1="10" x2="3" y1="4" y2="4" /><line x1="21" x2="12" y1="12" y2="12" /><line x1="8" x2="3" y1="12" y2="12" /><line x1="21" x2="16" y1="20" y2="20" /><line x1="12" x2="3" y1="20" y2="20" /><line x1="14" x2="14" y1="2" y2="6" /><line x1="8" x2="8" y1="10" y2="14" /><line x1="16" x2="16" y1="18" y2="22" /></svg>
+                </div>
             </div> */}
 
             <div className="field-wrapper select-wrapper">
@@ -119,14 +131,20 @@ const UserSearchPage = () => {
                 </select>
             </div>
 
-            <div className="field-wrapper">
+            <div className="field-wrapper select-wrapper">
+                <label htmlFor="house-type" className="field-label">Выберите тип жилья</label>
+
+                <select name="house-type" id="house-type" value={houseType} onChange={(e) => setHouseType(e.target.value)} className="select-field">
+                    {HOUSE_TYPES.map((v) => (
+                        <option key={v} value={v}>{v}</option>
+                    ))}
+                </select>
+            </div>
+
+            {/* <div className="field-wrapper">
                 <span className="field-label">{DICTIONARY[lang].rentType}</span>
 
                 <div className="rent-type-buttons">
-                    {/* <label className="radio-input-label">
-                        <input type="radio" name="rentType" value="hour" className="radio-input" checked={rentType === 'hour'} onChange={(e) => setRentType(e.target.value)} />
-                        <span className="radio-input-text">{DICTIONARY[lang].hour}</span>
-                    </label> */}
                     <label className="radio-input-label">
                         <input type="radio" name="rentType" value="day" className="radio-input" checked={rentType === 'day'} onChange={(e) => setRentType(e.target.value)} />
                         <span className="radio-input-text">{DICTIONARY[lang].day}</span>
@@ -140,8 +158,8 @@ const UserSearchPage = () => {
                         <span className="radio-input-text">{DICTIONARY[lang].day_night}</span>
                     </label>
                 </div>
-            </div>
-
+            </div> */}
+            {/* 
             <div className="field-wrapper">
                 <span className="field-label">{DICTIONARY[lang].roomCount}</span>
 
@@ -167,14 +185,14 @@ const UserSearchPage = () => {
                         <span className="radio-input-text">5</span>
                     </label>
                 </div>
-            </div>
+            </div> */}
 
             <button className='search-button' disabled={disabled}
                 onClick={navigateHandler}>{DICTIONARY[lang].find}</button>
 
 
 
-            <SearchResultPage lang={lang} data={data} loading={loading} isData={isData} itemIndex={itemIndex} />
+            <SearchResultPage lang={lang} data={data} loading={loading} isData={isData} />
         </div>
     );
 }
