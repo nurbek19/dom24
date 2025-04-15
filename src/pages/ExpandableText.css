@@ -1,0 +1,24 @@
+/* ExpandableText.css */
+
+.expandable-text {
+    line-height: 1.5;             /* adjust to your design */
+    position: relative;
+  }
+  
+  .expandable-text.collapsed {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;        /* limit to 4 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .toggle-button {
+    background: none;
+    border: none;
+    color: #0066cc;
+    cursor: pointer;
+    font-size: 0.9em;
+    padding: 0;
+    margin-top: 4px;
+  }
+  

@@ -20,6 +20,7 @@ import checkIcon from '../images/check-icon.png';
 import { HOUSE_ICONS } from './UserSearchPage';
 
 import { BottomDrawer } from './BottomDrawer';
+import { ExpandableText } from './ExpandableText';
 
 const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
     const [show, setShow] = useState(false);
@@ -178,9 +179,9 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
                         <div className="card-detail single-card-detail">
                             {item.house_type && (
                                 <div className='house-type'>
-                                {/* <img src={HOUSE_ICONS[item.house_type]} alt="house type icon" /> */}
-                                {item.house_type}
-                            </div>
+                                    {/* <img src={HOUSE_ICONS[item.house_type]} alt="house type icon" /> */}
+                                    {item.house_type}
+                                </div>
                             )}
 
                             {<p className="bold-title">
@@ -189,7 +190,7 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
                                 {(item.mbank_link || item.finik_account_id) && (
                                     <img src={checkIcon} alt="check icon" />
                                 )}
-                                </p>}
+                            </p>}
                             {!byLink && <p><span>{DICTIONARY[lang].city}:</span> {item.city}</p>}
                             {!byLink && <p className='address-link-wrapper'><span>{DICTIONARY[lang].address}: </span>
                                 <a className='address-link' href={`https://2gis.kg/search/${encodeURIComponent(item.city + ' ' + item.address)}`} target='_blank'>
@@ -213,7 +214,12 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
                             )}
 
                             {!byLink && item.description && (
-                                <p className='advertisement-description'><span>Описание:</span> <br /> {item.description}</p>
+                                <p className='advertisement-description'><span>Описание:</span> <br />
+                                    <ExpandableText>
+                                        {item.description}
+                                    </ExpandableText>
+
+                                </p>
                             )}
 
                             {/* {!byLink && (
