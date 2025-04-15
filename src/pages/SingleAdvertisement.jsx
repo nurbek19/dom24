@@ -178,7 +178,7 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
                         <div className="card-detail single-card-detail">
                             {item.house_type && (
                                 <div className='house-type'>
-                                <img src={HOUSE_ICONS[item.house_type]} alt="house type icon" />
+                                {/* <img src={HOUSE_ICONS[item.house_type]} alt="house type icon" /> */}
                                 {item.house_type}
                             </div>
                             )}
@@ -300,6 +300,8 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
                     <a href={`https://wa.me/${item.phone.split('(').join('').split(')').join('').split('-').join('')}`} className='whatsapp-btn'>
                         Написать в WhatsApp
                     </a>
+
+                    <p className='check-text'>Хотим напомнить, что данный объект не проходил проверку на нашей платформе. Поэтому рекомендуем воздержаться от предоплаты до тех пор, пока вы не убедитесь в его надежности и достоверности.</p>
                 </div>
             </BottomDrawer>
 

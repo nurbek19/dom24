@@ -119,7 +119,7 @@ body {
     justify-content: center;
     box-sizing: border-box;
     background-color: var(--tg-theme-secondary-bg-color);
-    background-color: #eee;
+    /* background-color: #eee; */
 
     width: 100%;
     padding: 8px 10px;
@@ -1029,4 +1029,18 @@ input[type=number] {
   display: flex;
   align-items: baseline;
   gap: 3px;
+}
+
+.not-partner p {
+  font-size: 14px;
+}
+
+.not-partner a {
+  margin-top: 30px;
+}
+
+.not-partner .check-text {
+  font-size: 8px;
+  opacity: 50%;
+  padding-top: 15px;
 }

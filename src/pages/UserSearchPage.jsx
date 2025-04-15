@@ -110,7 +110,7 @@ const UserSearchPage = () => {
                             <input type="radio" name="houseType" value={type} className="radio-input" checked={houseType === type} onChange={(e) => setHouseType(e.target.value)} />
                             
                             <span className="radio-input-text">
-                            <img src={HOUSE_ICONS[type]} alt="type icon" />
+                            {/* <img src={HOUSE_ICONS[type]} alt="type icon" /> */}
                                 {type}
                             </span>
                         </label>

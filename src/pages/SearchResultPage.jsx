@@ -71,7 +71,7 @@ const SearchResultPage = ({ lang, data = [], loading, isData, itemIndex }) => {
                                 <div className="card-detail">
                                     {item.house_type && (
                                         <div className='house-type'>
-                                            <img src={HOUSE_ICONS[item.house_type]} alt="house type icon" />
+                                            {/* <img src={HOUSE_ICONS[item.house_type]} alt="house type icon" /> */}
                                              {item.house_type}
                                         </div>
                                     )}
