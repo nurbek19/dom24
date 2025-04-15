@@ -1050,3 +1050,7 @@ input[type=number] {
   opacity: 50%;
   padding-top: 15px;
 }
+
+.edit-container-padding {
+  padding-bottom: 380px;
+}

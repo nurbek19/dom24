@@ -182,10 +182,10 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
     const isObjectChanged = deepEqual(payload, docObj);
 
     if (calendarType === 'delete') {
-      return (city && address && phone && name && isSomeprice && prepayment && houseType && isObjectChanged) || houses.length; // кейс когда одна бронь и пытаются удалить бронь
+      return (city && address && phone && name && isSomeprice && prepayment && houseType && !isObjectChanged) || houses.length; // кейс когда одна бронь и пытаются удалить бронь
     }
 
-    return (city && address && phone && name && isSomeprice && prepayment && houseType && isObjectChanged) || (houses.length && selected.length);
+    return (city && address && phone && name && isSomeprice && prepayment && houseType && !isObjectChanged) || (houses.length && selected.length);
   }, [city, address, phone, price, name, selected, doc, houses, prepayment, paymentLink, calendarType, houseType, paymentId, description]);
 
   useEffect(() => {
@@ -359,7 +359,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
   }, [noteDate]);
 
   return (
-    <div className="card-padding">
+    <div className="edit-container-padding">
       <div className="back-button" onClick={onBackHandler}>« {DICTIONARY[lang].back}</div>
 
       <div className="field-wrapper">
