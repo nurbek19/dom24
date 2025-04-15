@@ -68,7 +68,7 @@ export const DICTIONARY = {
 
 
 export const CITIES = ['Бишкек', 'Нарын', 'Каракол', 'Ош', 'Иссык - Куль'];
-export const HOUSE_TYPES = ['А - фрейм', 'Глемпинг', 'Коттедж', 'Юрта', 'Гостевой дом'];
+export const HOUSE_TYPES = ['А - фрейм', 'Глемпинг', 'Коттедж', 'Гостевой дом', 'Юрта'];
 
 function CreateAdvertisement() {
   const [city, setCity] = useState(CITIES[0]);
@@ -314,7 +314,7 @@ function CreateAdvertisement() {
         <textarea id="description" rows="6" className="text-field" value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
       </div>
 
-      {/* <button onClick={onSendData}>btn</button> */}
+      <button onClick={onSendData}>btn</button>
     </div>
   )
 }

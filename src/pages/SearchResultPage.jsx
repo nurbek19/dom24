@@ -1,7 +1,6 @@
 
 import { useEffect, useState } from 'react';
 import '../App.css';
-import clsx from 'clsx';
 
 import ImageSlider from "../components/ImageSlider";
 import SingleAdvertisement from './SingleAdvertisement';
@@ -9,8 +8,7 @@ import SingleAdvertisement from './SingleAdvertisement';
 import notFoundImage from '../images/image.png';
 
 import { DICTIONARY } from './CreateAdvertisement';
-// import RecentDays from '../components/RecentDays';
-
+import { HOUSE_ICONS } from './UserSearchPage';
 
 const SearchResultPage = ({ lang, data = [], loading, isData, itemIndex }) => {
     const [activeDoc, setActiveDoc] = useState(null);
@@ -71,14 +69,27 @@ const SearchResultPage = ({ lang, data = [], loading, isData, itemIndex }) => {
                                     <ImageSlider imageIds={item.photo_ids} />
                                 )}
                                 <div className="card-detail">
-                                    {item.name && (<p><span>{item.name}</span></p>)}
-                                    <p>
+                                    {item.house_type && (
+                                        <div className='house-type'>
+                                            <img src={HOUSE_ICONS[item.house_type]} alt="house type icon" />
+                                             {item.house_type}
+                                        </div>
+                                    )}
+
+                                    <div className='house-detail'>
+                                        <p><span>{item.name}</span></p>
+                                        <div>{item.city}</div>
+                                    </div>
+
+                                    <button className='search-button'>Забронировать</button>
+
+                                    {/* <p>
                                         <a href={`https://2gis.kg/search/${encodeURIComponent(item.city + ' ' + item.address)}`} target='_blank'><span>📍</span> {item.city}, {item.address}</a>
-                                    </p>
+                                    </p> */}
                                     {/* <p><span>{DICTIONARY[lang].shortRoomCount}:</span> {item.count}</p> */}
                                     {/* <p><span>📞</span> {item.phone}</p> */}
 
-                                    <div className="card-prices">
+                                    {/* <div className="card-prices">
                                         {Object.entries(item.price).map(([key, value]) => {
                                             if (!value) {
                                                 return null;
@@ -88,21 +99,7 @@ const SearchResultPage = ({ lang, data = [], loading, isData, itemIndex }) => {
                                                 <div key={key}>{DICTIONARY[lang][key]} {value}</div>
                                             );
                                         })}
-                                    </div>
-
-                                    {/* <div className='card-status'>
-                                        <p><span>{DICTIONARY[lang].recentDays}:</span></p>
-                                        <RecentDays books={item.books} id={item._id}/> */}
-                                        {/* {(objIndex !== null && index === objIndex) ? (
-                                            <div className={clsx(!item.active ? 'free' : 'busy', { 'animation': index === objIndex })}>
-                                                {!item.active ? DICTIONARY[lang].free : DICTIONARY[lang].busy}
-                                            </div>
-                                        ) : (
-                                            item.active ?
-                                                <div className={clsx('free')}>{DICTIONARY[lang].free}</div>
-                                                : <div className={clsx('busy')}>{DICTIONARY[lang].busy}</div>
-                                        )} */}
-                                    {/* </div> */}
+                                    </div> */}
                                 </div>
                             </div>
                         </div>

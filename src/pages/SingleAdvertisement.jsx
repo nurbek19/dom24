@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState, useEffect, useRef } from 'react';
 import WebApp from '@twa-dev/sdk';
 import { DayPicker } from "react-day-picker";
 import { format, isAfter, sub } from "date-fns";
@@ -14,6 +14,12 @@ import clsx from 'clsx';
 import HouseItem from '../components/HouseItem';
 import { api } from '../api';
 import logo from '../images/booklink.png';
+import gis from '../images/2gis.png';
+import noPartner from '../images/icon-no-partner.svg';
+import checkIcon from '../images/check-icon.png';
+import { HOUSE_ICONS } from './UserSearchPage';
+
+import { BottomDrawer } from './BottomDrawer';
 
 const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
     const [show, setShow] = useState(false);
@@ -24,6 +30,7 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
     const [houses, setHouses] = useState([]);
     const byLink = searchParams.get('bylink');
     const [phone, setPhone] = useState('');
+    const [open, setOpen] = useState(false);
 
     // const {
     //     ref,
@@ -151,6 +158,9 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
     }, [isValid]);
 
     const handleSelect = (newSelected) => {
+        if (!item.mbank_link && !item.finik_account_id) {
+            setOpen(true);
+        }
 
         setSelected(newSelected);
     };
@@ -166,11 +176,29 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
                             <ImageSlider imageIds={item.photo_ids} />
                         )}
                         <div className="card-detail single-card-detail">
-                            {item.name && (<p className={clsx({ 'bold-title': byLink })}>{!byLink && <span>{DICTIONARY[lang].nameLabel}:</span>} {item.name}</p>)}
+                            {item.house_type && (
+                                <div className='house-type'>
+                                <img src={HOUSE_ICONS[item.house_type]} alt="house type icon" />
+                                {item.house_type}
+                            </div>
+                            )}
+
+                            {<p className="bold-title">
+                                {item.name}
+
+                                {(item.mbank_link || item.finik_account_id) && (
+                                    <img src={checkIcon} alt="check icon" />
+                                )}
+                                </p>}
                             {!byLink && <p><span>{DICTIONARY[lang].city}:</span> {item.city}</p>}
-                            {!byLink && <p><span>{DICTIONARY[lang].address}:</span> <a href={`https://2gis.kg/search/${encodeURIComponent(item.city + ' ' + item.address)}`} target='_blank'>{item.address}</a></p>}
+                            {!byLink && <p className='address-link-wrapper'><span>{DICTIONARY[lang].address}: </span>
+                                <a className='address-link' href={`https://2gis.kg/search/${encodeURIComponent(item.city + ' ' + item.address)}`} target='_blank'>
+                                    {item.address}
+                                    <img src={gis} alt="2 gis icon" />
+                                </a></p>}
                             {/* <p><span>{DICTIONARY[lang].roomCount}:</span> {item.count}</p> */}
-                            {!byLink && (
+
+                            {(!byLink && !item.mbank_link) || (!byLink && !item.finik_account_id) && (
                                 <div className="card-prices single-card-prices">
                                     {Object.entries(item.price).map(([key, value]) => {
                                         if (!value) {
@@ -184,28 +212,11 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
                                 </div>
                             )}
 
-                            {/* <div className='card-status'>
-                                {item.active ? <div className='free'>{DICTIONARY[lang].free}</div> : <div className='busy'>{DICTIONARY[lang].busy}</div>}
-                            </div> */}
-
                             {!byLink && item.description && (
                                 <p className='advertisement-description'><span>Описание:</span> <br /> {item.description}</p>
                             )}
 
-                            {(!item.mbank_link && !item.finik_account_id) && (
-                                <div>
-                                    <h4>Спасибо за ваш интерес!</h4>
-
-                                    <p>На данный момент этот объект еще не зарегистрирован в нашей системе, поэтому забронировать его через Booklink, к сожалению, не получится.</p>
-                                    <p>Рекомендуем связаться с представителями объекта напрямую. Надеемся, что в ближайшее время он станет доступен на нашем сервисе.</p>
-
-                                    <a href={`https://wa.me/${item.phone.split('(').join('').split(')').join('').split('-').join('')}`} className='whatsapp-btn'>
-                                        Написать в WhatsApp
-                                    </a>
-                                </div>
-                            )}
-
-                            {!byLink && (
+                            {/* {!byLink && (
                                 show ? (
                                     <div>
 
@@ -221,41 +232,37 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
                                         {DICTIONARY[lang].showNumber}
                                     </div>
                                 )
-                            )}
+                            )} */}
                         </div>
                     </div>
                 </div>
 
-                {(item.mbank_link || item.finik_account_id) && (
-                    <>
-                        <div className='book-calendar'>
-                            <p>{DICTIONARY[lang].bookLabel}:</p>
-                            <DayPicker
-                                locale={ru}
-                                mode="multiple"
-                                selected={selected}
-                                onSelect={handleSelect}
-                                disabled={[{ before: new Date() }, ...bookedDays.filter((el) => (isAfter(el, sub(new Date(), { days: 1 }))))]}
-                                modifiers={{
-                                    booked: bookedDays.filter((el) => (isAfter(el, sub(new Date(), { days: 1 }))))
-                                }}
-                                modifiersClassNames={{
-                                    booked: "my-booked-class"
-                                }}
-                            />
-                        </div>
+                <div className='book-calendar'>
+                    <p>{DICTIONARY[lang].bookLabel}:</p>
+                    <DayPicker
+                        locale={ru}
+                        mode="multiple"
+                        selected={selected}
+                        onSelect={handleSelect}
+                        disabled={[{ before: new Date() }, ...bookedDays.filter((el) => (isAfter(el, sub(new Date(), { days: 1 }))))]}
+                        modifiers={{
+                            booked: bookedDays.filter((el) => (isAfter(el, sub(new Date(), { days: 1 }))))
+                        }}
+                        modifiersClassNames={{
+                            booked: "my-booked-class"
+                        }}
+                    />
+                </div>
 
-                        {housesList.length !== 1 && (
-                            <div className='houses-container'>
-                                <p>Выберите номер дома для бронирования:</p>
-                                <div className='houses-list'>
-                                    {housesList.map((obj) => (
-                                        <HouseItem key={obj.number} number={obj.number} disabled={obj.disabled} setHouses={setHouses} />
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-                    </>
+                {((housesList.length !== 1 && item.mbank_link) || (housesList.length !== 1 && item.finik_account_id)) && (
+                    <div className='houses-container'>
+                        <p>Выберите номер дома для бронирования:</p>
+                        <div className='houses-list'>
+                            {housesList.map((obj) => (
+                                <HouseItem key={obj.number} number={obj.number} disabled={obj.disabled} setHouses={setHouses} />
+                            ))}
+                        </div>
+                    </div>
                 )}
 
                 <div className={clsx('field-wrapper hide-name-field', { 'show-name-field': selected.length && houses.length })}>
@@ -281,6 +288,20 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
                 {/* <button onClick={onSendData}>btn</button> */}
             </div>
 
+
+            <BottomDrawer isOpen={open} onClose={() => setOpen(false)} handleSelect={handleSelect}>
+                <div className='not-partner'>
+                    <img src={noPartner} alt="no partner" />
+                    <h4>Спасибо за ваш интерес!</h4>
+
+                    <p>На данный момент этот объект еще не зарегистрирован в нашей системе, поэтому забронировать его через Booklink, к сожалению, не получится.</p>
+                    <p>Рекомендуем связаться с представителями объекта напрямую. Надеемся, что в ближайшее время он станет доступен на нашем сервисе.</p>
+
+                    <a href={`https://wa.me/${item.phone.split('(').join('').split(')').join('').split('-').join('')}`} className='whatsapp-btn'>
+                        Написать в WhatsApp
+                    </a>
+                </div>
+            </BottomDrawer>
 
             <div className="footer">
                 <p>Хотите такой же календарь для бронирования? 👇</p>

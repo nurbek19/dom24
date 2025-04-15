@@ -65,9 +65,10 @@ body {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 }
 
-.rent-type-buttons {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+.house-type-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .radio-input-label {
@@ -96,6 +97,15 @@ body {
     border-bottom-right-radius: 8px;
 }
 
+.house-type-buttons .radio-input-label {
+  border-radius: 25px;
+}
+
+.house-type-buttons .radio-input-label:first-child .radio-input-text {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
 .radio-input {
     position: absolute;
     left: -9999px;
@@ -109,12 +119,24 @@ body {
     justify-content: center;
     box-sizing: border-box;
     background-color: var(--tg-theme-secondary-bg-color);
-    /* background-color: #eee; */
+    background-color: #eee;
 
     width: 100%;
-    padding: 10px;
+    padding: 8px 10px;
 
     transition: 0.25s ease;
+}
+
+.house-type-buttons .radio-input-text {
+  font-size: 14px;
+
+  align-items: center;
+  gap: 5px;
+  height: 100%;
+}
+
+.house-type-buttons .radio-input-text img {
+  width: 20px;
 }
 
 .radio-input:checked + .radio-input-text {
@@ -240,8 +262,8 @@ body {
 
   .card-image-contaner {
     flex-shrink: 0;
-    width: 30%;
-    height: 100px;
+    width: 35%;
+    height: 120px;
   }
 
   .single-card .card-image-contaner {
@@ -400,11 +422,6 @@ input[type=number] {
   box-sizing: border-box;
 }
 
-.card-actions-wrapper {
-  /* position: relative; */
-  /* padding-right: 40px; */
-}
-
 .back-button {
   font-size: 18px;
   color: var(--tg-theme-button-color);
@@ -423,6 +440,12 @@ input[type=number] {
     padding: 10px;
     border-radius: 8px;
     border: none;
+}
+
+.card-detail button {
+  font-size: 14px;
+  padding-top: 8px;
+  padding-bottom: 8px;
 }
 
 @keyframes blinkingFree {
@@ -499,6 +522,7 @@ input[type=number] {
 
 .single-card-prices {
   grid-template-columns: 1fr 1fr;
+  padding-bottom: 5px;
 }
 
 .single-card-prices div {
@@ -936,11 +960,73 @@ input[type=number] {
 }
 
 .advertisement-description {
-  padding-top: 10px;
   white-space: pre-line;
 }
 
 .advertisement-description span {
   display: inline-flex;
   padding-bottom: 5px;
+}
+
+.house-type {
+  background-color: var(--tg-theme-button-color);
+  /* background-color: blue; */
+  color: var(--tg-theme-button-text-color);
+
+  font-size: 12px;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 25px;
+}
+
+.house-type img {
+  width: 18px;
+}
+
+.house-detail {
+  padding: 8px 0;
+}
+
+.house-detail p {
+  padding-bottom: 0;
+}
+
+.house-detail div {
+  color: var(--tg-theme-button-color);
+}
+
+.address-link {
+  display: inline-flex;
+  align-items: center;
+}
+
+.address-link img {
+  width: 60px;
+}
+
+.single-card-detail .house-type {
+  margin-bottom: 10px;
+}
+
+.not-partner {
+  text-align: center;
+}
+
+.bold-title {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.bold-title img {
+  width: 17px;
+}
+
+.address-link-wrapper {
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
 }
