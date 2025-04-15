@@ -423,9 +423,14 @@ input[type=number] {
 }
 
 .back-button {
+  background-color: var(--tg-theme-bg-color);;
   font-size: 18px;
   color: var(--tg-theme-button-color);
-  padding-bottom: 15px;
+  padding: 7px 0;
+
+  position: sticky;
+  top: 0;
+  z-index: 9;
 }
 
 .search-button {
@@ -996,6 +1001,7 @@ input[type=number] {
 
 .house-detail div {
   color: var(--tg-theme-button-color);
+  font-size: 12px;
 }
 
 .address-link {
