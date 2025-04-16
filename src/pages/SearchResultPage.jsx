@@ -66,7 +66,11 @@ const SearchResultPage = ({ lang, data = [], loading, isData, itemIndex }) => {
                         <div key={item._id} className="card-container" onClick={() => setActiveDoc(item)}>
                             <div className="card">
                                 {item.photo_ids && (
-                                    <ImageSlider imageIds={item.photo_ids} />
+                                    <div className='card-single-image-container'>
+                                        {/* <ImageSlider imageIds={item.photo_ids} /> */}
+
+                                        <img key={item.photo_ids[0]} src={`https://booklink.pro/bl/houses/photo?id=${item.photo_ids[0]}`} alt="house image" />
+                                    </div>
                                 )}
                                 <div className="card-detail">
                                     {item.house_type && (

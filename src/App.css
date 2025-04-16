@@ -1054,3 +1054,16 @@ input[type=number] {
 .edit-container-padding {
   padding-bottom: 380px;
 }
+
+.card-single-image-container {
+  flex-shrink: 0;
+  width: 35%;
+  height: 120px;
+}
+
+.card-single-image-container img {
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  object-fit: cover;
+}
