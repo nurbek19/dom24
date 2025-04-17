@@ -166,7 +166,6 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
         setSelected(newSelected);
     };
 
-
     return (
         <div className='search-container'>
             {!hideButton && (<div className="back-button" onClick={onBackHandler}>« {DICTIONARY[lang].back}</div>)}
