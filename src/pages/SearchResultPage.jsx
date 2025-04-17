@@ -55,7 +55,7 @@ const SearchResultPage = ({ lang, data = [], loading, isData, itemIndex }) => {
     }
 
     return (
-        <div>
+        <div className='search-result'>
             {activeDoc ? (
                 <div className="edit-modal">
                     <SingleAdvertisement item={activeDoc} lang={lang} onBackHandler={() => setActiveDoc(null)} />

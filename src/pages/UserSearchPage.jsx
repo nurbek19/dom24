@@ -30,40 +30,40 @@ const UserSearchPage = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [isData, setIsData] = useState(false);
-    const [disabled, setIsDisabled] = useState(false);
+    // const [disabled, setIsDisabled] = useState(false);
 
     useEffect(() => {
         WebApp.expand();
     }, []);
 
 
+    // useEffect(() => {
+    //     if (disabled) {
+    //         setIsDisabled(false);
+    //     }
+    // }, [city, houseType]);
+
+
+    // useEffect(() => {
+    //     console.log('i fire once');
+    //     const id = searchParams.get('user_id');
+    //     // setLoading(true);
+
+    //     api.get(`/houses?city=${city}&chat_id=${id}`).then((res) => {
+    //         if (res.data) {
+    //             setData(res.data);
+    //         } else {
+    //             setData([]);
+    //         }
+    //     }).catch((err) => {
+    //     })
+    // }, []);
+
     useEffect(() => {
-        if (disabled) {
-            setIsDisabled(false);
-        }
-    }, [city, houseType]);
-
-
-    useEffect(() => {
-        console.log('i fire once');
-        const id = searchParams.get('user_id');
-        // setLoading(true);
-
-        api.get(`/houses?city=${city}&chat_id=${id}`).then((res) => {
-            if (res.data) {
-                setData(res.data);
-            } else {
-                setData([]);
-            }
-        }).catch((err) => {
-        })
-    }, []);
-
-    const navigateHandler = useCallback(() => {
         const id = searchParams.get('user_id');
 
         setLoading(true);
-        setIsDisabled(true);
+        // setIsDisabled(true);
         // setIndex(null);
 
         api.get(`/houses?city=${city}&house_type${houseType}&chat_id=${id}`).then((res) => {
@@ -83,9 +83,33 @@ const UserSearchPage = () => {
         })
     }, [city, houseType]);
 
+    // const navigateHandler = useCallback(() => {
+    //     const id = searchParams.get('user_id');
+
+    //     setLoading(true);
+    //     setIsDisabled(true);
+    //     // setIndex(null);
+
+    //     api.get(`/houses?city=${city}&house_type${houseType}&chat_id=${id}`).then((res) => {
+    //         if (res.data) {
+    //             setLoading(false);
+    //             setData(res.data);
+    //             setIsData(false);
+    //         } else {
+    //             setData([]);
+    //             setIsData(true);
+    //             setLoading(false);
+    //         }
+    //     }).catch((err) => {
+    //         console.log(err);
+    //     }).finally((err) => {
+    //         setLoading(false);
+    //     })
+    // }, [city, houseType]);
+
 
     return (
-        <div>
+        <div className='search-page'>
             <div className="field-wrapper select-wrapper">
                 <label htmlFor="city" className="field-label">{DICTIONARY[lang].city}</label>
 
@@ -118,8 +142,8 @@ const UserSearchPage = () => {
                 </div>
             </div>
 
-            <button className='search-button' disabled={disabled}
-                onClick={navigateHandler}>{DICTIONARY[lang].find}</button>
+            {/* <button className='search-button' disabled={disabled}
+                onClick={navigateHandler}>{DICTIONARY[lang].find}</button> */}
 
 
 

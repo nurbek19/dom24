@@ -66,9 +66,10 @@ body {
 }
 
 .house-type-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  /* display: flex;
+  gap: 10px; */
+  white-space: nowrap;
+  overflow-x: auto;
 }
 
 .radio-input-label {
@@ -98,7 +99,9 @@ body {
 }
 
 .house-type-buttons .radio-input-label {
+  display: inline-flex;
   border-radius: 25px;
+  margin-right: 5px;
 }
 
 .house-type-buttons .radio-input-label:first-child .radio-input-text {
@@ -1066,4 +1069,12 @@ input[type=number] {
   height: 100%;
   border-radius: 4px;
   object-fit: cover;
+}
+
+.search-page .select-field {
+  font-size: 14px;
+}
+
+.search-result .card-list {
+  padding-top: 0;
 }
