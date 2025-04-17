@@ -1,14 +1,12 @@
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import '../App.css';
 
-import ImageSlider from "../components/ImageSlider";
 import SingleAdvertisement from './SingleAdvertisement';
 
 import notFoundImage from '../images/image.png';
 
 import { DICTIONARY } from './CreateAdvertisement';
-import { HOUSE_ICONS } from './UserSearchPage';
 
 const SearchResultPage = ({ lang, data = [], loading, isData, itemIndex }) => {
     const [activeDoc, setActiveDoc] = useState(null);
