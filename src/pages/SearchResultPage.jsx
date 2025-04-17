@@ -7,6 +7,7 @@ import SingleAdvertisement from './SingleAdvertisement';
 import notFoundImage from '../images/image.png';
 
 import { DICTIONARY } from './CreateAdvertisement';
+import checkIcon from '../images/check-icon.png';
 
 const SearchResultPage = ({ lang, data = [], loading, isData, itemIndex }) => {
     const [activeDoc, setActiveDoc] = useState(null);
@@ -74,12 +75,17 @@ const SearchResultPage = ({ lang, data = [], loading, isData, itemIndex }) => {
                                     {item.house_type && (
                                         <div className='house-type'>
                                             {/* <img src={HOUSE_ICONS[item.house_type]} alt="house type icon" /> */}
-                                             {item.house_type}
+                                            {item.house_type}
                                         </div>
                                     )}
 
                                     <div className='house-detail'>
-                                        <p><span>{item.name}</span></p>
+                                        <p className='house-name'>
+                                            <span>{item.name}</span>
+                                            {(item.mbank_link || item.finik_account_id) && (
+                                                <img src={checkIcon} alt="check icon" />
+                                            )}
+                                        </p>
                                         <div>{item.city}</div>
                                     </div>
 

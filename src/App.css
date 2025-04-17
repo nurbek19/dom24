@@ -1078,3 +1078,13 @@ input[type=number] {
 .search-result .card-list {
   padding-top: 0;
 }
+
+.house-name {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.house-name img {
+  width: 17px;
+}
