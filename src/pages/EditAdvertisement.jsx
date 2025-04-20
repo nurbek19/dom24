@@ -118,6 +118,13 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
     WebApp.sendData(JSON.stringify(payload));
   };
 
+  const replaceImagesHandler = () => {
+    WebApp.sendData(JSON.stringify({
+      _id: doc._id,
+      action: 'REPLACE_IMAGES',
+    }));
+  }
+
 
 
   const isFormValid = useMemo(() => {
@@ -445,76 +452,78 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       </button>
 
       {/* {editData && ( */}
-        <div className={clsx('edit-data-container', { 'show-edit-data': editData })}>
-          <div className="field-wrapper select-wrapper">
-            <label htmlFor="city" className="field-label">{DICTIONARY[lang].city}</label>
+      <div className={clsx('edit-data-container', { 'show-edit-data': editData })}>
+        <div className="field-wrapper select-wrapper">
+          <label htmlFor="city" className="field-label">{DICTIONARY[lang].city}</label>
 
-            <select name="city" id="city" value={city} onChange={(e) => setCity(e.target.value)} className="select-field">
-              {CITIES.map((v) => (
-                <option key={v} value={v}>{v}</option>
-              ))}
-            </select>
-          </div>
-
-          <div className="field-wrapper select-wrapper">
-                  <label htmlFor="house-type" className="field-label">Выберите тип жилья</label>
-          
-                  <select name="house-type" id="house-type" value={houseType} onChange={(e) => setHouseType(e.target.value)} className="select-field">
-                    {HOUSE_TYPES.map((v) => (
-                      <option key={v} value={v}>{v}</option>
-                    ))}
-                  </select>
-                </div>
-
-          <div className="field-wrapper">
-            <label htmlFor="name" className="field-label">{DICTIONARY[lang].name}</label>
-
-            <input type="text" id="name" className="text-field" value={name} onChange={(e) => setName(e.target.value)} />
-          </div>
-
-          <div className="field-wrapper">
-            <label htmlFor="address" className="field-label">{DICTIONARY[lang].address}</label>
-
-            <input type="text" id="address" className="text-field" maxLength={50} value={address} onChange={(e) => setAddress(e.target.value)} />
-          </div>
-
-          <div className="field-wrapper">
-            <label htmlFor="phone" className="field-label">{DICTIONARY[lang].phone}</label>
-
-            <input type="tel" pattern="[0-9]*" noValidate id="phone" className="text-field" ref={ref} />
-          </div>
-
-          <div className="field-wrapper">
-            <label htmlFor="prepayment" className="field-label">Минимальная сумма предоплаты</label>
-
-            <input type="number" id="prepayment" pattern="[0-9]*" inputMode="numeric" className="text-field" value={prepayment} onChange={(e) => setPrepayment(e.target.value)} />
-          </div>
-
-          <div className="field-wrapper">
-            <label htmlFor="payment-link" className="field-label">Ссылка для предоплаты</label>
-
-            <input type="text" id="payment-link" className="text-field" value={paymentLink} onChange={(e) => setPaymentLink(e.target.value)} />
-          </div>
-
-          <div className="field-wrapper">
-            <label htmlFor="payment-id" className="field-label">Finik id</label>
-
-            <input type="text" id="payment-id" className="text-field" value={paymentId} onChange={(e) => setPaymentId(e.target.value)} />
-          </div>
-
-          <div className="field-wrapper">
-            <span className="field-label">{DICTIONARY[lang].price}</span>
-
-            <PriceField label={DICTIONARY[lang].day} name="day" value={price.day} onChange={priceChangeHandler} />
-            <PriceField label={DICTIONARY[lang].day_off} name="day_off" value={price.day_off} onChange={priceChangeHandler} />
-          </div>
-
-          <div className="field-wrapper">
-        <label htmlFor="description" className="field-label">Описание</label>
-
-        <textarea id="description" rows="6" className="text-field" value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
-      </div>
+          <select name="city" id="city" value={city} onChange={(e) => setCity(e.target.value)} className="select-field">
+            {CITIES.map((v) => (
+              <option key={v} value={v}>{v}</option>
+            ))}
+          </select>
         </div>
+
+        <div className="field-wrapper select-wrapper">
+          <label htmlFor="house-type" className="field-label">Выберите тип жилья</label>
+
+          <select name="house-type" id="house-type" value={houseType} onChange={(e) => setHouseType(e.target.value)} className="select-field">
+            {HOUSE_TYPES.map((v) => (
+              <option key={v} value={v}>{v}</option>
+            ))}
+          </select>
+        </div>
+
+        <div className="field-wrapper">
+          <label htmlFor="name" className="field-label">{DICTIONARY[lang].name}</label>
+
+          <input type="text" id="name" className="text-field" value={name} onChange={(e) => setName(e.target.value)} />
+        </div>
+
+        <div className="field-wrapper">
+          <label htmlFor="address" className="field-label">{DICTIONARY[lang].address}</label>
+
+          <input type="text" id="address" className="text-field" maxLength={50} value={address} onChange={(e) => setAddress(e.target.value)} />
+        </div>
+
+        <div className="field-wrapper">
+          <label htmlFor="phone" className="field-label">{DICTIONARY[lang].phone}</label>
+
+          <input type="tel" pattern="[0-9]*" noValidate id="phone" className="text-field" ref={ref} />
+        </div>
+
+        <div className="field-wrapper">
+          <label htmlFor="prepayment" className="field-label">Минимальная сумма предоплаты</label>
+
+          <input type="number" id="prepayment" pattern="[0-9]*" inputMode="numeric" className="text-field" value={prepayment} onChange={(e) => setPrepayment(e.target.value)} />
+        </div>
+
+        <div className="field-wrapper">
+          <label htmlFor="payment-link" className="field-label">Ссылка для предоплаты</label>
+
+          <input type="text" id="payment-link" className="text-field" value={paymentLink} onChange={(e) => setPaymentLink(e.target.value)} />
+        </div>
+
+        <div className="field-wrapper">
+          <label htmlFor="payment-id" className="field-label">Finik id</label>
+
+          <input type="text" id="payment-id" className="text-field" value={paymentId} onChange={(e) => setPaymentId(e.target.value)} />
+        </div>
+
+        <div className="field-wrapper">
+          <span className="field-label">{DICTIONARY[lang].price}</span>
+
+          <PriceField label={DICTIONARY[lang].day} name="day" value={price.day} onChange={priceChangeHandler} />
+          <PriceField label={DICTIONARY[lang].day_off} name="day_off" value={price.day_off} onChange={priceChangeHandler} />
+        </div>
+
+        <div className="field-wrapper">
+          <label htmlFor="description" className="field-label">Описание</label>
+
+          <textarea id="description" rows="6" className="text-field" value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
+        </div>
+
+        <button className='replace-images-btn' onClick={replaceImagesHandler}>Заменить фотографии</button>
+      </div>
       {/* )} */}
 
       {noteDate && (

@@ -1087,9 +1087,10 @@ input[type=number] {
   width: 17px;
 }
 
-.show-other-btn {
+.show-other-btn,
+.replace-images-btn {
   background-color: var(--tg-theme-button-color);
-  /* background-color: blue; */
+  background-color: blue;
 
   font-size: 18px;
   color: var(--tg-theme-button-text-color);
