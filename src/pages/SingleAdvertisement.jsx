@@ -1,11 +1,11 @@
-import { useMemo, useState, useEffect, useRef } from 'react';
+import { useMemo, useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import WebApp from '@twa-dev/sdk';
 import { DayPicker } from "react-day-picker";
 import { format, isAfter, sub } from "date-fns";
 import "react-day-picker/style.css";
 import { ru } from "react-day-picker/locale";
 import { useSearchParams } from 'react-router-dom';
-// import { useIMask } from 'react-imask';
 import ImageSlider from "../components/ImageSlider";
 import '../App.css';
 
@@ -17,7 +17,6 @@ import logo from '../images/booklink.png';
 import gis from '../images/2gis.png';
 import noPartner from '../images/icon-no-partner.svg';
 import checkIcon from '../images/check-icon.png';
-import { HOUSE_ICONS } from './UserSearchPage';
 
 import { BottomDrawer } from './BottomDrawer';
 import { ExpandableText } from './ExpandableText';
@@ -32,20 +31,6 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
     const byLink = searchParams.get('bylink');
     const [phone, setPhone] = useState('');
     const [open, setOpen] = useState(false);
-
-    // const {
-    //     ref,
-    //     value: phone,
-    // } = useIMask({ mask: '+{996}(000)000-000' });
-
-    const callHandler = () => {
-        const id = searchParams.get('user_id');
-        const { _id, owner_id, phone } = item;
-
-        setShow(true);
-
-        api.post('/houses/call', { house_id: _id, owner_id, phone, caller_id: parseInt(id) });
-    }
 
     const copyHandler = () => {
         navigator.clipboard.writeText(item.phone);
@@ -178,7 +163,6 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
                         <div className="card-detail single-card-detail">
                             {item.house_type && (
                                 <div className='house-type'>
-                                    {/* <img src={HOUSE_ICONS[item.house_type]} alt="house type icon" /> */}
                                     {item.house_type}
                                 </div>
                             )}
@@ -233,7 +217,7 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
                                         {showText && (<p className='copy-text'>{DICTIONARY[lang].numberCopied}</p>)}
                                     </div>
                                 ) : (
-                                    <div className='call-btn' onClick={(e) => callHandler(e, item._id, item.owner_id, item.phone)}>
+                                    <div className='call-btn'>
                                         {DICTIONARY[lang].showNumber}
                                     </div>
                                 )
@@ -290,6 +274,7 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
                         maxLength={10} />
                 </div>
 
+                <Link to="/dom24/search" className='show-other-btn'>Посмотреть другие объявления</Link>
                 {/* <button onClick={onSendData}>btn</button> */}
             </div>
 

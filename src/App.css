@@ -723,13 +723,11 @@ input[type=number] {
 }
 
 .phone-field {
-  opacity: 0;
-  height: 0;
+  display: none;
 }
 
 .show-number {
-  opacity: 1;
-  height: auto;
+  display: flex;
 }
 
 .show-number input {
@@ -1087,4 +1085,22 @@ input[type=number] {
 
 .house-name img {
   width: 17px;
+}
+
+.show-other-btn {
+  background-color: var(--tg-theme-button-color);
+  /* background-color: blue; */
+
+  font-size: 18px;
+  color: var(--tg-theme-button-text-color);
+  text-decoration: none;
+  
+  display: inline-flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 40px;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  box-sizing: border-box;
 }
