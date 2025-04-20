@@ -24,7 +24,7 @@ const UserSearchPage = () => {
     useEffect(() => {
         setLoading(true);
 
-        api.get(`/houses?city=${city}&house_type${houseType}`).then((res) => {
+        api.get(`/houses?city=${encodeURIComponent(city)}&house_type=${encodeURIComponent(houseType)}`).then((res) => {
             if (res.data) {
                 setData(res.data);
                 setIsData(false);
