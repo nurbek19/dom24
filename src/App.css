@@ -1105,3 +1105,8 @@ input[type=number] {
   border: none;
   box-sizing: border-box;
 }
+
+.replace-images-btn {
+  margin-top: 0;
+  margin-bottom: 15px;
+}

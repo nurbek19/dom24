@@ -447,6 +447,8 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
         </div>
       )}
 
+
+      <button className='replace-images-btn' onClick={replaceImagesHandler}>Заменить фотографии</button>
       <button className='edit-data-button' onClick={() => setEditData(!editData)}>
         {editData ? 'Скрыть данные' : 'Редактировать данные'}
       </button>
@@ -521,8 +523,6 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
 
           <textarea id="description" rows="6" className="text-field" value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
         </div>
-
-        <button className='replace-images-btn' onClick={replaceImagesHandler}>Заменить фотографии</button>
       </div>
       {/* )} */}
 
