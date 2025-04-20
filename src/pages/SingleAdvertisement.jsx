@@ -12,7 +12,6 @@ import '../App.css';
 import { DICTIONARY } from './CreateAdvertisement';
 import clsx from 'clsx';
 import HouseItem from '../components/HouseItem';
-import { api } from '../api';
 import logo from '../images/booklink.png';
 import gis from '../images/2gis.png';
 import noPartner from '../images/icon-no-partner.svg';
@@ -287,7 +286,7 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
                     <p>На данный момент этот объект еще не зарегистрирован в нашей системе, поэтому забронировать его через Booklink, к сожалению, не получится.</p>
                     <p>Рекомендуем связаться с представителями объекта напрямую. Надеемся, что в ближайшее время он станет доступен на нашем сервисе.</p>
 
-                    <a href={`https://wa.me/${item.phone.split('(').join('').split(')').join('').split('-').join('')}?text=${encodeURIComponent('Здравствуйте! Мы нашли вас через сервис https://booklink.pro/ . Можем уточнить информацию о свободных датах? Хотим забронировать.')}`} className='whatsapp-btn'>
+                    <a href={`https://wa.me/${item.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent('Здравствуйте! Мы нашли вас через сервис https://booklink.pro/ . Можем уточнить информацию о свободных датах? Хотим забронировать.')}`} className='whatsapp-btn'>
                         Написать в WhatsApp
                     </a>
 
