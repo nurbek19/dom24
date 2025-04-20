@@ -273,7 +273,7 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
                         maxLength={10} />
                 </div>
 
-                <Link to="/dom24/search" className='show-other-btn'>Посмотреть другие объявления</Link>
+                {byLink && <Link to="/dom24/search" className='show-other-btn'>Посмотреть другие объявления</Link>}
                 {/* <button onClick={onSendData}>btn</button> */}
             </div>
 
