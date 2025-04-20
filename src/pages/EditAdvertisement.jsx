@@ -120,7 +120,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
 
   const replaceImagesHandler = () => {
     WebApp.sendData(JSON.stringify({
-      _id: doc._id,
+      house_id: doc._id,
       action: 'REPLACE_IMAGES',
     }));
   }
