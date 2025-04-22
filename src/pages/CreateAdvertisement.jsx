@@ -67,8 +67,8 @@ export const DICTIONARY = {
 }
 
 
-export const CITIES = ['Бишкек', 'Нарын', 'Каракол', 'Ош', 'Иссык - Куль'];
-export const HOUSE_TYPES = ['А - фрейм', 'Глемпинг', 'Коттедж', 'Гостевой дом', 'Юрта'];
+export const CITIES = ['Бишкек', 'Нарын', 'Каракол', 'Ош', 'Чолпон - Ата', 'Иссык - Куль'];
+export const HOUSE_TYPES = ['А - фрейм', 'Глемпинг', 'Коттедж', 'Барнхаус', 'Гостевой дом', 'Юрта'];
 
 function CreateAdvertisement() {
   const [city, setCity] = useState(CITIES[0]);
