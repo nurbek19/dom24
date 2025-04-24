@@ -314,7 +314,7 @@ function CreateAdvertisement() {
         <textarea id="description" rows="6" className="text-field" value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
       </div>
 
-      <button onClick={onSendData}>btn</button>
+      {/* <button onClick={onSendData}>btn</button> */}
     </div>
   )
 }
