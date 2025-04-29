@@ -151,7 +151,8 @@ function CreateAdvertisement() {
   const isFormValid = useMemo(() => {
     const isSomeprice = Object.values(price).some((value) => value);
 
-    const valid = city && address && count && phone && isSomeprice && prepayment && houseType;
+    // const valid = city && address && count && phone && isSomeprice && prepayment && houseType;
+    return city && address && phone && houseType;
 
     return valid;
 
