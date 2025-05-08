@@ -19,6 +19,7 @@ import checkIcon from '../images/check-icon.png';
 
 import { BottomDrawer } from './BottomDrawer';
 import { ExpandableText } from './ExpandableText';
+import { api } from '../api';
 
 const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
     const [show, setShow] = useState(false);
@@ -149,6 +150,12 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
 
         setSelected(newSelected);
     };
+
+    const buttonClickHandler = () => {
+        const chat_id = searchParams.get('chat_id');
+
+        api.post('/click', { 'house_id': item._id, chat_id: parseInt(chat_id) });
+    }
 
     return (
         <div className='search-container'>
@@ -286,7 +293,7 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
                     <p>На данный момент этот объект еще не зарегистрирован в нашей системе, поэтому забронировать его через Booklink, к сожалению, не получится.</p>
                     <p>Рекомендуем связаться с представителями объекта напрямую. Надеемся, что в ближайшее время он станет доступен на нашем сервисе.</p>
 
-                    <a href={`https://wa.me/${item.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent('Здравствуйте! Мы нашли вас через сервис https://booklink.pro/ . Можем уточнить информацию о свободных датах? Хотим забронировать.')}`} className='whatsapp-btn'>
+                    <a href={`https://wa.me/${item.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent('Здравствуйте! Мы нашли вас через сервис https://booklink.pro/ . Можем уточнить информацию о свободных датах? Хотим забронировать.')}`} className='whatsapp-btn' onClick={buttonClickHandler}>
                         Написать в WhatsApp
                     </a>
 
