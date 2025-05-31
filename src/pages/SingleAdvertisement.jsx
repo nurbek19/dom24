@@ -144,7 +144,7 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
     }, [isValid]);
 
     const handleSelect = (newSelected) => {
-        if (!item.mbank_link && !item.finik_account_id) {
+        if (!item.mbank_link && !item.finik_account_id && item.owner_id !== 5592038531) {
             setOpen(true);
         }
 
@@ -176,7 +176,7 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
                             {<p className="bold-title">
                                 {item.name}
 
-                                {(item.mbank_link || item.finik_account_id) && (
+                                {(item.mbank_link || item.finik_account_id || item.owner_id === 5592038531) && (
                                     <img src={checkIcon} alt="check icon" />
                                 )}
                             </p>}
@@ -249,7 +249,7 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
                     />
                 </div>
 
-                {((housesList.length !== 1 && item.mbank_link) || (housesList.length !== 1 && item.finik_account_id)) && (
+                {((housesList.length !== 1 && item.mbank_link) || (housesList.length !== 1 && item.finik_account_id) || item.owner_id === 5592038531) && (
                     <div className='houses-container'>
                         <p>Выберите номер дома для бронирования:</p>
                         <div className='houses-list'>
