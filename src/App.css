@@ -689,7 +689,7 @@ input[type=number] {
   font-size: medium;
 }
 
-.rdp-day.rdp-selected .rdp-day_button {
+.book-calendar .rdp-day.rdp-selected .rdp-day_button {
   border: 0;
   border-radius: 0;
   background-color: #799351;
@@ -1109,4 +1109,16 @@ input[type=number] {
 .replace-images-btn {
   margin-top: 0;
   margin-bottom: 15px;
+}
+
+
+.report-page .rdp-day.rdp-selected .rdp-day_button {
+  border: 0;
+  border-radius: 0;
+  /* background-color: #799351; */
+  /* background-color: blue; */
+  /* color: var(--tg-theme-button-text-color); */
+  /* color: #fff; */
+  /* font-weight: normal; */
+  /* font-size: medium; */
 }

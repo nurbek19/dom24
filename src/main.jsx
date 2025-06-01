@@ -9,6 +9,7 @@ import OwnerAdvertisementsList from './pages/OwnerAdvertisementsList.jsx'
 import CreateAdvertisement from './pages/CreateAdvertisement.jsx'
 import UserSearchPage from './pages/UserSearchPage.jsx';
 import PartnerPage from './pages/PartnerPage.jsx';
+import ReportPage from './pages/ReportPage.jsx';
 
 WebApp.ready();
 
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: "/dom24/partner",
         element: <PartnerPage />
+      },
+      {
+        path: "/dom24/report",
+        element: <ReportPage />
       }
     ],
   },
