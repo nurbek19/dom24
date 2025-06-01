@@ -1122,3 +1122,8 @@ input[type=number] {
   /* font-weight: normal; */
   /* font-size: medium; */
 }
+
+.report-page  p {
+    font-size: 18px;
+    color: var(--tg-theme-text-color);
+}

@@ -3,6 +3,7 @@ import WebApp from '@twa-dev/sdk';
 import { format } from "date-fns";
 
 import { DayPicker } from "react-day-picker";
+import { ru } from "react-day-picker/locale";
 import "react-day-picker/style.css";
 
 import '../App.css';
@@ -59,7 +60,10 @@ const ReportPage = () => {
 
     return (
         <div className="report-page">
+            <p>Выберите диапазон дат:</p>
+
             <DayPicker
+                locale={ru}
                 animate
                 mode="range"
                 selected={selected}
