@@ -6,7 +6,9 @@ import "react-day-picker/style.css";
 import { ru } from "react-day-picker/locale";
 import { useIMask } from 'react-imask';
 import deepEqual from 'deep-equal';
+import { useDropzone } from "react-dropzone";
 
+import { api } from '../api';
 import PriceField from '../components/PriceField';
 import HouseItem from '../components/HouseItem';
 import '../App.css';
@@ -34,6 +36,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
   const [paymentId, setPaymentId] = useState(doc.finik_account_id);
   const [houseType, setHouseType] = useState(doc.house_type);
   const [description, setDescription] = useState(doc.description);
+  const [photoId, setPhotoId] = useState(doc.map_photo ?? '');
 
   const {
     ref,
@@ -72,7 +75,8 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       house_type: houseType,
       finik_account_id: paymentId,
       description,
-      delete_books: false
+      delete_books: false,
+      map_photo: photoId
     };
 
     // if (name) {
@@ -168,7 +172,8 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       house_type: houseType,
       finik_account_id: paymentId,
       description,
-      books: selectedDays
+      books: selectedDays,
+      map_photo: photoId
     };
 
     const docObj = {
@@ -183,7 +188,8 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
       house_type: doc.house_type,
       finik_account_id: doc.finik_account_id,
       description: doc.description,
-      books: doc.books ? doc.books : {}
+      books: doc.books ? doc.books : {},
+      map_photo: doc.map_photo ?? '',
     }
 
     const isObjectChanged = deepEqual(payload, docObj);
@@ -193,7 +199,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
     }
 
     return (city && address && phone && name && isSomeprice && prepayment && houseType && !isObjectChanged) || (houses.length && selected.length);
-  }, [city, address, phone, price, name, selected, doc, houses, prepayment, paymentLink, calendarType, houseType, paymentId, description]);
+  }, [city, address, phone, price, name, selected, doc, houses, prepayment, paymentLink, calendarType, houseType, paymentId, description, photoId]);
 
   useEffect(() => {
     WebApp.onEvent('mainButtonClicked', onSendData);
@@ -201,7 +207,7 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
     return () => {
       WebApp.offEvent('mainButtonClicked', onSendData);
     };
-  }, [city, address, count, phone, price, selected, houses, prepayment, paymentLink, note, name, houseType, paymentId, description, doc]);
+  }, [city, address, count, phone, price, selected, houses, prepayment, paymentLink, note, name, houseType, paymentId, description, photoId, doc]);
 
   useEffect(() => {
     WebApp.MainButton.text = 'Применить изменения';
@@ -365,6 +371,33 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
 
   }, [noteDate]);
 
+    // Загрузка фото
+    const onDrop = useCallback(async (acceptedFiles) => {
+      const file = acceptedFiles[0];
+      const formData = new FormData();
+      formData.append("photo", file);
+  
+      try {
+        const response = await api.post("/photo/upload", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+  
+        if (response.data?.id) {
+          setPhotoId(response.data.id);
+        }
+  
+        console.log("Uploaded:", response.data);
+      } catch (error) {
+        console.error("Upload error:", error);
+      }
+    }, []);
+  
+    const { getRootProps, getInputProps } = useDropzone({
+      accept: { "image/*": [] },
+      maxFiles: 1,
+      onDrop,
+    });
+
   return (
     <div className="edit-container-padding">
       <div className="back-button" onClick={onBackHandler}>« {DICTIONARY[lang].back}</div>
@@ -523,6 +556,19 @@ function EditAdvertisement({ doc, lang, onBackHandler }) {
 
           <textarea id="description" rows="6" className="text-field" value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
         </div>
+
+        <div {...getRootProps()}>
+        <input {...getInputProps()} />
+        <button className="edit-data-button">
+          {photoId ? 'Заменить фотографию' : 'Загрузить изображение'}
+        </button>
+
+        {photoId && (
+          <div className="company-photo-container">
+            <img src={`https://booklink.pro/bl/houses/photo?id=${photoId}`} alt="company" />
+          </div>
+        )}
+      </div>
       </div>
       {/* )} */}
 
