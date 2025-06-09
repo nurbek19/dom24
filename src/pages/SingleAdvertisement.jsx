@@ -31,6 +31,7 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
     const byLink = searchParams.get('bylink');
     const [phone, setPhone] = useState('');
     const [open, setOpen] = useState(false);
+    const [showPhoto, setShowPhoto] = useState(false);
 
     const copyHandler = () => {
         navigator.clipboard.writeText(item.phone);
@@ -157,6 +158,17 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
         api.post('/click', { 'house_id': item._id, chat_id: parseInt(chat_id) });
     }
 
+    useEffect(() => {
+        if (showPhoto) {
+          document.body.style.overflow = 'hidden';
+          document.body.style.position = 'relative';
+        } else {
+          document.body.style.overflow = 'unset';
+          document.body.style.position = 'static';
+        }
+    
+      }, [showPhoto])
+
     return (
         <div className='search-container'>
             {!hideButton && (<div className="back-button" onClick={onBackHandler}>« {DICTIONARY[lang].back}</div>)}
@@ -280,17 +292,25 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
                         maxLength={10} />
                 </div>
 
-                {item.map_photo && (
-                    <div className="company-photo-container">
-                         <p>Расположение домов:</p>   
 
-                        <img src={`https://booklink.pro/bl/houses/photo?id=${item.map_photo}`} alt="company" />
-                    </div>
+                {item.map_photo && (
+                    <button className='edit-data-button' onClick={() => setShowPhoto(true)}>Посмотреть расположение домов</button>
+                    // <div className="company-photo-container">
+                    //     <p>Расположение домов:</p>
+
+                    //     <img src={`https://booklink.pro/bl/houses/photo?id=${item.map_photo}`} alt="company" />
+                    // </div>
                 )}
 
                 {byLink && <Link to="/dom24/search" className='show-other-btn'>Посмотреть другие объявления</Link>}
                 {/* <button onClick={onSendData}>btn</button> */}
             </div>
+
+            {showPhoto && (
+                <div className='note-modal partner-page-modal' onClick={() => setShowPhoto(false)}>
+                    <img src={`https://booklink.pro/bl/houses/photo?id=${item.map_photo}`} onClick={(e) => e.stopPropagation()} alt="company" />
+                </div>
+            )}
 
 
             <BottomDrawer isOpen={open} onClose={() => setOpen(false)} handleSelect={handleSelect}>
