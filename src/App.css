@@ -1131,3 +1131,9 @@ input[type=number] {
 .company-photo-container img {
   width: 100%;
 }
+
+.company-photo-container p {
+  font-size: 14px;
+  margin: 0;
+  padding-bottom: 10px;
+}

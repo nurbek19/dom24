@@ -282,6 +282,8 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
 
                 {item.map_photo && (
                     <div className="company-photo-container">
+                         <p>Расположение домов:</p>   
+
                         <img src={`https://booklink.pro/bl/houses/photo?id=${item.map_photo}`} alt="company" />
                     </div>
                 )}
