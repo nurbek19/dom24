@@ -2,7 +2,9 @@ import { useCallback, useEffect, useMemo, useState, useLayoutEffect } from 'reac
 import WebApp from '@twa-dev/sdk';
 import { useIMask } from 'react-imask';
 import { useSearchParams } from 'react-router-dom';
+import { useDropzone } from "react-dropzone";
 
+import { api } from '../api';
 import PriceField from '../components/PriceField';
 import '../App.css';
 
@@ -87,6 +89,7 @@ function CreateAdvertisement() {
   const [paymentId, setPaymentId] = useState('');
   const [houseType, setHouseType] = useState(HOUSE_TYPES[0]);
   const [description, setDescription] = useState('');
+  const [photoId, setPhotoId] = useState('');
 
   const {
     ref,
@@ -122,6 +125,7 @@ function CreateAdvertisement() {
       house_type: houseType,
       finik_account_id: paymentId,
       description,
+      map_photo: photoId
     };
 
     if (name) {
@@ -133,7 +137,7 @@ function CreateAdvertisement() {
     // if (data) {
     WebApp.sendData(JSON.stringify(payload));
     // }
-  }, [city, address, count, phone, price, name, prepayment, paymentLink, houseType, paymentId, description]);
+  }, [city, address, count, phone, price, name, prepayment, paymentLink, houseType, paymentId, description, photoId]);
 
   useEffect(() => {
     WebApp.expand();
@@ -190,7 +194,7 @@ function CreateAdvertisement() {
       // WebApp.MainButton.hide();
       WebApp.offEvent('mainButtonClicked', onSendData);
     };
-  }, [city, address, count, phone, price, name, setData, prepayment, paymentLink, houseType, paymentId, description]);
+  }, [city, address, count, phone, price, name, setData, prepayment, paymentLink, houseType, paymentId, description, photoId]);
 
   useEffect(() => {
     WebApp.MainButton.text = 'Создать объявление';
@@ -208,7 +212,34 @@ function CreateAdvertisement() {
       // WebApp.offEvent('mainButtonClicked', onSendData);
     };
 
-  }, [isFormValid])
+  }, [isFormValid]);
+
+  // Загрузка фото
+  const onDrop = useCallback(async (acceptedFiles) => {
+    const file = acceptedFiles[0];
+    const formData = new FormData();
+    formData.append("photo", file);
+
+    try {
+      const response = await api.post("/photo/upload", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      if (response.data?.id) {
+        setPhotoId(response.data.id);
+      }
+
+      console.log("Uploaded:", response.data);
+    } catch (error) {
+      console.error("Upload error:", error);
+    }
+  }, []);
+
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: { "image/*": [] },
+    maxFiles: 1,
+    onDrop,
+  });
 
   return (
     <div className='container-padding'>
@@ -313,6 +344,19 @@ function CreateAdvertisement() {
         <label htmlFor="description" className="field-label">Описание</label>
 
         <textarea id="description" rows="6" className="text-field" value={description} onChange={(e) => setDescription(e.target.value)}></textarea>
+      </div>
+
+      <div {...getRootProps()}>
+        <input {...getInputProps()} />
+        <button className="edit-data-button">
+          {photoId ? 'Заменить фотографию' : 'Загрузить изображение'}
+        </button>
+
+        {photoId && (
+          <div className="company-photo-container">
+            <img src={`https://booklink.pro/bl/houses/photo?id=${photoId}`} alt="company" />
+          </div>
+        )}
       </div>
 
       {/* <button onClick={onSendData}>btn</button> */}

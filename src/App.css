@@ -1127,3 +1127,7 @@ input[type=number] {
     font-size: 18px;
     color: var(--tg-theme-text-color);
 }
+
+.company-photo-container img {
+  width: 100%;
+}
