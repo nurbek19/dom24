@@ -295,14 +295,8 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
 
                 {item.map_photo && (
                     <button className='edit-data-button' onClick={() => setShowPhoto(true)}>Посмотреть расположение домов</button>
-                    // <div className="company-photo-container">
-                    //     <p>Расположение домов:</p>
-
-                    //     <img src={`https://booklink.pro/bl/houses/photo?id=${item.map_photo}`} alt="company" />
-                    // </div>
                 )}
 
-                {byLink && <Link to="/dom24/search" className='show-other-btn'>Посмотреть другие объявления</Link>}
                 {/* <button onClick={onSendData}>btn</button> */}
             </div>
 
