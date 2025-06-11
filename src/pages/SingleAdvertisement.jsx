@@ -266,9 +266,15 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
                     <div className='houses-container'>
                         <p>Выберите номер дома для бронирования:</p>
                         <div className='houses-list'>
-                            {housesList.map((obj) => (
-                                <HouseItem key={obj.number} number={obj.number} disabled={obj.disabled} setHouses={setHouses} />
-                            ))}
+                            {housesList.map((obj, i) => {
+                                if (i === 0 && item.owner_id === 8005498966) {
+                                    return null;
+                                }
+
+                                return (
+                                    <HouseItem key={obj.number} number={obj.number} disabled={obj.disabled} setHouses={setHouses} />
+                                )
+                            })}
                         </div>
                     </div>
                 )}
