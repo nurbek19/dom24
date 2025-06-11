@@ -1159,7 +1159,7 @@ input[type=number] {
   align-items: center;
   gap: 10px;
   margin: 0;
-  padding-bottom: 10px;
+  padding-bottom: 15px;
 }
 
 .extra-info-button svg {
@@ -1174,4 +1174,5 @@ input[type=number] {
   font-size: 14px;
   color: var(--tg-theme-text-color);
   word-break: break-word;
+  padding-bottom: 30px;
 }
