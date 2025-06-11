@@ -188,9 +188,9 @@ const SingleAdvertisement = ({ item, lang, onBackHandler, hideButton }) => {
                             {<p className="bold-title">
                                 {item.name}
 
-                                {(item.mbank_link || item.finik_account_id || item.owner_id === 5592038531) && (
+                                {/* {(item.mbank_link || item.finik_account_id || item.owner_id === 5592038531) && (
                                     <img src={checkIcon} alt="check icon" />
-                                )}
+                                )} */}
                             </p>}
                             {!byLink && <p><span>{DICTIONARY[lang].city}:</span> {item.city}</p>}
                             {!byLink && <p className='address-link-wrapper'><span>{DICTIONARY[lang].address}: </span>
